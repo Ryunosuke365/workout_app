@@ -3,9 +3,6 @@ import styles from "@/styles/measure.module.css";
 import HamburgerMenu from "@/components/HamburgerMenu";
 import useMeasure from "@/hooks/useMeasure";
 
-// APIエンドポイントの定義
-const API_URL = "http://18.183.224.238/api/measure";
-
 const MeasurePage = () => {
   const {
     // 状態
@@ -20,7 +17,7 @@ const MeasurePage = () => {
     
     // アクション
     handleCategoryChange,
-    handleExerciseNameChange,
+    handleExerciseNameInput,
     handleInputChange,
     handleAddExercise,
     handleDelete,
@@ -70,7 +67,7 @@ const MeasurePage = () => {
                 <input
                   type="text"
                   value={exerciseName}
-                  onChange={(e) => handleExerciseNameChange(e.target.value)}
+                  onChange={(e) => handleExerciseNameInput(e.target.value)}
                   placeholder="新しい種目名を入力"
                   className={styles.EventInput}
                 />

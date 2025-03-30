@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
-import useAuth from "./useAuth";
+import axios from "axios";
+import useAuth from "./auth";
 
 // APIエンドポイントの定義
 const API_URL = "http://18.183.224.238/api/history";
@@ -23,17 +24,11 @@ const useHistory = () => {
       const token = getToken();
       if (!token) throw new Error("トークンが存在しません");
       
-      const headers = { Authorization: `Bearer ${token}` };
-      const response = await fetch(`${API_URL}/daily?date=${dateStr}`, {
-        headers,
+      const response = await axios.get(`${API_URL}/daily?date=${dateStr}`, {
+        headers: { Authorization: `Bearer ${token}` }
       });
       
-      if (!response.ok) {
-        throw new Error(`データ取得エラー: ${response.status}`);
-      }
-      
-      const data = await response.json();
-      setDailyHistory(data.dailyHistory ?? []);
+      setDailyHistory(response.data.dailyHistory ?? []);
     } catch (error) {
       handleAuthError(error, setMessage);
     }
@@ -47,26 +42,21 @@ const useHistory = () => {
       const headers = { Authorization: `Bearer ${token}` };
 
       // 筋値合計データの取得
-      const totalResponse = await fetch(`${API_URL}/totals`, { headers });
-      if (!totalResponse.ok) throw new Error(`サーバーエラー: ${totalResponse.status}`);
-      const totalData = await totalResponse.json();
-      setCategoryTotals(totalData.categoryTotals ?? []);
-      setOverallTotal(totalData.overallTotal ?? 0);
+      const totalResponse = await axios.get(`${API_URL}/totals`, { headers });
+      setCategoryTotals(totalResponse.data.categoryTotals ?? []);
+      setOverallTotal(totalResponse.data.overallTotal ?? 0);
 
       // 週間データの取得
-      const weeklyResponse = await fetch(`${API_URL}/weekly`, { headers });
-      if (!weeklyResponse.ok) throw new Error(`サーバーエラー: ${weeklyResponse.status}`);
-      const weeklyDataJson = await weeklyResponse.json();
-      setWeeklyData(weeklyDataJson.weeklyData ?? []);
+      const weeklyResponse = await axios.get(`${API_URL}/weekly`, { headers });
+      setWeeklyData(weeklyResponse.data.weeklyData ?? []);
 
       // 利用可能な日付の取得
-      const datesResponse = await fetch(`${API_URL}/dates`, { headers });
-      if (!datesResponse.ok) throw new Error(`サーバーエラー: ${datesResponse.status}`);
-      const datesData = await datesResponse.json();
+      const datesResponse = await axios.get(`${API_URL}/dates`, { headers });
+      const dates = datesResponse.data.dates || [];
       
-      if (Array.isArray(datesData.dates) && datesData.dates.length > 0) {
-        setAvailableDates(datesData.dates);
-        const initialDate = datesData.dates[0];
+      if (dates.length > 0) {
+        setAvailableDates(dates);
+        const initialDate = dates[0];
         setSelectedDate(initialDate);
         fetchDailyHistory(initialDate);
       } else {

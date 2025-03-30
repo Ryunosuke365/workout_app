@@ -46,7 +46,7 @@
 
 /* 📌 左右のカラムの比率を均等に */
 .leftColumn {
-  flex: 4;
+  flex: 4.5;
   display: flex;
   flex-direction: column;
   gap: 30px;

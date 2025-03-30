@@ -8,7 +8,7 @@ const API_URL = "http://18.183.224.238/api/measure";
 const useMeasure = () => {
   // 認証フックの利用
   const { handleAuthError, getToken } = useAuth();
-
+  
   // 状態管理
   const [category, setCategory] = useState("chest");
   const [exerciseName, setExerciseName] = useState("");
@@ -19,22 +19,11 @@ const useMeasure = () => {
   const [totalMuscleValue, setTotalMuscleValue] = useState(0);
   const [dailyRecords, setDailyRecords] = useState([]);
 
-  // 入力値変更時の処理
-  const handleInputChange = useCallback((event, exercise_id, field) => {
-    const { value } = event.target;
-    if (value === "" || isNaN(value) || Number(value) < 0) return;
-    
-    setExerciseData(prev => ({
-      ...prev,
-      [exercise_id]: { ...prev[exercise_id], [field]: value }
-    }));
-  }, []);
-
   // 部位に応じた種目一覧を取得
   const fetchExercises = useCallback(async (selectedCategory) => {
     const token = getToken();
     if (!token) {
-      handleAuthError({ response: { status: 403 } }, setMessage);
+      handleAuthError({ message: "トークンが存在しません" }, setMessage);
       return;
     }
     
@@ -54,6 +43,11 @@ const useMeasure = () => {
     if (!exerciseName.trim()) return;
     
     const token = getToken();
+    if (!token) {
+      handleAuthError({ message: "トークンが存在しません" }, setMessage);
+      return;
+    }
+    
     try {
       await axios.post(
         `${API_URL}/exercises`,
@@ -81,6 +75,11 @@ const useMeasure = () => {
     if (!secondConfirm) return;
 
     const token = getToken();
+    if (!token) {
+      handleAuthError({ message: "トークンが存在しません" }, setMessage);
+      return;
+    }
+    
     try {
       await axios.delete(`${API_URL}/${exercise_id}`, {
         headers: { Authorization: `Bearer ${token}` }
@@ -104,7 +103,13 @@ const useMeasure = () => {
     
     setIsLoading(true);
     setMessage("");
+    
     const token = getToken();
+    if (!token) {
+      setIsLoading(false);
+      handleAuthError({ message: "トークンが存在しません" }, setMessage);
+      return;
+    }
     
     try {
       await axios.post(
@@ -134,25 +139,55 @@ const useMeasure = () => {
   // 今日の筋値データを取得
   const fetchDailyMuscleValue = useCallback(async () => {
     const token = getToken();
+    if (!token) {
+      handleAuthError({ message: "トークンが存在しません" }, setMessage);
+      return;
+    }
     
     try {
       const response = await axios.get(`${API_URL}/daily-muscle-summary`, {
         headers: { Authorization: `Bearer ${token}` }
       });
+      
+      // データが空でも正常に処理（エラーではない）
       setDailyRecords(response.data.records || []);
       setTotalMuscleValue(response.data.totalMuscleValue || 0);
+      
+      // エラーメッセージがあれば消去（前回のエラーが残っている可能性がある）
+      if (message && message.includes("サーバーエラー")) {
+        setMessage("");
+      }
     } catch (err) {
-      handleAuthError(err, setMessage);
+      // 認証エラーは通常通り処理
+      if (err.response?.status === 401 || err.response?.status === 403) {
+        handleAuthError(err, setMessage);
+      } else {
+        // その他のエラーは、データがない場合は無視
+        console.log("筋値データの取得中にエラーが発生しました:", err);
+        // エラーメッセージを表示しない（または軽いメッセージに変更）
+        // setMessage("今日の筋値データはまだありません");
+      }
     }
-  }, [getToken, handleAuthError]);
+  }, [getToken, handleAuthError, message, setMessage]);
+
+  // 入力値変更時の処理
+  const handleInputChange = useCallback((event, exercise_id, field) => {
+    const { value } = event.target;
+    if (value === "" || isNaN(value) || Number(value) < 0) return;
+    
+    setExerciseData(prev => ({
+      ...prev,
+      [exercise_id]: { ...prev[exercise_id], [field]: value }
+    }));
+  }, []);
 
   // 部位変更時の処理
   const handleCategoryChange = useCallback((newCategory) => {
     setCategory(newCategory);
   }, []);
 
-  // 種目名変更時の処理
-  const handleExerciseNameChange = useCallback((value) => {
+  // 種目名入力フィールドの変更処理
+  const handleExerciseNameInput = useCallback((value) => {
     setExerciseName(value);
   }, []);
 
@@ -169,7 +204,7 @@ const useMeasure = () => {
     
     // アクション
     handleCategoryChange,
-    handleExerciseNameChange,
+    handleExerciseNameInput,
     handleInputChange,
     handleAddExercise,
     handleDelete,
