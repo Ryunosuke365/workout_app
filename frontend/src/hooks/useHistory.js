@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import axios from "axios";
-import useAuth from "./auth";
+import useAuth from "./useAuth";
 
 // APIエンドポイントの定義
 const API_URL = "http://18.183.224.238/api/history";
@@ -22,7 +22,10 @@ const useHistory = () => {
   const fetchDailyHistory = useCallback(async (dateStr) => {
     try {
       const token = getToken();
-      if (!token) throw new Error("トークンが存在しません");
+      if (!token) {
+        handleAuthError({ message: "トークンが存在しません" }, setMessage);
+        return;
+      }
       
       const response = await axios.get(`${API_URL}/daily?date=${dateStr}`, {
         headers: { Authorization: `Bearer ${token}` }
@@ -32,13 +35,16 @@ const useHistory = () => {
     } catch (error) {
       handleAuthError(error, setMessage);
     }
-  }, [handleAuthError, getToken]);
+  }, [handleAuthError, getToken, setMessage]);
 
   // 初期データ取得
   const fetchInitialData = useCallback(async () => {
     try {
       const token = getToken();
-      if (!token) throw new Error("トークンが存在しません");
+      if (!token) {
+        handleAuthError({ message: "トークンが存在しません" }, setMessage);
+        return;
+      }
       const headers = { Authorization: `Bearer ${token}` };
 
       // 筋値合計データの取得
@@ -65,7 +71,7 @@ const useHistory = () => {
     } catch (error) {
       handleAuthError(error, setMessage);
     }
-  }, [fetchDailyHistory, handleAuthError, getToken]);
+  }, [fetchDailyHistory, handleAuthError, getToken, setMessage, setCategoryTotals, setOverallTotal, setWeeklyData, setAvailableDates, setSelectedDate]);
 
   // 日付選択時の処理
   const handleDateChange = useCallback((newDate) => {

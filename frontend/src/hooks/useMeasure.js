@@ -168,7 +168,7 @@ const useMeasure = () => {
         // setMessage("今日の筋値データはまだありません");
       }
     }
-  }, [getToken, handleAuthError, message, setMessage]);
+  }, [getToken, handleAuthError, message, setMessage, setDailyRecords, setTotalMuscleValue]);
 
   // 入力値変更時の処理
   const handleInputChange = useCallback((event, exercise_id, field) => {

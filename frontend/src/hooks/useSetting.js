@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
-import useAuth from "./auth";
+import useAuth from "./useAuth";
 
 // APIエンドポイントの定義
 const API_URL = "http://18.183.224.238/api/setting";
@@ -96,7 +96,10 @@ const useSetting = () => {
   const fetchDailyHistory = useCallback(async (dateStr) => {
     try {
       const token = getToken();
-      if (!token) throw new Error("トークンが存在しません");
+      if (!token) {
+        handleAuthError({ message: "トークンが存在しません" }, setMessage);
+        return;
+      }
       
       const response = await axios.get(`${API_URL}/daily?date=${dateStr}`, {
         headers: { Authorization: `Bearer ${token}` }
@@ -112,7 +115,10 @@ const useSetting = () => {
   const fetchAvailableDates = useCallback(async () => {
     try {
       const token = getToken();
-      if (!token) throw new Error("トークンが存在しません");
+      if (!token) {
+        handleAuthError({ message: "トークンが存在しません" }, setMessage);
+        return;
+      }
       
       const response = await axios.get(`${API_URL}/dates`, {
         headers: { Authorization: `Bearer ${token}` }
@@ -278,4 +284,4 @@ const useSetting = () => {
   };
 };
 
-export default useSetting; 
+export default useSetting;
