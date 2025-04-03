@@ -1,3 +1,4 @@
+require("dotenv").config({ path: __dirname + "/../.env" });
 const app = require("./app");
 
 // ポート番号の設定

@@ -1,5 +1,4 @@
 const express = require("express");
-require("dotenv").config();
 
 // Expressアプリケーションの初期化
 const app = express();

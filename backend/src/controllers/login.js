@@ -1,7 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const db = require("../db");
-require("dotenv").config();
 
 // ログインのメイン処理
 exports.loginUser = async (req, res) => {

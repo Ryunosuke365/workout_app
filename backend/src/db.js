@@ -1,5 +1,4 @@
 const mysql = require("mysql2");
-require("dotenv").config({ path: __dirname + "/../.env" });
 
 // 必須の環境変数の存在チェック
 const requiredEnvVars = ["DB_HOST", "DB_USER", "DB_PASSWORD", "DB_NAME"];
