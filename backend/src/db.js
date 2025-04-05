@@ -1,4 +1,4 @@
-const mysql = require("mysql2/promise"); // ← ここが超重要！
+const mysql = require("mysql2/promise"); // ← ここが超重要！ｊ
 
 // ✅ 環境変数の存在チェック
 const requiredEnvVars = ["DB_HOST", "DB_USER", "DB_PASSWORD", "DB_NAME"];
