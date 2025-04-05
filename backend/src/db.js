@@ -21,7 +21,7 @@ const pool = mysql.createPool({
   queueLimit: 0
 });
 
-// 接続確認
+// 接続確認（開発 or 起動チェック用。不要ならコメントアウト可）
 pool.getConnection()
   .then(conn => {
     console.log("✅ データベース接続に成功しました。");
@@ -29,7 +29,8 @@ pool.getConnection()
   })
   .catch(err => {
     console.error("❌ データベース接続に失敗しました:", err);
-    process.exit(1); // 接続失敗なら即終了
+    process.exit(1);
   });
 
+// プール（Promiseベース）をエクスポート
 module.exports = pool.promise();
