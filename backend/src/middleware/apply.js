@@ -1,11 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 
-// 許可するオリジンの設定
-const allowedOrigins = [
-  "http://18.183.224.238",     // IPアドレスでのアクセス
-  "http://localhost:3000",     // ローカル開発環境
-];
+// 許可するオリジン一覧
+const allowedOrigins = ["https://loadlog"];
 
 // ミドルウェア適用のメイン処理
 const applyMiddlewares = (app) => {
@@ -16,11 +13,11 @@ const applyMiddlewares = (app) => {
     // CORSの設定を適用
     app.use(cors({
       origin: (origin, callback) => {
-        // オリジンの検証
+        // origin が undefined の場合（curl, Postmanなど）も許可
         if (!origin || allowedOrigins.includes(origin)) {
           callback(null, true);
         } else {
-          callback(new Error(`🚨 CORSポリシーエラー: ${origin}からのアクセスは許可されていません。`));
+          callback(new Error(`🚨 CORSポリシーエラー: ${origin} は許可されていません。`));
         }
       },
       credentials: true, // クッキーやトークンのやり取りを許可
@@ -28,7 +25,6 @@ const applyMiddlewares = (app) => {
 
     console.log("✅ ミドルウェアの適用が完了しました。");
   } catch (error) {
-    // エラー発生時のログ出力
     console.error("🚨 ミドルウェア適用エラー:", error);
     throw error;
   }

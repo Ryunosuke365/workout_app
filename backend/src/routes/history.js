@@ -5,8 +5,6 @@ const {
     getTotalMuscleValue,
     getWeeklyData
 } = require("../controllers/history");
-const { authenticateToken } = require("../middleware/auth"); // ✅ 認証ミドルウェア
-
 const router = express.Router();
 
 // 認証確認用のルーティング
@@ -15,15 +13,15 @@ router.get("/", (req, res) => {
 });
 
 // 日ごとの履歴取得のルーティング
-router.get("/daily", authenticateToken, getDailyHistory);
+router.get("/daily", getDailyHistory);
 
 // 利用可能な日付リスト取得のルーティング
-router.get("/dates", authenticateToken, getAvailableDates);
+router.get("/dates", getAvailableDates);
 
 // 総負荷量取得のルーティング
-router.get("/totals", authenticateToken, getTotalMuscleValue);
+router.get("/totals", getTotalMuscleValue);
 
 // 週ごとのデータ取得のルーティング
-router.get("/weekly", authenticateToken, getWeeklyData);
+router.get("/weekly", getWeeklyData);
 
 module.exports = router;

@@ -1,7 +1,5 @@
 const jwt = require("jsonwebtoken");
-require("dotenv").config();
 
-// 環境変数からシークレットキーを取得
 const SECRET_KEY = process.env.SECRET_KEY;
 
 // シークレットキーの存在チェック

@@ -96,7 +96,7 @@ exports.getUserStats = async (req, res) => {
   }
 };
 
-// 利用可能な日付リスト取得のメイン処理
+// 利用可能な日付リスト取得
 exports.getAvailableDates = async (req, res) => {
   try {
     // ユーザーIDを取得
@@ -123,7 +123,7 @@ exports.getAvailableDates = async (req, res) => {
   }
 };
 
-// 日ごとの履歴取得のメイン処理
+// 日ごとの履歴取得
 exports.getDailyHistory = async (req, res) => {
   try {
     // ユーザーIDを取得
@@ -131,11 +131,6 @@ exports.getDailyHistory = async (req, res) => {
 
     // リクエストからデータを取得
     const { date } = req.query;
-
-    // 必須項目のチェック
-    if (!date) {
-      return res.status(400).json({ error: "⚠️ 日付が指定されていません。" });
-    }
 
     // 日ごとの履歴を取得
     const [dailyHistory] = await db.execute(

@@ -34,8 +34,8 @@ exports.addExercise = async (req, res) => {
     const { name, category } = req.body;
 
     // 必須項目のチェック
-    if (!name || !category) {
-      return res.status(400).json({ error: "⚠️ 種目名とカテゴリは必須です。" });
+    if (!name) {
+      return res.status(400).json({ error: "⚠️ 種目名は必須です。" });
     }
 
     // 種目を追加
@@ -69,15 +69,10 @@ exports.deleteExercise = async (req, res) => {
     );
 
     // 種目から削除
-    const [result] = await db.query(
+    await db.query(
       "DELETE FROM exercises WHERE user_id = ? AND id = ?",
       [user_id, exercise_id]
     );
-
-    // 削除結果のチェック
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ error: "⚠️ 該当する種目が見つかりませんでした。" });
-    }
 
     // 成功時のレスポンス
     return res.json({ message: "✅ 種目を削除しました！" });
@@ -98,7 +93,7 @@ exports.recordMuscleData = async (req, res) => {
     const { exercise_id, weight, reps } = req.body;
 
     // 必須項目のチェック
-    if (!exercise_id || !weight || !reps) {
+    if (!weight || !reps) {
       return res.status(400).json({ error: "⚠️ すべての項目を入力してください。" });
     }
 
@@ -130,20 +125,15 @@ exports.getDailyMuscleSummary = async (req, res) => {
     const [records] = await db.query(
       `SELECT 
         ex.category,  
-        ex.name AS exerciseName,
+        ex.name,
         mr.weight,
         mr.reps,
-        mr.muscle_value AS muscleValue
+        mr.muscle_value
       FROM muscle_records AS mr
       INNER JOIN exercises AS ex ON mr.exercise_id = ex.id
       WHERE mr.user_id = ? AND DATE(mr.recorded_at) = CURDATE()`,
       [user_id]
     );
-
-    // データ存在チェック
-    if (!records || records.length === 0) {
-      return res.status(404).json({ message: "⚠️ 今日のデータがありません。" });
-    }
 
     // 総筋トレ値を計算
     const totalMuscleValue = records.reduce((sum, record) => sum + record.muscleValue, 0);

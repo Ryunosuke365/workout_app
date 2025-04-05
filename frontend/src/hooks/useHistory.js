@@ -3,7 +3,7 @@ import axios from "axios";
 import useAuth from "./useAuth";
 
 // APIエンドポイントの定義
-const API_URL = "http://18.183.224.238/api/history";
+const API_URL = "https://loadlog/api/history";
 
 const useHistory = () => {
   // 認証フックの利用

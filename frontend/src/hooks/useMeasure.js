@@ -3,7 +3,7 @@ import axios from "axios";
 import useAuth from "./useAuth";
 
 // APIエンドポイントの定義
-const API_URL = "http://18.183.224.238/api/measure";
+const API_URL = "https://loadlog/api/measure";
 
 const useMeasure = () => {
   // 認証フックの利用

@@ -12,7 +12,7 @@ for (const envVar of requiredEnvVars) {
 // データベース接続プールの作成
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
-  port: process.env.DB_PORT || 3306,
+  port: process.env.DB_PORT,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
@@ -20,5 +20,16 @@ const pool = mysql.createPool({
   connectionLimit: 10,
   queueLimit: 0
 });
+
+// 接続確認
+pool.getConnection()
+  .then(conn => {
+    console.log("✅ データベース接続に成功しました。");
+    conn.release();
+  })
+  .catch(err => {
+    console.error("❌ データベース接続に失敗しました:", err);
+    process.exit(1); // 接続失敗なら即終了
+  });
 
 module.exports = pool.promise();

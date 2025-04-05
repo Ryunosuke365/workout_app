@@ -4,7 +4,7 @@ import axios from "axios";
 import useAuth from "./useAuth";
 
 // APIエンドポイントの定義
-const API_URL = "http://18.183.224.238/api/setting";
+const API_URL = "https://loadlog/api/setting";
 
 const useSetting = () => {
   // ルーターの取得
