@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import styles from "../styles/register.module.css";
 
-const API_URL = "https://loadlog/api/register";
+const API_URL = "https://loadlog.jp/api/register";
 
 const Register = () => {
   const router = useRouter();

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import styles from "@/styles/login.module.css";
 
-const API_URL = "https://loadlog/api/login";
+const API_URL = "https://loadlog.jp/api/login";
 
 const Login = () => {
   const router = useRouter();

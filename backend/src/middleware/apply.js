@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 
 // 許可するオリジン一覧
-const allowedOrigins = ["https://loadlog"];
+const allowedOrigins = ["https://loadlog.jp"];
 
 // ミドルウェア適用のメイン処理
 const applyMiddlewares = (app) => {
