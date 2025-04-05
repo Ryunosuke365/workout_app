@@ -1,15 +1,15 @@
-const mysql = require("mysql2");
+const mysql = require("mysql2/promise"); // ✅ Promise対応を明示
 
-// ✅ ログ出力：環境変数の確認（念のため）
+// ✅ DB接続情報ログ（開発確認用、必要に応じてコメントアウト可）
 console.log("📦 DB接続チェック：", {
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
+  database: process.env.DB_NAME
 });
 
-// 必須の環境変数の存在チェック
+// ✅ 環境変数の存在チェック
 const requiredEnvVars = ["DB_HOST", "DB_USER", "DB_PASSWORD", "DB_NAME"];
 for (const envVar of requiredEnvVars) {
   if (!process.env[envVar]) {
@@ -18,7 +18,7 @@ for (const envVar of requiredEnvVars) {
   }
 }
 
-// データベース接続プールの作成
+// ✅ プール作成
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
   port: process.env.DB_PORT || 3306,
@@ -30,16 +30,17 @@ const pool = mysql.createPool({
   queueLimit: 0
 });
 
-// 接続確認（起動時にDBへ接続できるか確認）
-pool.getConnection()
-  .then(conn => {
+// ✅ 起動時に一度だけ接続確認（エラーならプロセス終了）
+(async () => {
+  try {
+    const conn = await pool.getConnection();
     console.log("✅ データベース接続に成功しました。");
     conn.release();
-  })
-  .catch(err => {
+  } catch (err) {
     console.error("❌ データベース接続に失敗しました:", err.message);
     process.exit(1);
-  });
+  }
+})();
 
-// エクスポート：promiseベースで扱いやすくする
-module.exports = pool.promise();
+// ✅ プールをエクスポート（Promise対応）
+module.exports = pool;
