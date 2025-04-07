@@ -13,10 +13,12 @@ const authenticateToken = (req, res, next) => {
     try {
         // 認証ヘッダーを取得
         const authHeader = req.headers["authorization"];
-        console.log("🔍 [Middleware] Authorization Header:", authHeader);
-
-        // トークンを抽出
-        const token = authHeader && authHeader.split(" ")[1];
+        
+        // トークンを抽出 (Bearer スキームを想定)
+        let token;
+        if (authHeader && authHeader.startsWith('Bearer ')) {
+            token = authHeader.split(" ")[1];
+        }
 
         // トークンの存在チェック
         if (!token) {
@@ -24,29 +26,22 @@ const authenticateToken = (req, res, next) => {
             return res.status(401).json({ error: "⚠️ 認証トークンがありません。" });
         }
 
-        console.log("🔍 [Middleware] Extracted Token:", token);
-
         // トークンの検証
         jwt.verify(token, SECRET_KEY, (err, user) => {
             if (err) {
-                console.error("🚨 認証エラー: トークンが無効または期限切れ", err);
+                console.error("🚨 認証エラー: トークンが無効または期限切れ", err.name);
                 return res.status(403).json({ error: "⚠️ トークンが無効または期限切れです。" });
             }
 
             // ユーザー情報をリクエストに追加
             req.user = { user_id: user.user_id };
 
-            // 開発環境の場合のみログを出力
-            if (process.env.NODE_ENV !== "production") {
-                console.log("✅ 認証成功！デコードしたユーザー:", req.user);
-            }
-
             // 次のミドルウェアへ進む
             next();
         });
     } catch (error) {
         // エラー発生時のログ出力とレスポンス
-        console.error("🚨 認証処理エラー:", error);
+        console.error("🚨 認証処理エラー:", error.message || error);
         return res.status(500).json({ error: "❌ 認証処理中にエラーが発生しました。" });
     }
 };

@@ -1,13 +1,12 @@
-import { useState, useCallback } from "react";
-import axios from "axios";
+import { useState, useCallback, useEffect } from "react";
 import useAuth from "./useAuth";
 
 // APIエンドポイントの定義
 const API_URL = "https://loadlog.jp/api/history";
 
 const useHistory = () => {
-  // 認証フックの利用
-  const { handleAuthError, getToken } = useAuth();
+  // 認証フックの利用（トークン付きGET & 認証エラー処理）
+  const { handleAuthError, authGet } = useAuth();
 
   // 状態管理
   const [dailyHistory, setDailyHistory] = useState([]);
@@ -17,68 +16,76 @@ const useHistory = () => {
   const [overallTotal, setOverallTotal] = useState(0);
   const [weeklyData, setWeeklyData] = useState([]);
   const [message, setMessage] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("total_muscle");
 
-  // 日付ごとの履歴を取得
+  // ③ 利用可能な日付一覧を取得（/dates）
+  const fetchAvailableDates = useCallback(async () => {
+    const response = await authGet(`${API_URL}/dates`);
+    const dates = response.data.dates || [];
+    setAvailableDates(dates);
+    return dates;
+  }, [authGet]);
+
+  // ① 日付ごとの履歴を取得（例: /daily?date=2025-04-06）
   const fetchDailyHistory = useCallback(async (dateStr) => {
     try {
-      const token = getToken();
-      if (!token) {
-        handleAuthError({ message: "トークンが存在しません" }, setMessage);
-        return;
-      }
-      
-      const response = await axios.get(`${API_URL}/daily?date=${dateStr}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      
+      const response = await authGet(`${API_URL}/daily?date=${dateStr}`);
       setDailyHistory(response.data.dailyHistory ?? []);
     } catch (error) {
       handleAuthError(error, setMessage);
     }
-  }, [handleAuthError, getToken, setMessage]);
+  }, [authGet, handleAuthError, setMessage]);
 
-  // 初期データ取得
+  // ② 各部位・総合の負荷合計を取得（/totals）
+  const fetchTotals = useCallback(async () => {
+    const response = await authGet(`${API_URL}/totals`);
+    setCategoryTotals(response.data.categoryTotals ?? []);
+    setOverallTotal(response.data.overallTotal ?? 0);
+  }, [authGet]);
+
+  // ④ 週ごとの負荷推移を取得（/weekly）
+  const fetchWeeklyData = useCallback(async () => {
+    const response = await authGet(`${API_URL}/weekly`);
+    setWeeklyData(response.data.weeklyData ?? []);
+  }, [authGet]);
+
+  // 🧠 初期データ一括取得
   const fetchInitialData = useCallback(async () => {
     try {
-      const token = getToken();
-      if (!token) {
-        handleAuthError({ message: "トークンが存在しません" }, setMessage);
-        return;
-      }
-      const headers = { Authorization: `Bearer ${token}` };
+      await fetchTotals(); // 総合・部位ごとの合計負荷
+      await fetchWeeklyData(); // 週別データ
+      const dates = await fetchAvailableDates(); // 記録された日付一覧
 
-      // 筋値合計データの取得
-      const totalResponse = await axios.get(`${API_URL}/totals`, { headers });
-      setCategoryTotals(totalResponse.data.categoryTotals ?? []);
-      setOverallTotal(totalResponse.data.overallTotal ?? 0);
-
-      // 週間データの取得
-      const weeklyResponse = await axios.get(`${API_URL}/weekly`, { headers });
-      setWeeklyData(weeklyResponse.data.weeklyData ?? []);
-
-      // 利用可能な日付の取得
-      const datesResponse = await axios.get(`${API_URL}/dates`, { headers });
-      const dates = datesResponse.data.dates || [];
-      
       if (dates.length > 0) {
-        setAvailableDates(dates);
         const initialDate = dates[0];
         setSelectedDate(initialDate);
-        fetchDailyHistory(initialDate);
-      } else {
-        setAvailableDates([]);
+        await fetchDailyHistory(initialDate); // 初期表示の履歴データ
       }
     } catch (error) {
       handleAuthError(error, setMessage);
     }
-  }, [fetchDailyHistory, handleAuthError, getToken, setMessage, setCategoryTotals, setOverallTotal, setWeeklyData, setAvailableDates, setSelectedDate]);
+  }, [
+    fetchTotals,
+    fetchWeeklyData,
+    fetchAvailableDates,
+    fetchDailyHistory,
+    handleAuthError,
+    setMessage,
+    setSelectedDate,
+  ]);
 
-  // 日付選択時の処理
+  // 初期データ取得を自動実行
+  useEffect(() => {
+    fetchInitialData();
+  }, [fetchInitialData]);
+
+  // 📅 日付を変更したときの処理
   const handleDateChange = useCallback((newDate) => {
     setSelectedDate(newDate);
     fetchDailyHistory(newDate);
   }, [fetchDailyHistory]);
 
+  // ✅ フックとして提供する値と関数
   return {
     // 状態
     dailyHistory,
@@ -88,12 +95,13 @@ const useHistory = () => {
     overallTotal,
     weeklyData,
     message,
-    
+    selectedCategory,
+
     // アクション
-    fetchInitialData,
     handleDateChange,
-    setMessage
+    setMessage,
+    setSelectedCategory
   };
 };
 
-export default useHistory; 
+export default useHistory;

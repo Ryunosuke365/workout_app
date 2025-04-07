@@ -19,8 +19,8 @@ exports.getExercisesByCategory = async (req, res) => {
     return res.json(exercises);
   } catch (error) {
     // エラー発生時のログ出力とレスポンス
-    console.error("🚨 種目取得エラー:", error);
-    return res.status(500).json({ error: "❌ 種目の取得に失敗しました。" });
+    console.error("種目取得エラー:", error);
+    return res.status(500).json({ error: "種目の取得に失敗しました。" });
   }
 };
 
@@ -35,7 +35,7 @@ exports.addExercise = async (req, res) => {
 
     // 必須項目のチェック
     if (!name) {
-      return res.status(400).json({ error: "⚠️ 種目名は必須です。" });
+      return res.status(400).json({ error: "種目名は必須です。" });
     }
 
     // 種目を追加
@@ -45,11 +45,11 @@ exports.addExercise = async (req, res) => {
     );
 
     // 成功時のレスポンス
-    return res.status(201).json({ message: "✅ 種目を追加しました！" });
+    return res.status(201).json({ message: "種目を追加しました" });
   } catch (error) {
     // エラー発生時のログ出力とレスポンス
-    console.error("🚨 種目追加エラー:", error);
-    return res.status(500).json({ error: "❌ 種目の追加に失敗しました。" });
+    console.error("種目追加エラー:", error);
+    return res.status(500).json({ error: "種目の追加に失敗しました。" });
   }
 };
 
@@ -62,9 +62,9 @@ exports.deleteExercise = async (req, res) => {
     // リクエストからデータを取得
     const { exercise_id } = req.params;
 
-    // 筋トレ記録から削除
+    // トレーニング記録から削除
     await db.query(
-      "DELETE FROM muscle_records WHERE user_id = ? AND exercise_id = ?",
+      "DELETE FROM exercise_records WHERE user_id = ? AND exercise_id = ?",
       [user_id, exercise_id]
     );
 
@@ -75,16 +75,16 @@ exports.deleteExercise = async (req, res) => {
     );
 
     // 成功時のレスポンス
-    return res.json({ message: "✅ 種目を削除しました！" });
+    return res.json({ message: "種目を削除しました" });
   } catch (error) {
     // エラー発生時のログ出力とレスポンス
-    console.error("🚨 種目削除エラー:", error);
-    return res.status(500).json({ error: "❌ 種目の削除に失敗しました。" });
+    console.error("種目削除エラー:", error);
+    return res.status(500).json({ error: "種目の削除に失敗しました。" });
   }
 };
 
-// 筋トレ記録のメイン処理
-exports.recordMuscleData = async (req, res) => {
+// トレーニング記録のメイン処理
+exports.recordExerciseData = async (req, res) => {
   try {
     // ユーザーIDを取得
     const user_id = req.user.user_id;
@@ -94,55 +94,55 @@ exports.recordMuscleData = async (req, res) => {
 
     // 必須項目のチェック
     if (!weight || !reps) {
-      return res.status(400).json({ error: "⚠️ すべての項目を入力してください。" });
+      return res.status(400).json({ error: "すべての項目を入力してください。" });
     }
 
-    // 筋トレ値を計算
-    const muscle_value = weight * reps;
+    // 負荷を計算（重量×回数）
+    const total_load = weight * reps;
 
-    // 筋トレ記録を保存
+    // トレーニング記録を保存
     await db.query(
-      "INSERT INTO muscle_records (user_id, exercise_id, weight, reps, muscle_value, recorded_at) VALUES (?, ?, ?, ?, ?, NOW())",
-      [user_id, exercise_id, weight, reps, muscle_value]
+      "INSERT INTO exercise_records (user_id, exercise_id, weight, reps, total_load, recorded_at) VALUES (?, ?, ?, ?, ?, NOW())",
+      [user_id, exercise_id, weight, reps, total_load]
     );
 
     // 成功時のレスポンス
-    return res.status(201).json({ message: "✅ 筋トレデータを保存しました！", muscle_value });
+    return res.status(201).json({ message: "トレーニングデータを保存しました", total_load });
   } catch (error) {
     // エラー発生時のログ出力とレスポンス
-    console.error("🚨 データ保存エラー:", error);
-    return res.status(500).json({ error: "❌ データ保存に失敗しました。" });
+    console.error("データ保存エラー:", error);
+    return res.status(500).json({ error: "データ保存に失敗しました。" });
   }
 };
 
 // 今日の総負荷データ取得のメイン処理
-exports.getDailyMuscleSummary = async (req, res) => {
+exports.getDailyLoadSummary = async (req, res) => {
   try {
     // ユーザーIDを取得
     const user_id = req.user.user_id;
 
-    // 今日の筋トレ記録を取得
+    // 今日のトレーニング記録を取得
     const [records] = await db.query(
       `SELECT 
         ex.category,  
         ex.name,
         mr.weight,
         mr.reps,
-        mr.muscle_value
-      FROM muscle_records AS mr
+        mr.total_load
+      FROM exercise_records AS mr
       INNER JOIN exercises AS ex ON mr.exercise_id = ex.id
       WHERE mr.user_id = ? AND DATE(mr.recorded_at) = CURDATE()`,
       [user_id]
     );
 
-    // 総筋トレ値を計算
-    const totalMuscleValue = records.reduce((sum, record) => sum + record.muscleValue, 0);
+    // 総負荷を計算
+    const totalLoad = records.reduce((sum, record) => sum + record.total_load, 0);
 
     // 成功時のレスポンス
-    return res.json({ records, totalMuscleValue });
+    return res.json({ records, totalLoad });
   } catch (error) {
     // エラー発生時のログ出力とレスポンス
-    console.error("🚨 データ取得エラー:", error);
-    return res.status(500).json({ error: "❌ データ取得に失敗しました。" });
+    console.error("データ取得エラー:", error);
+    return res.status(500).json({ error: "データ取得に失敗しました。" });
   }
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   LineChart,
   Line,
@@ -22,19 +22,12 @@ const HistoryPage = () => {
     overallTotal,
     weeklyData,
     message,
+    selectedCategory,
 
     // アクション
-    fetchInitialData,
-    handleDateChange
+    handleDateChange,
+    setSelectedCategory
   } = useHistory();
-
-  // グラフ表示用の状態
-  const [selectedCategory, setSelectedCategory] = useState("total_muscle");
-
-  // 初期データ取得
-  useEffect(() => {
-    fetchInitialData();
-  }, [fetchInitialData]);
 
   return (
     <div className={styles.pageContainer}>
@@ -76,7 +69,7 @@ const HistoryPage = () => {
                   <th>種目</th>
                   <th>重量 (kg)</th>
                   <th>回数</th>
-                  <th>筋値</th>
+                  <th>負荷</th>
                 </tr>
               </thead>
               <tbody>
@@ -96,7 +89,7 @@ const HistoryPage = () => {
           )}
         </div>
 
-        {/* 右カラム - 筋値の合計 */}
+        {/* 右カラム - 負荷の合計 */}
         <div className={styles.rightColumn}>
           <h2>部位と総合の総負荷量</h2>
           {categoryTotals.length > 0 ? (
@@ -104,7 +97,7 @@ const HistoryPage = () => {
               <thead>
                 <tr>
                   <th>部位</th>
-                  <th>合計筋値</th>
+                  <th>合計負荷</th>
                 </tr>
               </thead>
               <tbody>
@@ -128,7 +121,7 @@ const HistoryPage = () => {
 
       {/* グラフ表示部分 */}
       <div className={styles.graphContainer}>
-        <h2>週ごとの筋値推移</h2>
+        <h2>週ごとの負荷推移</h2>
         <label className={styles.graphSelectLabel}>
           表示するデータ:
           <select
@@ -136,7 +129,7 @@ const HistoryPage = () => {
             onChange={(e) => setSelectedCategory(e.target.value)}
             value={selectedCategory}
           >
-            <option value="total_muscle">総合筋値</option>
+            <option value="total_muscle">総合負荷</option>
             <option value="chest">胸</option>
             <option value="back">背中</option>
             <option value="legs">足</option>

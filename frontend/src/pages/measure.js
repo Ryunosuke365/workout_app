@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React from "react";
 import styles from "@/styles/measure.module.css";
 import HamburgerMenu from "@/components/HamburgerMenu";
 import useMeasure from "@/hooks/useMeasure";
@@ -12,25 +12,17 @@ const MeasurePage = () => {
     exerciseData,
     isLoading,
     message,
-    totalMuscleValue,
+    totalLoad,
     dailyRecords,
     
-    // アクション
+    // UI操作のアクション
     handleCategoryChange,
     handleExerciseNameInput,
     handleInputChange,
     handleAddExercise,
     handleDelete,
-    handleSubmit,
-    fetchExercises,
-    fetchDailyMuscleValue
+    handleSubmit
   } = useMeasure();
-
-  // 初期データ取得
-  useEffect(() => {
-    fetchExercises(category);
-    fetchDailyMuscleValue();
-  }, [category, fetchExercises, fetchDailyMuscleValue]);
 
   return (
     <div className={styles.pageContainer}>
@@ -144,7 +136,7 @@ const MeasurePage = () => {
         <div className={styles.rightColumn}>
           <h2 className={styles.TodayMuscleValue}>今日の記録</h2>
           <p className={styles.totalMuscleValue}>
-            総負荷量: <span>{totalMuscleValue}</span> kg
+            総負荷量: <span>{totalLoad}</span> kg
           </p>
           <table className={styles.MuscleTable}>
             <thead>
@@ -153,7 +145,7 @@ const MeasurePage = () => {
                 <th>種目</th>
                 <th>重量 (kg)</th>
                 <th>回数</th>
-                <th>筋値</th>
+                <th>負荷</th>
               </tr>
             </thead>
             <tbody>

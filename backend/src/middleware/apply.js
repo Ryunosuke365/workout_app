@@ -17,15 +17,13 @@ const applyMiddlewares = (app) => {
         if (!origin || allowedOrigins.includes(origin)) {
           callback(null, true);
         } else {
-          callback(new Error(`🚨 CORSポリシーエラー: ${origin} は許可されていません。`));
+          callback(new Error(`CORSポリシーエラー: ${origin} は許可されていません。`));
         }
       },
-      credentials: true, // クッキーやトークンのやり取りを許可
+      credentials: true,
     }));
-
-    console.log("✅ ミドルウェアの適用が完了しました。");
   } catch (error) {
-    console.error("🚨 ミドルウェア適用エラー:", error);
+    console.error("ミドルウェア適用エラー:", error);
     throw error;
   }
 };

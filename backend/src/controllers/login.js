@@ -24,19 +24,19 @@ exports.loginUser = async (req, res) => {
 
     // 必須項目のチェック
     if (!user_id || !password) {
-      return res.status(400).json({ error: "⚠️ すべての項目を入力してください。" });
+      return res.status(400).json({ error: "すべての項目を入力してください。" });
     }
 
     // ユーザーの存在チェック
     const user = await findUserByUserId(user_id);
     if (!user) {
-      return res.status(400).json({ error: "⚠️ ユーザーIDまたはパスワードが間違っています。" });
+      return res.status(400).json({ error: "ユーザーIDまたはパスワードが間違っています。" });
     }
 
     // パスワードの一致チェック
     const isMatch = await comparePassword(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ error: "⚠️ ユーザーIDまたはパスワードが間違っています。" });
+      return res.status(400).json({ error: "ユーザーIDまたはパスワードが間違っています。" });
     }
 
     // JWTトークンの生成（有効期限12時間）
@@ -48,13 +48,13 @@ exports.loginUser = async (req, res) => {
 
     // 成功時のレスポンス
     return res.status(200).json({
-      message: "✅ ログイン成功！",
+      message: "ログイン成功",
       token,
       user_id: user.user_id
     });
   } catch (error) {
     // エラー発生時のログ出力とレスポンス
-    console.error("🚨 ログインエラー:", error);
-    return res.status(500).json({ error: "❌ サーバーエラーが発生しました。" });
+    console.error("ログインエラー:", error);
+    return res.status(500).json({ error: "サーバーエラーが発生しました。" });
   }
 };

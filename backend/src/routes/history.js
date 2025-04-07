@@ -2,15 +2,10 @@ const express = require("express");
 const {
     getDailyHistory,
     getAvailableDates,
-    getTotalMuscleValue,
+    getTotalLoad,
     getWeeklyData
 } = require("../controllers/history");
 const router = express.Router();
-
-// 認証確認用のルーティング
-router.get("/", (req, res) => {
-    res.json({ message: "認証成功！", user: req.user });
-});
 
 // 日ごとの履歴取得のルーティング
 router.get("/daily", getDailyHistory);
@@ -19,7 +14,7 @@ router.get("/daily", getDailyHistory);
 router.get("/dates", getAvailableDates);
 
 // 総負荷量取得のルーティング
-router.get("/totals", getTotalMuscleValue);
+router.get("/totals", getTotalLoad);
 
 // 週ごとのデータ取得のルーティング
 router.get("/weekly", getWeeklyData);

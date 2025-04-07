@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styles from "@/styles/setting.module.css";
 import HamburgerMenu from "@/components/HamburgerMenu";
 import useSetting from "@/hooks/useSetting";
@@ -27,7 +27,6 @@ const SettingPage = () => {
     handlePasswordChange,
     handleLogout,
     confirmAndDeleteAccount,
-    fetchInitialData,
     handleDateChange,
     handleEditRecord,
     handleSaveEdit,
@@ -36,11 +35,6 @@ const SettingPage = () => {
     updateEditingRecord,
     cancelEditing
   } = useSetting();
-
-  // 初期データ取得
-  useEffect(() => {
-    fetchInitialData();
-  }, [fetchInitialData]);
 
   return (
     <div
@@ -154,7 +148,7 @@ const SettingPage = () => {
                 <th>種目</th>
                 <th>重量</th>
                 <th>回数</th>
-                <th>筋値</th>
+                <th>負荷</th>
                 <th>操作</th>
               </tr>
             </thead>

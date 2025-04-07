@@ -5,15 +5,10 @@ const {
   getUserStats,
   getAvailableDates,
   getDailyHistory,
-  updateMuscleRecord,
-  deleteMuscleRecord
+  updateExerciseRecord,
+  deleteExerciseRecord
 } = require("../controllers/setting");
 const router = express.Router();
-
-// 認証確認用のルーティング
-router.get("/", (req, res) => {
-  res.json({ message: "認証成功！", user: req.user });
-});
 
 // アカウント削除のルーティング
 router.delete("/account", deleteAccount);
@@ -30,10 +25,10 @@ router.get("/dates", getAvailableDates);
 // 日ごとの履歴取得のルーティング
 router.get("/daily", getDailyHistory);
 
-// 筋トレ記録編集のルーティング
-router.put("/records/:record_id", updateMuscleRecord);
+// トレーニング記録編集のルーティング
+router.put("/records/:record_id", updateExerciseRecord);
 
-// 筋トレ記録削除のルーティング
-router.delete("/records/:record_id", deleteMuscleRecord);
+// トレーニング記録削除のルーティング
+router.delete("/records/:record_id", deleteExerciseRecord);
 
 module.exports = router;

@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import styles from "@/styles/login.module.css";
+import useAuth from "@/hooks/useAuth";
 
 const API_URL = "https://loadlog.jp/api/login";
 
 const Login = () => {
   const router = useRouter();
+  const { setToken } = useAuth();
   const [formData, setFormData] = useState({
     user_id: "",
     password: ""
@@ -41,8 +43,7 @@ const Login = () => {
 
       if (response.ok) {
         // ログイン成功時の処理
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user_id", data.user_id);
+        setToken(data.token, data.user_id);
 
         // 測定ページへリダイレクト
         setTimeout(() => {

@@ -23,7 +23,7 @@ app.use("/api/history", authenticateToken, historyRoutes);
 app.use("/api/setting", authenticateToken, settingRoutes);
 
 // ⚠️ 404 Not Found（ルートが一致しなかった場合）
-app.use((req, res, next) => {
+app.use((req, res) => {
   console.warn(`⚠️ 404 - 該当するルートがありません: ${req.method} ${req.originalUrl}`);
   res.status(404).json({ error: "⚠️ ページが見つかりません。" });
 });

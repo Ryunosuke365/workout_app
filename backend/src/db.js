@@ -1,4 +1,4 @@
-const mysql = require("mysql2/promise"); // ← ここが超重要！
+const mysql = require("mysql2/promise");
 
 // ✅ 環境変数の存在チェック
 const requiredEnvVars = ["DB_HOST", "DB_USER", "DB_PASSWORD", "DB_NAME"];
@@ -25,8 +25,9 @@ const pool = mysql.createPool({
 (async () => {
   try {
     const conn = await pool.getConnection();
+    // 本番環境でもDB接続の確認メッセージは残す（起動時の重要な情報として）
     console.log("✅ データベース接続に成功しました。");
-    conn.release(); // ← この行でエラーが出ないようになる！
+    conn.release();
   } catch (err) {
     console.error("❌ データベース接続に失敗しました:", err.message);
     process.exit(1);

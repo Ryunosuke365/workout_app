@@ -23,27 +23,27 @@ exports.registerUser = async (req, res) => {
 
     // 必須項目のチェック
     if (!user_id || !password || !confirm_password) {
-      return res.status(400).json({ error: "⚠️ すべての項目を入力してください。" });
+      return res.status(400).json({ error: "すべての項目を入力してください。" });
     }
 
     // パスワードの一致チェック
     if (password !== confirm_password) {
-      return res.status(400).json({ error: "⚠️ パスワードが一致しません。" });
+      return res.status(400).json({ error: "パスワードが一致しません。" });
     }
 
     // ユーザーIDの形式チェック
     if (!isValidUserId(user_id)) {
-      return res.status(400).json({ error: "⚠️ ユーザーIDは5文字以上の英数字のみで入力してください。" });
+      return res.status(400).json({ error: "ユーザーIDは5文字以上の英数字のみで入力してください。" });
     }
 
     // パスワードの形式チェック
     if (!isValidPassword(password)) {
-      return res.status(400).json({ error: "⚠️ パスワードは8文字以上で、大文字・小文字・数字をそれぞれ1文字以上含めてください。" });
+      return res.status(400).json({ error: "パスワードは8文字以上で、大文字・小文字・数字をそれぞれ1文字以上含めてください。" });
     }
 
     // ユーザーIDの重複チェック
     if (await findUserByUserId(user_id)) {
-      return res.status(400).json({ error: "⚠️ このユーザーIDは既に使用されています。" });
+      return res.status(400).json({ error: "このユーザーIDは既に使用されています。" });
     }
 
     // パスワードをハッシュ化して保存
@@ -54,10 +54,10 @@ exports.registerUser = async (req, res) => {
     );
 
     // 成功時のレスポンス
-    return res.status(201).json({ message: "✅ アカウントが作成されました！" });
+    return res.status(201).json({ message: "アカウントが作成されました" });
   } catch (error) {
     // エラー発生時のログ出力とレスポンス
-    console.error("🚨 登録エラー:", error);
-    return res.status(500).json({ error: "❌ サーバーエラーが発生しました。" });
+    console.error("登録エラー:", error);
+    return res.status(500).json({ error: "サーバーエラーが発生しました。" });
   }
 };

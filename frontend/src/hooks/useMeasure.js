@@ -1,13 +1,10 @@
-import { useState, useCallback } from "react";
-import axios from "axios";
+import { useState, useCallback, useEffect } from "react";
 import useAuth from "./useAuth";
-
-// APIエンドポイントの定義
 const API_URL = "https://loadlog.jp/api/measure";
 
 const useMeasure = () => {
   // 認証フックの利用
-  const { handleAuthError, getToken } = useAuth();
+  const { handleAuthError, authGet, authPost, authDelete } = useAuth();
   
   // 状態管理
   const [category, setCategory] = useState("chest");
@@ -16,111 +13,45 @@ const useMeasure = () => {
   const [exerciseData, setExerciseData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const [totalMuscleValue, setTotalMuscleValue] = useState(0);
+  const [totalLoad, setTotalLoad] = useState(0);
   const [dailyRecords, setDailyRecords] = useState([]);
 
-  // 部位に応じた種目一覧を取得
+  // 部位に応じた種目一覧を取得するAPI通信
   const fetchExercises = useCallback(async (selectedCategory) => {
-    const token = getToken();
-    if (!token) {
-      handleAuthError({ message: "トークンが存在しません" }, setMessage);
-      return;
-    }
-    
     try {
-      const response = await axios.get(
-        `${API_URL}/exercises/${selectedCategory}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const response = await authGet(`${API_URL}/exercises/${selectedCategory}`);
       setExercises(response.data);
     } catch (err) {
-      handleAuthError(err, setMessage);
+      handleAuthError(err, setMessage, "⚠️ 種目一覧の取得に失敗しました");
     }
-  }, [handleAuthError, getToken]);
+  }, [handleAuthError, authGet, setMessage]);
 
-  // 新しい種目を追加
-  const handleAddExercise = useCallback(async () => {
-    if (!exerciseName.trim()) return;
-    
-    const token = getToken();
-    if (!token) {
-      handleAuthError({ message: "トークンが存在しません" }, setMessage);
-      return;
-    }
-    
+
+
+  // 種目を削除するAPI通信処理
+  const deleteExercise = useCallback(async (exercise_id) => {
     try {
-      await axios.post(
-        `${API_URL}/exercises`,
-        { name: exerciseName, category },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      setExerciseName("");
-      fetchExercises(category);
-    } catch (err) {
-      handleAuthError(err, setMessage);
-    }
-  }, [category, exerciseName, fetchExercises, getToken, handleAuthError]);
-
-  // 種目を削除
-  const handleDelete = useCallback(async (exercise_id) => {
-    // 確認ダイアログ表示
-    const firstConfirm = window.confirm(
-      "本当にこの種目を削除してよろしいですか？この種目で行ってきた履歴も消えてしまいます。"
-    );
-    if (!firstConfirm) return;
-
-    const secondConfirm = window.confirm(
-      "この操作は取り消せません。本当に削除してよろしいですか？"
-    );
-    if (!secondConfirm) return;
-
-    const token = getToken();
-    if (!token) {
-      handleAuthError({ message: "トークンが存在しません" }, setMessage);
-      return;
-    }
-    
-    try {
-      await axios.delete(`${API_URL}/${exercise_id}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      await authDelete(`${API_URL}/${exercise_id}`);
       setMessage("✅ 種目を削除しました！");
       fetchExercises(category);
     } catch (err) {
-      handleAuthError(err, setMessage);
+      handleAuthError(err, setMessage, "⚠️ 種目の削除に失敗しました");
     }
-  }, [category, fetchExercises, getToken, handleAuthError]);
+  }, [category, fetchExercises, authDelete, handleAuthError, setMessage]);
 
-  // 筋トレ記録の送信
-  const handleSubmit = useCallback(async (exercise_id) => {
-    const { weight, reps } = exerciseData[exercise_id] || {};
-    
-    // 入力値のバリデーション
-    if (!weight || !reps) {
-      setMessage("⚠️ 重量と回数を入力してください！");
-      return;
-    }
-    
+
+
+  // 筋トレ記録を送信するAPI通信処理
+  const submitRecord = useCallback(async (exercise_id, weight, reps) => {
     setIsLoading(true);
     setMessage("");
     
-    const token = getToken();
-    if (!token) {
-      setIsLoading(false);
-      handleAuthError({ message: "トークンが存在しません" }, setMessage);
-      return;
-    }
-    
     try {
-      await axios.post(
-        API_URL,
-        { 
-          exercise_id, 
-          weight: Number(weight), 
-          reps: Number(reps) 
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      await authPost(API_URL, { 
+        exercise_id, 
+        weight: Number(weight), 
+        reps: Number(reps) 
+      });
       
       // 成功時の処理
       setMessage("✅ 記録しました！💪");
@@ -128,47 +59,57 @@ const useMeasure = () => {
         ...prev,
         [exercise_id]: { weight: "", reps: "" }
       }));
-      fetchDailyMuscleValue();
+      fetchDailyLoadSummary();
     } catch (err) {
-      handleAuthError(err, setMessage);
+      handleAuthError(err, setMessage, "⚠️ 記録の送信中にエラーが発生しました");
     } finally {
       setIsLoading(false);
     }
-  }, [exerciseData, getToken, handleAuthError]);
+  }, [authPost, handleAuthError, fetchDailyLoadSummary, setMessage]);
 
-  // 今日の筋値データを取得
-  const fetchDailyMuscleValue = useCallback(async () => {
-    const token = getToken();
-    if (!token) {
-      handleAuthError({ message: "トークンが存在しません" }, setMessage);
-      return;
-    }
-    
+
+
+  // 今日の負荷データを取得するAPI通信
+  const fetchDailyLoadSummary = useCallback(async () => {
+    setIsLoading(true);
     try {
-      const response = await axios.get(`${API_URL}/daily-muscle-summary`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      // APIから負荷データを取得
+      const response = await authGet(`${API_URL}/daily-load-summary`);
       
-      // データが空でも正常に処理（エラーではない）
       setDailyRecords(response.data.records || []);
-      setTotalMuscleValue(response.data.totalMuscleValue || 0);
-      
-      // エラーメッセージがあれば消去（前回のエラーが残っている可能性がある）
+      setTotalLoad(response.data.totalLoad || 0);
+
+      // サーバーエラーメッセージをクリア
       if (message && message.includes("サーバーエラー")) {
         setMessage("");
       }
     } catch (err) {
-      // 認証エラーは通常通り処理
-      if (err.response?.status === 401 || err.response?.status === 403) {
-        handleAuthError(err, setMessage);
-      } else {
-        // その他のエラーは、データがない場合は無視
-        console.log("筋値データの取得中にエラーが発生しました:", err);
-        // エラーメッセージを表示しない（または軽いメッセージに変更）
-        // setMessage("今日の筋値データはまだありません");
-      }
+      // UIメッセージは表示しない（ユーザー体験を阻害しないため）
+      handleAuthError(err, setMessage, "負荷データの取得に失敗しました", true);
+    } finally {
+      setIsLoading(false);
     }
-  }, [getToken, handleAuthError, message, setMessage, setDailyRecords, setTotalMuscleValue]);
+  }, [authGet, handleAuthError, message, setMessage]);
+
+
+
+
+
+  // 初期データ取得
+  useEffect(() => {
+    fetchExercises(category);
+    fetchDailyLoadSummary();
+  }, [category, fetchExercises, fetchDailyLoadSummary]);
+
+  // 部位変更時の処理
+  const handleCategoryChange = useCallback((newCategory) => {
+    setCategory(newCategory);
+  }, []);
+
+  // 種目名入力フィールドの変更処理
+  const handleExerciseNameInput = useCallback((value) => {
+    setExerciseName(value);
+  }, []);
 
   // 入力値変更時の処理
   const handleInputChange = useCallback((event, exercise_id, field) => {
@@ -181,15 +122,47 @@ const useMeasure = () => {
     }));
   }, []);
 
-  // 部位変更時の処理
-  const handleCategoryChange = useCallback((newCategory) => {
-    setCategory(newCategory);
-  }, []);
+  // 新しい種目を追加
+  const handleAddExercise = useCallback(async () => {
+    if (!exerciseName.trim()) return;
+    
+    try {
+      await authPost(`${API_URL}/exercises`, { name: exerciseName, category });
+      setExerciseName("");
+      fetchExercises(category);
+    } catch (err) {
+      handleAuthError(err, setMessage, "⚠️ 種目の追加に失敗しました");
+    }
+  }, [category, exerciseName, fetchExercises, authPost, handleAuthError, setMessage]);
 
-  // 種目名入力フィールドの変更処理
-  const handleExerciseNameInput = useCallback((value) => {
-    setExerciseName(value);
-  }, []);
+  // 筋トレ記録の送信処理
+  const handleSubmit = useCallback((exercise_id) => {
+    const { weight, reps } = exerciseData[exercise_id] || {};
+    
+    // 入力値のバリデーション
+    if (!weight || !reps) {
+      setMessage("⚠️ 重量と回数を入力してください！");
+      return;
+    }
+    
+    // バリデーション通過後にAPI通信処理を実行
+    submitRecord(exercise_id, weight, reps);
+  }, [exerciseData, submitRecord, setMessage]);
+
+  // 種目削除の処理
+  const handleDelete = useCallback(async (exercise_id) => {
+    // 確認ダイアログ表示
+    const firstConfirm = window.confirm(
+      "本当にこの種目を削除してよろしいですか？この種目で行ってきた履歴も消えてしまいます。"
+    );
+    if (!firstConfirm) return;
+    const secondConfirm = window.confirm(
+      "この操作は取り消せません。本当に削除してよろしいですか？"
+    );
+    if (!secondConfirm) return;
+    // 確認が取れたらAPI通信処理を実行
+    await deleteExercise(exercise_id);
+  }, [deleteExercise]);
 
   return {
     // 状態
@@ -199,18 +172,16 @@ const useMeasure = () => {
     exerciseData,
     isLoading,
     message,
-    totalMuscleValue,
+    totalLoad,
     dailyRecords,
     
-    // アクション
+    // UI操作のアクション
     handleCategoryChange,
     handleExerciseNameInput,
     handleInputChange,
     handleAddExercise,
-    handleDelete,
-    handleSubmit,
-    fetchExercises,
-    fetchDailyMuscleValue,
+    handleDelete,  // ダイアログ表示→APIコール
+    handleSubmit,  // バリデーション→APIコール 
     setMessage
   };
 };

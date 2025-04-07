@@ -5,5 +5,5 @@ const app = require("./app");
 
 // サーバーの起動
 app.listen(5000, "0.0.0.0", () => {
-  console.log(`🚀 サーバー起動: http://0.0.0.0:5000`);
+  console.log(`🚀 サーバー起動`);
 });
