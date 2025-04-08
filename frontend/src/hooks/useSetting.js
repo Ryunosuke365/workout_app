@@ -23,6 +23,7 @@ const useSetting = () => {
   const [editingRecord, setEditingRecord] = useState(null);
   const [registrationDate, setRegistrationDate] = useState("");
   const [workoutDays, setWorkoutDays] = useState(null);
+  const [userId, setUserId] = useState("");
 
   // 認証フックの利用
   const { 
@@ -35,6 +36,13 @@ const useSetting = () => {
     authPut,
     authDelete
   } = useAuth();
+
+  // ユーザーIDの取得（クライアントサイドでのみ実行）
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setUserId(localStorage.getItem("user_id") || "");
+    }
+  }, []);
 
   // パスワード変更処理
   const handlePasswordChange = useCallback(async () => {
@@ -65,9 +73,6 @@ const useSetting = () => {
       return false; // 削除失敗
     }
   }, [authDelete]);
-
-  // ユーザーID（変更されないので直接定義）
-  const userId = localStorage.getItem("user_id") || "";
 
   // ユーザー統計情報の取得
   const fetchUserStats = useCallback(async () => {

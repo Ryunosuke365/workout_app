@@ -26,7 +26,27 @@ const useMeasure = () => {
     }
   }, [handleAuthError, authGet, setMessage]);
 
+  // 今日の負荷データを取得するAPI通信
+  const fetchDailyLoadSummary = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      // APIから負荷データを取得
+      const response = await authGet(`${API_URL}/daily-load-summary`);
+      
+      setDailyRecords(response.data.records || []);
+      setTotalLoad(response.data.totalLoad || 0);
 
+      // サーバーエラーメッセージをクリア
+      if (message && message.includes("サーバーエラー")) {
+        setMessage("");
+      }
+    } catch (err) {
+      // UIメッセージは表示しない（ユーザー体験を阻害しないため）
+      handleAuthError(err, setMessage, "負荷データの取得に失敗しました", true);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [authGet, handleAuthError, message, setMessage]);
 
   // 種目を削除するAPI通信処理
   const deleteExercise = useCallback(async (exercise_id) => {
@@ -38,8 +58,6 @@ const useMeasure = () => {
       handleAuthError(err, setMessage, "⚠️ 種目の削除に失敗しました");
     }
   }, [category, fetchExercises, authDelete, handleAuthError, setMessage]);
-
-
 
   // 筋トレ記録を送信するAPI通信処理
   const submitRecord = useCallback(async (exercise_id, weight, reps) => {
@@ -66,34 +84,6 @@ const useMeasure = () => {
       setIsLoading(false);
     }
   }, [authPost, handleAuthError, fetchDailyLoadSummary, setMessage]);
-
-
-
-  // 今日の負荷データを取得するAPI通信
-  const fetchDailyLoadSummary = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      // APIから負荷データを取得
-      const response = await authGet(`${API_URL}/daily-load-summary`);
-      
-      setDailyRecords(response.data.records || []);
-      setTotalLoad(response.data.totalLoad || 0);
-
-      // サーバーエラーメッセージをクリア
-      if (message && message.includes("サーバーエラー")) {
-        setMessage("");
-      }
-    } catch (err) {
-      // UIメッセージは表示しない（ユーザー体験を阻害しないため）
-      handleAuthError(err, setMessage, "負荷データの取得に失敗しました", true);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [authGet, handleAuthError, message, setMessage]);
-
-
-
-
 
   // 初期データ取得
   useEffect(() => {
