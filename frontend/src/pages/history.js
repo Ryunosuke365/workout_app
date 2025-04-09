@@ -129,7 +129,7 @@ const HistoryPage = () => {
             onChange={(e) => setSelectedCategory(e.target.value)}
             value={selectedCategory}
           >
-            <option value="total_muscle">総合負荷</option>
+            <option value="total_load">総合負荷</option>
             <option value="chest">胸</option>
             <option value="back">背中</option>
             <option value="legs">足</option>

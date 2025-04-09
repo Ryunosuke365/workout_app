@@ -16,7 +16,7 @@ const useHistory = () => {
   const [overallTotal, setOverallTotal] = useState(0);
   const [weeklyData, setWeeklyData] = useState([]);
   const [message, setMessage] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("total_muscle");
+  const [selectedCategory, setSelectedCategory] = useState("total_load");
 
   // ③ 利用可能な日付一覧を取得（/dates）
   const fetchAvailableDates = useCallback(async () => {
