@@ -14,7 +14,6 @@ const useSetting = () => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [showPasswordForm, setShowPasswordForm] = useState(false);
-  const [theme, setTheme] = useState("black");
   const [selectedDate, setSelectedDate] = useState("");
   const [availableDates, setAvailableDates] = useState([]);
   const [dailyHistory, setDailyHistory] = useState([]);
@@ -28,11 +27,8 @@ const useSetting = () => {
   // 認証フックの利用
   const { 
     handleAuthError, 
-    getToken, 
     removeToken,
-    isInitialized,
     authGet,
-    authPost,
     authPut,
     authDelete
   } = useAuth();
@@ -59,7 +55,7 @@ const useSetting = () => {
       setNewPassword("");
       setShowPasswordForm(false);
     } catch (err) {
-      setMessage(err.response?.data?.error || "❌ パスワード変更に失敗しました。");
+      setMessage(err.response?.data?.error || "パスワード変更に失敗しました。");
     }
   }, [currentPassword, newPassword, authPut]);
 
@@ -69,7 +65,7 @@ const useSetting = () => {
       await authDelete(`${API_URL}/account`);
       return true; // 削除成功
     } catch (err) {
-      setMessage("❌ アカウント削除に失敗しました。");
+      setMessage(err.response?.data?.error || "アカウント削除に失敗しました。");
       return false; // 削除失敗
     }
   }, [authDelete]);
@@ -114,17 +110,6 @@ const useSetting = () => {
     }
   }, [fetchDailyHistory, authGet, handleAuthError]);
 
-  // 初期データの取得
-  const fetchInitialData = useCallback(async () => {
-    await fetchUserStats();
-    await fetchAvailableDates();
-  }, [fetchUserStats, fetchAvailableDates]);
-
-  // 初期データ取得を自動実行
-  useEffect(() => {
-    fetchInitialData();
-  }, [fetchInitialData]);
-
   // 履歴編集保存
   const handleSaveEdit = useCallback(async (index) => {
     try {
@@ -165,6 +150,17 @@ const useSetting = () => {
     }
   }, [dailyHistory, authDelete]);
 
+  // 初期データの取得
+  const fetchInitialData = useCallback(async () => {
+    await fetchUserStats();
+    await fetchAvailableDates();
+  }, [fetchUserStats, fetchAvailableDates]);
+
+  // 初期データ取得を自動実行
+  useEffect(() => {
+    fetchInitialData();
+  }, [fetchInitialData]);
+
   // ログアウト処理
   const handleLogout = useCallback(() => {
     removeToken();
@@ -173,7 +169,18 @@ const useSetting = () => {
 
   // アカウント削除の確認処理
   const confirmAndDeleteAccount = useCallback(async () => {
-    if (!confirm("本当にアカウントを削除しますか？")) return;
+    // 1段階目の確認
+    const firstConfirm = window.confirm(
+      "本当にアカウントを削除してよろしいですか？この操作は取り消せません。"
+    );
+    if (!firstConfirm) return;
+
+    // 2段階目の確認
+    const secondConfirm = window.confirm(
+      "アカウントを削除すると、すべてのデータが完全に削除されます。\n本当に削除してよろしいですか？"
+    );
+    if (!secondConfirm) return;
+
     const success = await handleAccountDelete();
     if (success) {
       removeToken();
@@ -228,7 +235,6 @@ const useSetting = () => {
     currentPassword,
     newPassword,
     showPasswordForm,
-    theme,
     selectedDate,
     availableDates,
     dailyHistory,
@@ -237,7 +243,6 @@ const useSetting = () => {
     editingRecord,
     registrationDate,
     workoutDays,
-    isInitialized,
     
     // アクション
     setCurrentPassword,
@@ -254,8 +259,7 @@ const useSetting = () => {
     formatDateForDisplay,
     updateEditingRecord,
     cancelEditing,
-    setMessage,
-    setTheme
+    setMessage
   };
 };
 

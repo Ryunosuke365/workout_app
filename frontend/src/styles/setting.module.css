@@ -14,8 +14,6 @@
   color: #e0e0e0;
 }
 
-
-
 /* ヘッダー */
 .headerContainer {
   display: flex;
@@ -61,11 +59,6 @@
 
 .accountContainer h2 {
   color: #c1a57b;
-}
-
-/* スペーサー */
-.spacer {
-  height: 0px;
 }
 
 /* 各列 */
@@ -118,14 +111,6 @@
   border-radius: 4px;
 }
 
-/* テーマ選択 */
-.themeRow {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-}
-
 /* ボタンコンテナ（縦並び） */
 .buttonContainer {
   display: flex;
@@ -167,36 +152,27 @@
   background: linear-gradient(135deg, #c62828, #b71c1c);
 }
 
-
-
-
-
-
-
-
-
 /* =================================== */
 /* 履歴編集・削除（下カラム） */
 /* =================================== */
 
 /* ボタンをまとめるコンテナ（テーブルセル内で使用） */
 .buttonGroup {
-  display: inline-flex; /* または flex */
-  gap: 10px;           /* ボタン同士の間隔 */
+  display: inline-flex;
+  gap: 10px;
 }
 
 /* 共通の操作ボタンスタイル */
 .buttonModern {
-  padding: 8px 16px;       /* パディングを少し小さめに */
+  padding: 8px 16px;
   border: none;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.3s ease;
-  width: auto;             /* 幅を自動調整に */
-  /* gap: 10px; <-- gapはコンテナに設定するので不要 */
-  margin: 0;               /* 個々のボタンのマージンは不要 */
+  width: auto;
+  margin: 0;
 }
 
 /* 保存ボタン */
@@ -235,7 +211,6 @@
   background: linear-gradient(135deg, #c62828, #b71c1c);
 }
 
-
 /* 履歴編集コンテナ */
 .historyEditContainer {
   width: 90%;
@@ -255,10 +230,9 @@
   margin-bottom: 20px;
   padding: 20px 0;
   width: 92%;
-  /* positionは不要 */
 }
 
-.headerTitle{
+.historyTitle {
   color: #c1a57b;
 }
 
@@ -270,10 +244,8 @@
   background: rgba(255, 255, 255, 0.1);
   color: white;
   outline: none;
-  /* 絶対位置指定を削除し、自然なフローに任せる */
-  margin-left: 20px; /* タイトルとの間に余白を作る */
+  margin-left: 20px;
 }
-
 
 .dateSelect:hover {
   background: rgba(255, 255, 255, 0.2);

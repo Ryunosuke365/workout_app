@@ -10,7 +10,6 @@ const SettingPage = () => {
     currentPassword,
     newPassword,
     showPasswordForm,
-    theme,
     selectedDate,
     availableDates,
     dailyHistory,
@@ -33,28 +32,20 @@ const SettingPage = () => {
     handleDeleteRecord,
     formatDateForDisplay,
     updateEditingRecord,
-    cancelEditing
+    cancelEditing,
   } = useSetting();
 
   return (
-    <div
-      className={`${styles.pageContainer} ${
-        theme === "white" ? styles.whiteTheme : styles.blackTheme
-      }`}
-    >
-
+    <div className={styles.pageContainer}>
       {/* ヘッダー */}
       <div className={styles.headerContainer}>
         <h1 className={styles.headerTitle}>設定</h1>
         <HamburgerMenu />
       </div>
-
-      {/* アカウント情報：2行×3列グリッド */}
+      
+      {/* アカウント情報：1行×3列グリッド */}
       <div className={styles.accountContainer}>
         <h2>アカウント情報</h2>
-        {/* 空白 */}
-        <div className={styles.spacer}></div>
-        <div className={styles.spacer}></div>
 
         {/* 左列：ユーザーID・パスワード */}
         <div className={styles.column}>
@@ -67,7 +58,7 @@ const SettingPage = () => {
             <span>
               ********
               <button
-                className={styles.ChangeButton}
+                className={styles.smallButton}
                 onClick={togglePasswordForm}
               >
                 {showPasswordForm ? "閉じる" : "変更"}
