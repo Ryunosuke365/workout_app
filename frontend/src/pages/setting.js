@@ -196,7 +196,7 @@ const SettingPage = () => {
                     <td>{item.exercise}</td>
                     <td>{item.weight}</td>
                     <td>{item.reps}</td>
-                    <td>{item.muscle_value}</td>
+                    <td>{item.total_load}</td>
                     <td>
                       <div className={styles.buttonGroup}>
                         <button

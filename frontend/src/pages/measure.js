@@ -152,10 +152,10 @@ const MeasurePage = () => {
               {dailyRecords.map((record, index) => (
                 <tr key={index}>
                   <td>{record.category}</td>
-                  <td>{record.exerciseName}</td>
+                  <td>{record.name}</td>
                   <td>{record.weight} kg</td>
                   <td>{record.reps} 回</td>
-                  <td>{record.muscleValue}</td>
+                  <td>{record.total_load}</td>
                 </tr>
               ))}
             </tbody>

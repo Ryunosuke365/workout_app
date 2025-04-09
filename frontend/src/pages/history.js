@@ -79,7 +79,7 @@ const HistoryPage = () => {
                     <td>{item.exercise}</td>
                     <td>{item.weight}</td>
                     <td>{item.reps}</td>
-                    <td>{item.muscle_value}</td>
+                    <td>{item.total_load}</td>
                   </tr>
                 ))}
               </tbody>
@@ -104,7 +104,7 @@ const HistoryPage = () => {
                 {categoryTotals.map((item, index) => (
                   <tr key={index}>
                     <td>{item.category}</td>
-                    <td>{item.total_muscle_value}</td>
+                    <td>{item.total_load}</td>
                   </tr>
                 ))}
                 <tr className={styles.fixedTotalRow}>
