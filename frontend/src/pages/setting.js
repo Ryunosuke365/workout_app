@@ -43,9 +43,12 @@ const SettingPage = () => {
         <HamburgerMenu />
       </div>
       
-      {/* アカウント情報：1行×3列グリッド */}
+      {/* アカウント情報：2行×3列グリッド */}
       <div className={styles.accountContainer}>
         <h2>アカウント情報</h2>
+        {/* 空白 */}
+        <div className={styles.spacer}></div>
+        <div className={styles.spacer}></div>
 
         {/* 左列：ユーザーID・パスワード */}
         <div className={styles.column}>
@@ -58,7 +61,7 @@ const SettingPage = () => {
             <span>
               ********
               <button
-                className={styles.smallButton}
+                className={styles.ChangeButton}
                 onClick={togglePasswordForm}
               >
                 {showPasswordForm ? "閉じる" : "変更"}
