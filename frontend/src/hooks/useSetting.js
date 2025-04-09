@@ -188,47 +188,6 @@ const useSetting = () => {
     }
   }, [handleAccountDelete, removeToken, router]);
 
-  // 日付選択時の処理
-  const handleDateChange = useCallback((newDate) => {
-    setSelectedDate(newDate);
-    fetchDailyHistory(newDate);
-  }, [fetchDailyHistory]);
-
-  // 履歴編集開始
-  const handleEditRecord = useCallback((index) => {
-    setEditingIndex(index);
-    setEditingRecord({ ...dailyHistory[index] });
-  }, [dailyHistory]);
-
-  // パスワードフォーム表示切り替え
-  const togglePasswordForm = useCallback(() => {
-    setShowPasswordForm(prev => !prev);
-  }, []);
-
-  // 日付表示のフォーマット
-  const formatDateForDisplay = useCallback((dateStr) => {
-    const date = new Date(dateStr);
-    return date.toLocaleDateString("ja-JP", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  }, []);
-
-  // 編集中のレコード更新処理
-  const updateEditingRecord = useCallback((field, value) => {
-    setEditingRecord(prev => ({
-      ...prev,
-      [field]: Number(value)
-    }));
-  }, []);
-
-  // 編集キャンセル処理
-  const cancelEditing = useCallback(() => {
-    setEditingIndex(null);
-    setEditingRecord(null);
-  }, []);
-
   return {
     // 状態
     userId,
@@ -247,18 +206,17 @@ const useSetting = () => {
     // アクション
     setCurrentPassword,
     setNewPassword,
-    togglePasswordForm,
+    setShowPasswordForm,
     handlePasswordChange,
     handleAccountDelete,
     handleLogout,
     confirmAndDeleteAccount,
-    handleDateChange,
-    handleEditRecord,
+    fetchDailyHistory,
+    setSelectedDate,
     handleSaveEdit,
     handleDeleteRecord,
-    formatDateForDisplay,
-    updateEditingRecord,
-    cancelEditing,
+    setEditingIndex,
+    setEditingRecord,
     setMessage
   };
 };

@@ -22,17 +22,17 @@ const SettingPage = () => {
     // アクション
     setCurrentPassword,
     setNewPassword,
-    togglePasswordForm,
+    setShowPasswordForm,
     handlePasswordChange,
     handleLogout,
     confirmAndDeleteAccount,
-    handleDateChange,
-    handleEditRecord,
+    fetchDailyHistory,
+    setSelectedDate,
     handleSaveEdit,
     handleDeleteRecord,
-    formatDateForDisplay,
-    updateEditingRecord,
-    cancelEditing,
+    setEditingIndex,
+    setEditingRecord,
+    setMessage,
   } = useSetting();
 
   return (
@@ -42,6 +42,13 @@ const SettingPage = () => {
         <h1 className={styles.headerTitle}>設定</h1>
         <HamburgerMenu />
       </div>
+      
+      {/* メッセージ表示 */}
+      {message && (
+        <div className={styles.message} onClick={() => setMessage("")}>
+          {message}
+        </div>
+      )}
       
       {/* アカウント情報：2行×3列グリッド */}
       <div className={styles.accountContainer}>
@@ -62,7 +69,7 @@ const SettingPage = () => {
               ********
               <button
                 className={styles.ChangeButton}
-                onClick={togglePasswordForm}
+                onClick={() => setShowPasswordForm(prev => !prev)}
               >
                 {showPasswordForm ? "閉じる" : "変更"}
               </button>
@@ -124,12 +131,22 @@ const SettingPage = () => {
           <h2 className={styles.historyTitle}>日付ごとの履歴</h2>
           <select
             className={styles.dateSelect}
-            onChange={(e) => handleDateChange(e.target.value)}
+            onChange={(e) => {
+              setSelectedDate(e.target.value);
+              fetchDailyHistory(e.target.value);
+            }}
             value={selectedDate}
           >
             {availableDates.map((date) => (
               <option key={date} value={date}>
-                {formatDateForDisplay(date)}
+                {(() => {
+                  const date2 = new Date(date);
+                  return date2.toLocaleDateString("ja-JP", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  });
+                })()}
               </option>
             ))}
           </select>
@@ -156,14 +173,20 @@ const SettingPage = () => {
                       <input
                         type="number"
                         value={editingRecord.weight}
-                        onChange={(e) => updateEditingRecord('weight', e.target.value)}
+                        onChange={(e) => setEditingRecord(prev => ({
+                          ...prev,
+                          weight: Number(e.target.value)
+                        }))}
                       />
                     </td>
                     <td>
                       <input
                         type="number"
                         value={editingRecord.reps}
-                        onChange={(e) => updateEditingRecord('reps', e.target.value)}
+                        onChange={(e) => setEditingRecord(prev => ({
+                          ...prev,
+                          reps: Number(e.target.value)
+                        }))}
                       />
                     </td>
                     <td>{editingRecord.weight * editingRecord.reps}</td>
@@ -177,7 +200,10 @@ const SettingPage = () => {
                         </button>
                         <button
                           className={`${styles.buttonModern} ${styles.cancelButton}`}
-                          onClick={cancelEditing}
+                          onClick={() => {
+                            setEditingIndex(null);
+                            setEditingRecord(null);
+                          }}
                         >
                           キャンセル
                         </button>
@@ -195,7 +221,10 @@ const SettingPage = () => {
                       <div className={styles.buttonGroup}>
                         <button
                           className={`${styles.buttonModern} ${styles.editButton}`}
-                          onClick={() => handleEditRecord(index)}
+                          onClick={() => {
+                            setEditingIndex(index);
+                            setEditingRecord({ ...dailyHistory[index] });
+                          }}
                         >
                           編集
                         </button>
@@ -219,7 +248,6 @@ const SettingPage = () => {
         ) : (
           <p className={styles.noDataMessage}>この日には記録がありません。</p>
         )}
-        {message && <p className={styles.message}>{message}</p>}
       </div>
     </div>
   );
