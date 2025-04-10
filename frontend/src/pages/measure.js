@@ -17,8 +17,8 @@ const MeasurePage = () => {
     
     // UI操作のアクション
     handleAddExercise,
-    handleDelete,
-    handleSubmit,
+    submitRecord,
+    deleteExercise,
     
     // セッター
     setCategory,
@@ -127,7 +127,19 @@ const MeasurePage = () => {
                     </td>
                     <td>
                       <button
-                        onClick={() => handleSubmit(exercise.id)}
+                        onClick={() => {
+                          const { weight, reps } = exerciseData[exercise.id] || {};
+                          
+                          // 入力値のバリデーション
+                          if (!weight || !reps) {
+                            setMessage("⚠️ 重量と回数を入力してください！");
+                            return;
+                          }
+                          
+                          // バリデーション通過後にAPI通信処理を実行
+                          // 実際の処理を直接実行
+                          submitRecord(exercise.id, weight, reps);
+                        }}
                         className={styles.recordButton}
                         disabled={isLoading}
                       >
@@ -136,7 +148,21 @@ const MeasurePage = () => {
                     </td>
                     <td>
                       <button
-                        onClick={() => handleDelete(exercise.id)}
+                        onClick={() => {
+                          // 確認ダイアログ表示
+                          if (typeof window !== 'undefined') {
+                            const firstConfirm = window.confirm(
+                              "本当にこの種目を削除してよろしいですか？この種目で行ってきた履歴も消えてしまいます。"
+                            );
+                            if (!firstConfirm) return;
+                            const secondConfirm = window.confirm(
+                              "この操作は取り消せません。本当に削除してよろしいですか？"
+                            );
+                            if (!secondConfirm) return;
+                          }
+                          // 確認が取れたらAPI通信処理を実行
+                          deleteExercise(exercise.id);
+                        }}
                         className={styles.deleteButton}
                       >
                         削除する
