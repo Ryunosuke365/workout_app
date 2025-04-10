@@ -17,8 +17,8 @@ const MeasurePage = () => {
     
     // UI操作のアクション
     handleAddExercise,
-    submitRecord,
-    deleteExercise,
+    handleDelete,
+    handleSubmit,
     
     // セッター
     setCategory,
@@ -127,18 +127,7 @@ const MeasurePage = () => {
                     </td>
                     <td>
                       <button
-                        onClick={() => {
-                          const { weight, reps } = exerciseData[exercise.id] || {};
-                          
-                          // 入力値のバリデーション
-                          if (!weight || !reps) {
-                            setMessage("⚠️ 重量と回数を入力してください！");
-                            return;
-                          }
-                          
-                          // バリデーション通過後にAPI通信処理を実行
-                          submitRecord(exercise.id, weight, reps);
-                        }}
+                        onClick={() => handleSubmit(exercise.id)}
                         className={styles.recordButton}
                         disabled={isLoading}
                       >
@@ -147,19 +136,7 @@ const MeasurePage = () => {
                     </td>
                     <td>
                       <button
-                        onClick={() => {
-                          // 確認ダイアログ表示
-                          const firstConfirm = window.confirm(
-                            "本当にこの種目を削除してよろしいですか？この種目で行ってきた履歴も消えてしまいます。"
-                          );
-                          if (!firstConfirm) return;
-                          const secondConfirm = window.confirm(
-                            "この操作は取り消せません。本当に削除してよろしいですか？"
-                          );
-                          if (!secondConfirm) return;
-                          // 確認が取れたらAPI通信処理を実行
-                          deleteExercise(exercise.id);
-                        }}
+                        onClick={() => handleDelete(exercise.id)}
                         className={styles.deleteButton}
                       >
                         削除する
