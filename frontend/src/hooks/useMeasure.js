@@ -104,6 +104,37 @@ const useMeasure = () => {
     fetchDailyLoadSummary();
   }, [category, fetchExercises, fetchDailyLoadSummary]);
   
+  // 筋トレ記録の送信処理
+  const handleSubmit = useCallback((exercise_id) => {
+    const { weight, reps } = exerciseData[exercise_id] || {};
+    
+    // 入力値のバリデーション
+    if (!weight || !reps) {
+      setMessage("⚠️ 重量と回数を入力してください！");
+      return;
+    }
+    
+    // バリデーション通過後にAPI通信処理を実行
+    submitRecord(exercise_id, weight, reps);
+  }, [exerciseData, submitRecord, setMessage]);
+
+  // 種目削除の処理
+  const handleDelete = useCallback((exercise_id) => {
+    // 確認ダイアログ表示
+    if (typeof window !== 'undefined') {
+      const firstConfirm = window.confirm(
+        "本当にこの種目を削除してよろしいですか？この種目で行ってきた履歴も消えてしまいます。"
+      );
+      if (!firstConfirm) return;
+      const secondConfirm = window.confirm(
+        "この操作は取り消せません。本当に削除してよろしいですか？"
+      );
+      if (!secondConfirm) return;
+    }
+    // 確認が取れたらAPI通信処理を実行
+    deleteExercise(exercise_id);
+  }, [deleteExercise]);
+  
   return {
     // 状態
     category,
@@ -117,8 +148,8 @@ const useMeasure = () => {
     
     // UI操作のアクション
     handleAddExercise,
-    submitRecord,
-    deleteExercise,
+    handleDelete,
+    handleSubmit,
     
     // セッター
     setCategory,
