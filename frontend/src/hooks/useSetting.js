@@ -10,6 +10,9 @@ const useSetting = () => {
   // ルーターの取得
   const router = useRouter();
   
+  // クライアントサイドでのみuserIdを取得
+  const userId = typeof window !== 'undefined' ? localStorage.getItem("user_id") || "" : "";
+  
   // 状態管理
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -22,7 +25,6 @@ const useSetting = () => {
   const [editingRecord, setEditingRecord] = useState(null);
   const [registrationDate, setRegistrationDate] = useState("");
   const [workoutDays, setWorkoutDays] = useState(null);
-  const userId = typeof window !== 'undefined' ? localStorage.getItem("user_id") : "";
 
   // 認証フックの利用
   const { 
@@ -32,13 +34,6 @@ const useSetting = () => {
     authPut,
     authDelete
   } = useAuth();
-
-  // ユーザーIDの取得（クライアントサイドでのみ実行）
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setUserId(localStorage.getItem("user_id") || "");
-    }
-  }, []);
 
   // パスワード変更処理
   const handlePasswordChange = useCallback(async () => {
