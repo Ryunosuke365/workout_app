@@ -25,8 +25,9 @@ const HistoryPage = () => {
     selectedCategory,
 
     // アクション
-    handleDateChange,
-    setSelectedCategory
+    setSelectedCategory,
+    fetchDailyHistory,
+    setSelectedDate
   } = useHistory();
 
   return (
@@ -43,7 +44,10 @@ const HistoryPage = () => {
             <h2 className={styles.historyTitle}>日付ごとの履歴</h2>
             <select
               className={styles.dateSelect}
-              onChange={(e) => handleDateChange(e.target.value)}
+              onChange={(e) => {
+                setSelectedDate(e.target.value);
+                fetchDailyHistory(e.target.value);
+              }}
               value={selectedDate}
             >
               {availableDates.map((date) => (

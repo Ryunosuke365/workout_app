@@ -79,13 +79,7 @@ const useHistory = () => {
     fetchInitialData();
   }, [fetchInitialData]);
 
-  // 📅 日付を変更したときの処理
-  const handleDateChange = useCallback((newDate) => {
-    setSelectedDate(newDate);
-    fetchDailyHistory(newDate);
-  }, [fetchDailyHistory]);
-
-  // ✅ フックとして提供する値と関数
+  // 📅 フックとして提供する値と関数
   return {
     // 状態
     dailyHistory,
@@ -98,9 +92,10 @@ const useHistory = () => {
     selectedCategory,
 
     // アクション
-    handleDateChange,
     setMessage,
-    setSelectedCategory
+    setSelectedCategory,
+    fetchDailyHistory,
+    setSelectedDate
   };
 };
 
