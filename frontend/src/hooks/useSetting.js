@@ -22,7 +22,7 @@ const useSetting = () => {
   const [editingRecord, setEditingRecord] = useState(null);
   const [registrationDate, setRegistrationDate] = useState("");
   const [workoutDays, setWorkoutDays] = useState(null);
-  const [userId, setUserId] = useState("");
+  const userId = typeof window !== 'undefined' ? localStorage.getItem("user_id") : "";
 
   // 認証フックの利用
   const { 
