@@ -9,7 +9,6 @@ const SettingPage = () => {
   
   const {
     // 状態
-    userId,
     currentPassword,
     newPassword,
     showPasswordForm,
@@ -64,7 +63,11 @@ const SettingPage = () => {
         <div className={styles.column}>
           <p className={styles.infoLine}>
             <span className={styles.infoLabel}>ユーザーID:</span>
-            <span>{userId}</span>
+            <span>
+              {typeof window !== 'undefined' && localStorage.getItem("user_id")
+                ? localStorage.getItem("user_id")
+                : "取得中..."}
+            </span>
           </p>
           <p className={styles.infoLine}>
             <span className={styles.infoLabel}>パスワード:</span>
