@@ -16,14 +16,17 @@ const MeasurePage = () => {
     dailyRecords,
     
     // UI操作のアクション
-    handleCategoryChange,
-    handleExerciseNameInput,
-    handleInputChange,
     handleAddExercise,
-    handleDelete,
-    handleSubmit
+    submitRecord,
+    deleteExercise,
+    
+    // セッター
+    setCategory,
+    setExerciseName,
+    setExerciseData,
+    setMessage
   } = useMeasure();
-
+  
   return (
     <div className={styles.pageContainer}>
       <div className={styles.headerContainer}>
@@ -41,7 +44,7 @@ const MeasurePage = () => {
               <h2>部位を選択</h2>
               <select
                 value={category}
-                onChange={(e) => handleCategoryChange(e.target.value)}
+                onChange={(e) => setCategory(e.target.value)}
                 className={styles.PartDropdown}
               >
                 <option value="chest">胸</option>
@@ -59,7 +62,7 @@ const MeasurePage = () => {
                 <input
                   type="text"
                   value={exerciseName}
-                  onChange={(e) => handleExerciseNameInput(e.target.value)}
+                  onChange={(e) => setExerciseName(e.target.value)}
                   placeholder="新しい種目名を入力"
                   className={styles.EventInput}
                 />
@@ -96,7 +99,14 @@ const MeasurePage = () => {
                       <input
                         type="number"
                         value={exerciseData[exercise.id]?.weight || ""}
-                        onChange={(e) => handleInputChange(e, exercise.id, "weight")}
+                        onChange={(e) => {
+                          const { value } = e.target;
+                          if (value === "" || isNaN(value) || Number(value) < 0) return;
+                          setExerciseData(prev => ({
+                            ...prev,
+                            [exercise.id]: { ...prev[exercise.id], weight: value }
+                          }));
+                        }}
                         className={styles.ExerciseInput}
                       />
                     </td>
@@ -104,13 +114,31 @@ const MeasurePage = () => {
                       <input
                         type="number"
                         value={exerciseData[exercise.id]?.reps || ""}
-                        onChange={(e) => handleInputChange(e, exercise.id, "reps")}
+                        onChange={(e) => {
+                          const { value } = e.target;
+                          if (value === "" || isNaN(value) || Number(value) < 0) return;
+                          setExerciseData(prev => ({
+                            ...prev,
+                            [exercise.id]: { ...prev[exercise.id], reps: value }
+                          }));
+                        }}
                         className={styles.ExerciseInput}
                       />
                     </td>
                     <td>
                       <button
-                        onClick={() => handleSubmit(exercise.id)}
+                        onClick={() => {
+                          const { weight, reps } = exerciseData[exercise.id] || {};
+                          
+                          // 入力値のバリデーション
+                          if (!weight || !reps) {
+                            setMessage("⚠️ 重量と回数を入力してください！");
+                            return;
+                          }
+                          
+                          // バリデーション通過後にAPI通信処理を実行
+                          submitRecord(exercise.id, weight, reps);
+                        }}
                         className={styles.recordButton}
                         disabled={isLoading}
                       >
@@ -119,7 +147,19 @@ const MeasurePage = () => {
                     </td>
                     <td>
                       <button
-                        onClick={() => handleDelete(exercise.id)}
+                        onClick={() => {
+                          // 確認ダイアログ表示
+                          const firstConfirm = window.confirm(
+                            "本当にこの種目を削除してよろしいですか？この種目で行ってきた履歴も消えてしまいます。"
+                          );
+                          if (!firstConfirm) return;
+                          const secondConfirm = window.confirm(
+                            "この操作は取り消せません。本当に削除してよろしいですか？"
+                          );
+                          if (!secondConfirm) return;
+                          // 確認が取れたらAPI通信処理を実行
+                          deleteExercise(exercise.id);
+                        }}
                         className={styles.deleteButton}
                       >
                         削除する
