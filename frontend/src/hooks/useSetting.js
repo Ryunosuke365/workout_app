@@ -158,33 +158,6 @@ const useSetting = () => {
     fetchInitialData();
   }, [fetchInitialData]);
 
-  // ログアウト処理
-  const handleLogout = useCallback(() => {
-    removeToken();
-    router.push("/login");
-  }, [removeToken, router]);
-
-  // アカウント削除の確認処理
-  const confirmAndDeleteAccount = useCallback(async () => {
-    // 1段階目の確認
-    const firstConfirm = window.confirm(
-      "本当にアカウントを削除してよろしいですか？この操作は取り消せません。"
-    );
-    if (!firstConfirm) return;
-
-    // 2段階目の確認
-    const secondConfirm = window.confirm(
-      "アカウントを削除すると、すべてのデータが完全に削除されます。\n本当に削除してよろしいですか？"
-    );
-    if (!secondConfirm) return;
-
-    const success = await handleAccountDelete();
-    if (success) {
-      removeToken();
-      router.push("/register");
-    }
-  }, [handleAccountDelete, removeToken, router]);
-
   return {
     // 状態
     userId,
@@ -206,8 +179,8 @@ const useSetting = () => {
     setShowPasswordForm,
     handlePasswordChange,
     handleAccountDelete,
-    handleLogout,
-    confirmAndDeleteAccount,
+    removeToken,
+    
     fetchDailyHistory,
     setSelectedDate,
     handleSaveEdit,

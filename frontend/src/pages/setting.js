@@ -2,8 +2,11 @@ import React from "react";
 import styles from "@/styles/setting.module.css";
 import HamburgerMenu from "@/components/HamburgerMenu";
 import useSetting from "@/hooks/useSetting";
+import { useRouter } from "next/router";
 
 const SettingPage = () => {
+  const router = useRouter();
+  
   const {
     // 状態
     userId,
@@ -24,8 +27,8 @@ const SettingPage = () => {
     setNewPassword,
     setShowPasswordForm,
     handlePasswordChange,
-    handleLogout,
-    confirmAndDeleteAccount,
+    handleAccountDelete,
+    removeToken,
     fetchDailyHistory,
     setSelectedDate,
     handleSaveEdit,
@@ -111,13 +114,34 @@ const SettingPage = () => {
           <div className={styles.buttonContainer}>
             <button
               className={`${styles.actionButton} ${styles.logoutButton}`}
-              onClick={handleLogout}
+              onClick={() => {
+                removeToken();
+                router.push("/login");
+              }}
             >
               ログアウト
             </button>
             <button
               className={`${styles.actionButton} ${styles.dangerButton}`}
-              onClick={confirmAndDeleteAccount}
+              onClick={() => {
+                // 1段階目の確認
+                const firstConfirm = window.confirm(
+                  "本当にアカウントを削除してよろしいですか？この操作は取り消せません。"
+                );
+                if (!firstConfirm) return;
+
+                // 2段階目の確認
+                const secondConfirm = window.confirm(
+                  "アカウントを削除すると、すべてのデータが完全に削除されます。\n本当に削除してよろしいですか？"
+                );
+                if (!secondConfirm) return;
+
+                const success = handleAccountDelete();
+                if (success) {
+                  removeToken();
+                  router.push("/register");
+                }
+              }}
             >
               アカウント削除
             </button>
