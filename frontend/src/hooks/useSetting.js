@@ -1,6 +1,5 @@
 import { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/router";
-import axios from "axios";
 import useAuth from "./useAuth";
 
 // APIエンドポイントの定義
@@ -140,10 +139,13 @@ const useSetting = () => {
       
       setMessage(response.data.message || "記録を削除しました。");
       setDailyHistory(dailyHistory.filter((_, i) => i !== index));
+      
+      // 削除後に筋トレ日数を更新するためにユーザー統計を再取得
+      fetchUserStats();
     } catch (error) {
       setMessage(error.response?.data?.error || "記録削除に失敗しました。");
     }
-  }, [dailyHistory, authDelete]);
+  }, [dailyHistory, authDelete, fetchUserStats]);
 
   // 初期データの取得
   const fetchInitialData = useCallback(async () => {
