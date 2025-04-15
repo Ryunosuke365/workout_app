@@ -82,6 +82,27 @@ exports.getUserStats = async (req, res) => {
 exports.deleteAccount = async (req, res) => {
   try {
     const user_id = extractUserId(req);
+    const { password } = req.body;
+
+    // パスワード確認
+    if (!password) {
+      return res.status(400).json({ error: "パスワードを入力してください。" });
+    }
+
+    // DBから現在のパスワードハッシュを取得
+    const [rows] = await query("SELECT password FROM users WHERE user_id = ?", [
+      user_id,
+    ]);
+
+    if (rows.length === 0) {
+      return res.status(404).json({ error: "ユーザーが見つかりません。" });
+    }
+
+    // パスワードが正しいか判定
+    const isMatch = await bcrypt.compare(password, rows[0].password);
+    if (!isMatch) {
+      return res.status(401).json({ error: "パスワードが間違っています。" });
+    }
 
     // 関連テーブルからユーザー情報を削除
     await query("DELETE FROM exercise_records WHERE user_id = ?", [user_id]);
@@ -145,7 +166,6 @@ exports.getAvailableDates = async (req, res) => {
 };
 
 //トレーニング記録を更新
- 
 exports.updateExerciseRecord = async (req, res) => {
   try {
     const user_id = extractUserId(req);

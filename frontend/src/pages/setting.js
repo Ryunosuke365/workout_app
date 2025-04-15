@@ -21,6 +21,8 @@ const SettingPage = () => {
     currentPassword,       // 現在のパスワード
     newPassword,           // 新しいパスワード
     showPasswordForm,      // パスワード変更フォーム表示状態
+    deleteConfirmation,    // アカウント削除確認状態
+    deletePassword,        // アカウント削除用パスワード
     selectedDate,          // 選択中の日付
     availableDates,        // 選択可能な日付一覧
     dailyHistory,          // 選択中の日の履歴一覧
@@ -32,19 +34,20 @@ const SettingPage = () => {
     setCurrentPassword,    // 現在のパスワード更新処理
     setNewPassword,        // 新しいパスワード更新処理
     setShowPasswordForm,   // パスワード変更フォーム表示切替処理
+    setDeleteConfirmation,
+    setDeletePassword,     // アカウント削除用パスワード更新処理
     setSelectedDate,       // 選択中の日付更新処理
     setEditingIndex,       // 編集中の履歴index更新処理
     setEditingRecord,      // 編集中の履歴データ更新処理
   
     removeToken,           // トークン削除処理
     handlePasswordChange,  // パスワード変更処理
-    handleAccountDelete,   // アカウント削除処理
+    handleAccountDelete,   // アカウント削除実行処理
     fetchDailyHistory,     // 日次履歴取得処理
     handleSaveEdit,        // 履歴保存処理
     handleDeleteRecord,    // 履歴削除処理
   } = useSetting();
   
-
   return (
     <div className={styles.pageContainer}>
       {/* ヘッダー */}
@@ -133,22 +136,47 @@ const SettingPage = () => {
 
             <button
               className={`${styles.actionButton} ${styles.dangerButton}`}
-              onClick={async () => {
+              onClick={() => {
                 const confirm1 = window.confirm("本当にアカウントを削除しますか？");
                 if (!confirm1) return;
 
-                const confirm2 = window.confirm("この操作は取り消せません。全データが消えます。");
-                if (!confirm2) return;
-
-                const success = await handleAccountDelete();
-                if (success) {
-                  removeToken();
-                  router.push("/register");
-                }
+                setDeleteConfirmation(true);
               }}
             >
               アカウント削除
             </button>
+
+            {deleteConfirmation && (
+              <div className={styles.passwordChangeBox}>
+                <div className={styles.warningText}>
+                  削除を実行するには現在のパスワードを入力してください
+                </div>
+                <input
+                  type="password"
+                  placeholder="現在のパスワード"
+                  value={deletePassword}
+                  onChange={(e) => setDeletePassword(e.target.value)}
+                />
+                <button
+                  className={styles.dangerButton}
+                  onClick={() => {
+                    if (!deletePassword) {
+                      setMessage("パスワードを入力してください");
+                      return;
+                    }
+
+                    const confirm2 = window.confirm(
+                      "この操作は取り消せません。全データが消えます。\n\n本当にアカウントを削除しますか？"
+                    );
+                    if (!confirm2) return;
+
+                    handleAccountDelete(router);
+                  }}
+                >
+                  削除を実行する
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

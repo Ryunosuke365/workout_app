@@ -107,7 +107,6 @@ const useMeasure = () => {
           weight: numericWeight,
           reps: numericReps,
         });
-        setMessage("記録しました！");
 
         // 入力フィールドをリセット
         setExerciseData((prev) => ({
@@ -134,7 +133,6 @@ const useMeasure = () => {
     async (exercise_id) => {
       try {
         await authDelete(`${API_URL}/${exercise_id}`);
-        setMessage("種目を削除しました！");
         fetchExercises(category);
         fetchDailySummary();
       } catch (err) {

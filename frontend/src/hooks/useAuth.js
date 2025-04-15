@@ -104,12 +104,15 @@ const useAuth = () => {
 
   /**
    * 認証付きDELETEリクエスト
+   * @param {string} url リクエストURL
+   * @param {Object} options オプション（data等）
    */
   const authDelete = useCallback(
-    async (url) => {
+    async (url, options = {}) => {
       const token = getToken();
       return axios.delete(url, {
         headers: { Authorization: `Bearer ${token}` },
+        ...options
       });
     },
     [getToken]

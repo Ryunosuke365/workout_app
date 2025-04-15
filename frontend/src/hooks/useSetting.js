@@ -17,6 +17,12 @@ const useSetting = () => {
   // パスワード変更フォームの表示有無
   const [showPasswordForm, setShowPasswordForm] = useState(false);
 
+  // アカウント削除確認状態
+  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+
+  // アカウント削除用パスワード
+  const [deletePassword, setDeletePassword] = useState("");
+
   // 現在選択中の日付
   const [selectedDate, setSelectedDate] = useState("");
 
@@ -63,20 +69,33 @@ const useSetting = () => {
     }
   }, [currentPassword, newPassword, authPut]);
 
+  
   /**
-   * アカウントの削除処理
+   * アカウントの削除処理実行
+   * @param {string} password 現在のパスワード
    * @returns {boolean} 成功: true, 失敗: false
    */
-  const handleAccountDelete = useCallback(async () => {
+  const handleAccountDelete = useCallback(async (router) => {
+    if (!deletePassword) {
+      setMessage("パスワードを入力してください");
+      return false;
+    }
+
+    const confirm = window.confirm("この操作は取り消せません。全データが消えます。");
+    if (!confirm) return false;
+
     try {
-      await authDelete(`${API_URL}/account`);
+      await authDelete(`${API_URL}/account`, { data: { password: deletePassword } });
+      removeToken();
+      router.push("/register");
       return true;
     } catch (err) {
       console.error("handleAccountDelete Error:", err);
       setMessage(err.response?.data?.error || "アカウント削除に失敗しました。");
+      setDeletePassword("");
       return false;
     }
-  }, [authDelete]);
+  }, [deletePassword, authDelete, removeToken]);
 
   /**
    * ユーザーの統計情報（登録日・トレーニング日数）の取得
@@ -202,6 +221,8 @@ const useSetting = () => {
     currentPassword,
     newPassword,
     showPasswordForm,
+    deleteConfirmation,
+    deletePassword,
     selectedDate,
     availableDates,
     dailyHistory,
@@ -215,6 +236,8 @@ const useSetting = () => {
     setCurrentPassword,
     setNewPassword,
     setShowPasswordForm,
+    setDeleteConfirmation,
+    setDeletePassword,
     setSelectedDate,
     setEditingIndex,
     setEditingRecord,

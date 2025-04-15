@@ -115,6 +115,14 @@
   border-radius: 4px;
 }
 
+.warningText {
+  color: #ff6b6b;
+  font-size: 14px;
+  margin-bottom: 10px;
+  text-align: center;
+  font-weight: 500;
+}
+
 .buttonContainer {
   display: flex;
   flex-direction: column;
