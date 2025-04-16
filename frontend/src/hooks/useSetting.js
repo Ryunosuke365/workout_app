@@ -153,7 +153,6 @@ const useSetting = () => {
           weight: editingRecord.weight,
           reps: editingRecord.reps,
         });
-        setMessage(res.data.message || "記録を更新しました。");
 
         const newHistory = [...dailyHistory];
         newHistory[index] = {
@@ -181,7 +180,6 @@ const useSetting = () => {
       try {
         const recordId = dailyHistory[index].id;
         const res = await authDelete(`${API_URL}/records/${recordId}`);
-        setMessage(res.data.message || "記録を削除しました。");
 
         setDailyHistory(dailyHistory.filter((_, i) => i !== index));
 
