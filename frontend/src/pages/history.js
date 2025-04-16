@@ -170,7 +170,16 @@ const HistoryPage = () => {
                   : 100,
               ]}
             />
-            <Tooltip />
+            <Tooltip 
+              contentStyle={{ 
+                backgroundColor: 'rgba(30, 30, 30, 0.9)', 
+                border: '1px solid #444',
+                borderRadius: '5px',
+                color: '#e0e0e0'
+              }}
+              labelStyle={{ color: '#ffcc00' }}
+              itemStyle={{ color: '#e0e0e0' }}
+            />
             <Line
               type="monotone"
               dataKey={selectedCategory}
