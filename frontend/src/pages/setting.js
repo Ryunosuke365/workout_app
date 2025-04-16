@@ -137,13 +137,14 @@ const SettingPage = () => {
             <button
               className={`${styles.actionButton} ${styles.dangerButton}`}
               onClick={() => {
-                const confirm1 = window.confirm("本当にアカウントを削除しますか？");
-                if (!confirm1) return;
-
-                setDeleteConfirmation(true);
+                if (!deleteConfirmation) {
+                  const confirm1 = window.confirm("本当にアカウントを削除しますか？");
+                  if (!confirm1) return;
+                }
+                setDeleteConfirmation((prev) => !prev);
               }}
             >
-              アカウント削除
+              {deleteConfirmation ? "閉じる" : "アカウント削除"}
             </button>
 
             {deleteConfirmation && (
