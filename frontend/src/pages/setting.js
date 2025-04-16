@@ -137,10 +137,6 @@ const SettingPage = () => {
             <button
               className={`${styles.actionButton} ${styles.dangerButton}`}
               onClick={() => {
-                if (!deleteConfirmation) {
-                  const confirm1 = window.confirm("本当にアカウントを削除しますか？");
-                  if (!confirm1) return;
-                }
                 setDeleteConfirmation((prev) => !prev);
               }}
             >
@@ -166,8 +162,13 @@ const SettingPage = () => {
                       return;
                     }
 
+                    // 1回目の確認
+                    const confirm1 = window.confirm("本当にアカウントを削除しますか？");
+                    if (!confirm1) return;
+
+                    // 2回目の確認
                     const confirm2 = window.confirm(
-                      "この操作は取り消せません。全データが消えます。\n\n本当にアカウントを削除しますか？"
+                      "この操作は取り消せません。\n全データが完全に削除されます。\n\n本当に実行してもよろしいですか？"
                     );
                     if (!confirm2) return;
 

@@ -76,14 +76,6 @@ const useSetting = () => {
    * @returns {boolean} 成功: true, 失敗: false
    */
   const handleAccountDelete = useCallback(async (router) => {
-    if (!deletePassword) {
-      setMessage("パスワードを入力してください");
-      return false;
-    }
-
-    const confirm = window.confirm("この操作は取り消せません。全データが消えます。");
-    if (!confirm) return false;
-
     try {
       await authDelete(`${API_URL}/account`, { data: { password: deletePassword } });
       removeToken();
