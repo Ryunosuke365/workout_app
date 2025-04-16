@@ -34,7 +34,7 @@ const SettingPage = () => {
     setCurrentPassword,    // 現在のパスワード更新処理
     setNewPassword,        // 新しいパスワード更新処理
     setShowPasswordForm,   // パスワード変更フォーム表示切替処理
-    setDeleteConfirmation,
+    setDeleteConfirmation, //アカウント削除確認状態更新処理
     setDeletePassword,     // アカウント削除用パスワード更新処理
     setSelectedDate,       // 選択中の日付更新処理
     setEditingIndex,       // 編集中の履歴index更新処理
@@ -137,6 +137,9 @@ const SettingPage = () => {
             <button
               className={`${styles.actionButton} ${styles.dangerButton}`}
               onClick={() => {
+                if(deleteConfirmation){
+                  setDeletePassword("");
+                }
                 setDeleteConfirmation((prev) => !prev);
               }}
             >
