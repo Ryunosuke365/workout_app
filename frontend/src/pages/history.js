@@ -220,8 +220,9 @@ const HistoryPage = () => {
                   // ISO 8601では週番号に先頭のゼロをつけないのが正式
                   return `W${week}`;
                 }}
-                interval={0}
-                minTickGap={30}
+                interval="preserveStartEnd"
+                minTickGap={50}
+                tick={{ fontSize: 12 }}
               />
               <YAxis
                 domain={[
