@@ -42,18 +42,16 @@ const HistoryPage = () => {
   const getFilteredWeeklyData = () => {
     if (!weeklyData || weeklyData.length === 0) return [];
     
-    const now = new Date();
-    const currentYear = now.getFullYear();
-    const currentWeek = Math.ceil((now - new Date(currentYear, 0, 1)) / (7 * 24 * 60 * 60 * 1000));
-    const yearWeek = currentYear * 100 + currentWeek;
+    // weeklyDataをweekの降順でソート（日付が新しい順）
+    const sortedData = [...weeklyData].sort((a, b) => b.week - a.week);
     
     switch (periodFilter) {
       case '3months':
         // 直近3ヶ月 (約13週間)
-        return weeklyData.filter(data => data.week >= yearWeek - 13);
+        return sortedData.slice(0, 13).sort((a, b) => a.week - b.week);
       case '1year':
         // 直近1年 (52週間)
-        return weeklyData.filter(data => data.week >= yearWeek - 52);
+        return sortedData.slice(0, 52).sort((a, b) => a.week - b.week);
       case 'all':
       default:
         return weeklyData;
