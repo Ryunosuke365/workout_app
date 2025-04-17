@@ -221,8 +221,6 @@ const HistoryPage = () => {
                   return `W${week}`;
                 }}
                 interval="preserveStartEnd"
-                minTickGap={50}
-                tick={{ fontSize: 12 }}
               />
               <YAxis
                 domain={[
