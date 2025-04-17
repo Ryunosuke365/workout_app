@@ -160,7 +160,10 @@ const HistoryPage = () => {
         <div className={styles.graphAndHelpContainer}>
           {/* 負荷推移グラフ */}
           <ResponsiveContainer width="90%" height={500}>
-            <LineChart data={weeklyData}>
+            <LineChart 
+              data={weeklyData}
+              margin={{ top: 5, right: 40, left: 20, bottom: 30 }}
+            >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
                 dataKey="week"
