@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   LineChart,
   Line,
@@ -34,6 +34,8 @@ const HistoryPage = () => {
 
     fetchDailyHistory,   // 日次履歴データ取得
   } = useHistory();
+  
+  const [showAxisHelp, setShowAxisHelp] = useState(false);
 
   return (
     <div className={styles.pageContainer}>
@@ -154,41 +156,67 @@ const HistoryPage = () => {
           </select>
         </label>
 
-        {/* 負荷推移グラフ */}
-        <ResponsiveContainer width="90%" height={500}>
-          <LineChart data={weeklyData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis
-              dataKey="week"
-              tickFormatter={(weekNum) => `W${String(weekNum % 100).padStart(2, '0')}`}
-            />
-            <YAxis
-              domain={[
-                0,
-                weeklyData.length > 0
-                  ? Math.max(...weeklyData.map(d => Number(d[selectedCategory]) || 0), 100)
-                  : 100,
-              ]}
-            />
-            <Tooltip 
-              contentStyle={{ 
-                backgroundColor: 'rgba(30, 30, 30, 0.9)', 
-                border: '1px solid #444',
-                borderRadius: '5px',
-                color: '#e0e0e0'
-              }}
-              labelStyle={{ color: '#ffcc00' }}
-              itemStyle={{ color: '#e0e0e0' }}
-              labelFormatter={(value) => `${Math.floor(value/100)}W${String(value % 100).padStart(2, '0')}`}
-            />
-            <Line
-              type="monotone"
-              dataKey={selectedCategory}
-              stroke="#ffcc00"
-              strokeWidth={2}
-            />
-          </LineChart>
-        </ResponsiveContainer>
+        {/* グラフとX軸ヘルプボタンのコンテナ */}
+        <div className={styles.graphAndHelpContainer}>
+          {/* 負荷推移グラフ */}
+          <ResponsiveContainer width="90%" height={500}>
+            <LineChart data={weeklyData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis
+                dataKey="week"
+                tickFormatter={(weekNum) => `W${String(weekNum % 100).padStart(2, '0')}`}
+              />
+              <YAxis
+                domain={[
+                  0,
+                  weeklyData.length > 0
+                    ? Math.max(...weeklyData.map(d => Number(d[selectedCategory]) || 0), 100)
+                    : 100,
+                ]}
+              />
+              <Tooltip 
+                contentStyle={{ 
+                  backgroundColor: 'rgba(30, 30, 30, 0.9)', 
+                  border: '1px solid #444',
+                  borderRadius: '5px',
+                  color: '#e0e0e0'
+                }}
+                labelStyle={{ color: '#ffcc00' }}
+                itemStyle={{ color: '#e0e0e0' }}
+                labelFormatter={(value) => `${Math.floor(value/100)}W${String(value % 100).padStart(2, '0')}`}
+              />
+              <Line
+                type="monotone"
+                dataKey={selectedCategory}
+                stroke="#ffcc00"
+                strokeWidth={2}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+          
+          {/* X軸ヘルプボタン */}
+          <div className={styles.axisHelpContainer}>
+            <button 
+              className={styles.axisHelpButton}
+              onClick={() => setShowAxisHelp(!showAxisHelp)}
+              aria-label="X軸の説明"
+            >
+              ?
+            </button>
+            {showAxisHelp && (
+              <div className={styles.axisHelpPopup}>
+                <p>W01、W02などの表記は、年間の週番号を表しています。</p>
+                <p>例えば、2025W16は2025年の第16週目を意味します。</p>
+                <button 
+                  className={styles.closeButton}
+                  onClick={() => setShowAxisHelp(false)}
+                >
+                  閉じる
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
 
         {message && <p className={styles.message}>{message}</p>}
       </div>
