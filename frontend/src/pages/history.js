@@ -42,26 +42,28 @@ const HistoryPage = () => {
   const getFilteredWeeklyData = () => {
     if (!weeklyData || weeklyData.length === 0) return [];
     
-    // データをweekの降順でソート（日付が新しい順）
-    const sortedData = [...weeklyData].sort((a, b) => b.week - a.week);
-    let result = [];
+    // console.log("週データ全部:", weeklyData); // デバッグ
     
-    switch (periodFilter) {
-      case '3months':
+    // まずweeklyDataを複製してから処理
+    let result = [...weeklyData];
+    
+    if (periodFilter !== 'all') {
+      // データをweekの降順でソート（日付が新しい順）
+      const sortedData = [...weeklyData].sort((a, b) => b.week - a.week);
+      
+      if (periodFilter === '3months') {
         // 直近3ヶ月 (約13週間)
-        result = sortedData.slice(0, 13);
-        break;
-      case '1year':
+        result = sortedData.slice(0, Math.min(13, sortedData.length));
+      } else if (periodFilter === '1year') {
         // 直近1年 (52週間)
-        result = sortedData.slice(0, 52);
-        break;
-      case 'all':
-      default:
-        return weeklyData;
+        result = sortedData.slice(0, Math.min(52, sortedData.length));
+      }
+      
+      // 表示用に日付順（週番号の昇順）に並べ直す
+      result = result.sort((a, b) => a.week - b.week);
     }
     
-    // 表示用に日付順（週番号の昇順）に並べ直す
-    return result.sort((a, b) => a.week - b.week);
+    return result;
   };
 
   const filteredWeeklyData = getFilteredWeeklyData();
@@ -212,7 +214,12 @@ const HistoryPage = () => {
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
                 dataKey="week"
-                tickFormatter={(weekNum) => `W${String(weekNum % 100).padStart(2, '0')}`}
+                tickFormatter={(weekNum) => {
+                  const year = Math.floor(weekNum / 100);
+                  const week = weekNum % 100;
+                  // ISO 8601では週番号に先頭のゼロをつけないのが正式
+                  return `W${week}`;
+                }}
               />
               <YAxis
                 domain={[
@@ -231,7 +238,12 @@ const HistoryPage = () => {
                 }}
                 labelStyle={{ color: '#ffcc00' }}
                 itemStyle={{ color: '#e0e0e0' }}
-                labelFormatter={(value) => `${Math.floor(value/100)}W${String(value % 100).padStart(2, '0')}`}
+                labelFormatter={(value) => {
+                  const year = Math.floor(value / 100);
+                  const week = value % 100;
+                  // ISO 8601では「YYYY-Www」形式が正式
+                  return `${year}-W${week}`;
+                }}
               />
               <Line
                 type="monotone"
@@ -253,8 +265,9 @@ const HistoryPage = () => {
             </button>
             {showAxisHelp && (
               <div className={styles.axisHelpPopup}>
-                <p>W01、W02などの表記は、年間の週番号を表しています。</p>
-                <p>例えば、2025W16は2025年の第16週目を意味します。</p>
+                <p>W1～W53の表記は、ISO 8601規格による年間の週番号を表しています。</p>
+                <p>ISO 8601では、年の最初の週(W1)は、その年の最初の木曜日を含む週と定義されます。</p>
+                <p>例えば、2025-W5は2025年の第5週を意味します。</p>
               </div>
             )}
           </div>
