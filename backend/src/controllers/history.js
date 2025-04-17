@@ -94,8 +94,8 @@ exports.getWeeklyData = async (req, res) => {
 
     const [data] = await query(
       `SELECT 
-        CONCAT(YEAR(DATE_SUB(recorded_at, INTERVAL WEEKDAY(recorded_at) DAY)),
-               LPAD(WEEK(DATE_SUB(recorded_at, INTERVAL WEEKDAY(recorded_at) DAY), 3), 2, '0')
+        CONCAT(YEAR(recorded_at),
+               LPAD(WEEK(recorded_at, 1), 2, '0')  /* モード1: ISO-8601に準拠した週番号 */
         ) AS week,
         e.category,
         SUM(r.total_load) AS total_load
