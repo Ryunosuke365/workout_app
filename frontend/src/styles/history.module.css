@@ -229,7 +229,7 @@
 /* X軸ヘルプボタンとポップアップ */
 .axisHelpContainer {
   position: absolute;
-  bottom: 50px;
+  bottom: 330px;
   right: 40px;
   z-index: 10;
 }
