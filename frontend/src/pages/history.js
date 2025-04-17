@@ -42,20 +42,26 @@ const HistoryPage = () => {
   const getFilteredWeeklyData = () => {
     if (!weeklyData || weeklyData.length === 0) return [];
     
-    // weeklyDataをweekの降順でソート（日付が新しい順）
+    // データをweekの降順でソート（日付が新しい順）
     const sortedData = [...weeklyData].sort((a, b) => b.week - a.week);
+    let result = [];
     
     switch (periodFilter) {
       case '3months':
         // 直近3ヶ月 (約13週間)
-        return sortedData.slice(0, 13).sort((a, b) => a.week - b.week);
+        result = sortedData.slice(0, 13);
+        break;
       case '1year':
         // 直近1年 (52週間)
-        return sortedData.slice(0, 52).sort((a, b) => a.week - b.week);
+        result = sortedData.slice(0, 52);
+        break;
       case 'all':
       default:
         return weeklyData;
     }
+    
+    // 表示用に日付順（週番号の昇順）に並べ直す
+    return result.sort((a, b) => a.week - b.week);
   };
 
   const filteredWeeklyData = getFilteredWeeklyData();
