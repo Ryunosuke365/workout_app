@@ -191,11 +191,19 @@
   margin-bottom: 20px;
 }
 
+/* グラフコントロール部分 */
+.graphControls {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
 .graphSelectLabel {
   font-size: 16px;
   font-weight: 600;
   color: #e0e0e0;
-  margin-bottom: 20px;
   display: inline-block;
 }
 

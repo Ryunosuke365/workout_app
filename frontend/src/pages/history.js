@@ -36,6 +36,31 @@ const HistoryPage = () => {
   } = useHistory();
   
   const [showAxisHelp, setShowAxisHelp] = useState(false);
+  const [periodFilter, setPeriodFilter] = useState('3months'); // デフォルトは3ヶ月
+
+  // 期間でフィルタリングしたデータを取得
+  const getFilteredWeeklyData = () => {
+    if (!weeklyData || weeklyData.length === 0) return [];
+    
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentWeek = Math.ceil((now - new Date(currentYear, 0, 1)) / (7 * 24 * 60 * 60 * 1000));
+    const yearWeek = currentYear * 100 + currentWeek;
+    
+    switch (periodFilter) {
+      case '3months':
+        // 直近3ヶ月 (約13週間)
+        return weeklyData.filter(data => data.week >= yearWeek - 13);
+      case '1year':
+        // 直近1年 (52週間)
+        return weeklyData.filter(data => data.week >= yearWeek - 52);
+      case 'all':
+      default:
+        return weeklyData;
+    }
+  };
+
+  const filteredWeeklyData = getFilteredWeeklyData();
 
   return (
     <div className={styles.pageContainer}>
@@ -139,29 +164,45 @@ const HistoryPage = () => {
       <div className={styles.graphContainer}>
         <h2>週ごとの負荷推移</h2>
 
-        {/* グラフ表示データ切替 */}
-        <label className={styles.graphSelectLabel}>
-          表示するデータ:
-          <select
-            className={styles.graphSelect}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-            value={selectedCategory}
-          >
-            <option value="total_load">総合負荷</option>
-            <option value="chest">胸</option>
-            <option value="back">背中</option>
-            <option value="legs">脚</option>
-            <option value="arms">腕</option>
-            <option value="shoulders">肩</option>
-          </select>
-        </label>
+        <div className={styles.graphControls}>
+          {/* グラフ表示データ切替 */}
+          <label className={styles.graphSelectLabel}>
+            表示するデータ:
+            <select
+              className={styles.graphSelect}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              value={selectedCategory}
+            >
+              <option value="total_load">総合負荷</option>
+              <option value="chest">胸</option>
+              <option value="back">背中</option>
+              <option value="legs">脚</option>
+              <option value="arms">腕</option>
+              <option value="shoulders">肩</option>
+            </select>
+          </label>
+
+          {/* 期間選択 */}
+          <label className={styles.graphSelectLabel}>
+            期間:
+            <select
+              className={styles.graphSelect}
+              onChange={(e) => setPeriodFilter(e.target.value)}
+              value={periodFilter}
+            >
+              <option value="3months">直近3ヶ月</option>
+              <option value="1year">直近1年</option>
+              <option value="all">すべて</option>
+            </select>
+          </label>
+        </div>
 
         {/* グラフとX軸ヘルプボタンのコンテナ */}
         <div className={styles.graphAndHelpContainer}>
           {/* 負荷推移グラフ */}
           <ResponsiveContainer width="95%" height={500}>
             <LineChart 
-              data={weeklyData}
+              data={filteredWeeklyData}
               margin={{ top: 5, right: 20, left: 0, bottom: 30 }}
             >
               <CartesianGrid strokeDasharray="3 3" />
@@ -172,8 +213,8 @@ const HistoryPage = () => {
               <YAxis
                 domain={[
                   0,
-                  weeklyData.length > 0
-                    ? Math.max(...weeklyData.map(d => Number(d[selectedCategory]) || 0), 100)
+                  filteredWeeklyData.length > 0
+                    ? Math.max(...filteredWeeklyData.map(d => Number(d[selectedCategory]) || 0), 100)
                     : 100,
                 ]}
               />
