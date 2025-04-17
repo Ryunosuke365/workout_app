@@ -159,10 +159,10 @@ const HistoryPage = () => {
         {/* グラフとX軸ヘルプボタンのコンテナ */}
         <div className={styles.graphAndHelpContainer}>
           {/* 負荷推移グラフ */}
-          <ResponsiveContainer width="90%" height={500}>
+          <ResponsiveContainer width="95%" height={500}>
             <LineChart 
               data={weeklyData}
-              margin={{ top: 5, right: 40, left: 20, bottom: 30 }}
+              margin={{ top: 5, right: 20, left: 0, bottom: 30 }}
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
@@ -210,12 +210,6 @@ const HistoryPage = () => {
               <div className={styles.axisHelpPopup}>
                 <p>W01、W02などの表記は、年間の週番号を表しています。</p>
                 <p>例えば、2025W16は2025年の第16週目を意味します。</p>
-                <button 
-                  className={styles.closeButton}
-                  onClick={() => setShowAxisHelp(false)}
-                >
-                  閉じる
-                </button>
               </div>
             )}
           </div>
