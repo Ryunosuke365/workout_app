@@ -179,6 +179,7 @@ const HistoryPage = () => {
               }}
               labelStyle={{ color: '#ffcc00' }}
               itemStyle={{ color: '#e0e0e0' }}
+              labelFormatter={(value) => `${Math.floor(value/100)}W${String(value % 100).padStart(2, '0')}`}
             />
             <Line
               type="monotone"
