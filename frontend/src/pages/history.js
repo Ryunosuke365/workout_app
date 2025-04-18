@@ -217,7 +217,6 @@ const HistoryPage = () => {
                 tickFormatter={(weekNum) => {
                   const year = Math.floor(weekNum / 100);
                   const week = weekNum % 100;
-                  // ISO 8601では週番号に先頭のゼロをつけないのが正式
                   return `W${week}`;
                 }}
                 interval="preserveStartEnd"
@@ -242,7 +241,6 @@ const HistoryPage = () => {
                 labelFormatter={(value) => {
                   const year = Math.floor(value / 100);
                   const week = value % 100;
-                  // ISO 8601では「YYYY-Www」形式が正式
                   return `${year}-W${week}`;
                 }}
               />
@@ -266,7 +264,7 @@ const HistoryPage = () => {
             </button>
             {showAxisHelp && (
               <div className={styles.axisHelpPopup}>
-                <p>W1～W53の表記は、ISO 8601規格による年間の週番号を表しています。</p>
+                <p>W1~W53の表記は、ISO 8601規格による年間の週番号を表しています。</p>
                 <p>ISO 8601では、年の最初の週(W1)は、その年の最初の木曜日を含む週と定義されます。</p>
                 <p>例えば、2025-W5は2025年の第5週を意味します。</p>
               </div>

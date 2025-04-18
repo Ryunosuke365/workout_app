@@ -72,14 +72,14 @@ const useHistory = () => {
   }, [authGet, handleAuthError, setMessage]);
 
   /**
-   * 週次データ（直近1週間の推移）を取得
+   * グラフ用データを取得
    */
-  const fetchWeeklyData = useCallback(async () => {
+  const fetchGraphData = useCallback(async () => {
     try {
       const res = await authGet(`${API_URL}/weekly`);
       setWeeklyData(res.data.weeklyData ?? []);
     } catch (err) {
-      handleAuthError(err, setMessage, "週次データの取得に失敗しました");
+      handleAuthError(err, setMessage, "グラフ用データの取得に失敗しました");
     }
   }, [authGet, handleAuthError, setMessage]);
 
@@ -93,7 +93,7 @@ const useHistory = () => {
   const fetchInitialData = useCallback(async () => {
     try {
       // 合計データ & 週次データは並列で取得
-      await Promise.all([fetchTotals(), fetchWeeklyData()]);
+      await Promise.all([fetchTotals(), fetchGraphData()]);
 
       const dates = await fetchAvailableDates();
 
@@ -107,7 +107,7 @@ const useHistory = () => {
     }
   }, [
     fetchTotals,
-    fetchWeeklyData,
+    fetchGraphData,
     fetchAvailableDates,
     fetchDailyHistory,
     handleAuthError,
