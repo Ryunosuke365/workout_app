@@ -167,13 +167,19 @@ const SettingPage = () => {
 
                     // 1回目の確認
                     const confirm1 = window.confirm("本当にアカウントを削除しますか？");
-                    if (!confirm1) return;
+                    if (!confirm1) {
+                      setDeleteConfirmation(false)
+                      return;
+                    }
 
                     // 2回目の確認
                     const confirm2 = window.confirm(
                       "この操作は取り消せません。\n全データが完全に削除されます。\n\n本当に実行してもよろしいですか？"
                     );
-                    if (!confirm2) return;
+                    if (!confirm2) {
+                      setDeleteConfirmation(false)
+                      return;
+                    }
 
                     handleAccountDelete(router);
                   }}
