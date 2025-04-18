@@ -169,6 +169,7 @@ const SettingPage = () => {
                     const confirm1 = window.confirm("本当にアカウントを削除しますか？");
                     if (!confirm1) {
                       setDeleteConfirmation(false)
+                      setDeletePassword("")
                       return;
                     }
 
@@ -178,6 +179,7 @@ const SettingPage = () => {
                     );
                     if (!confirm2) {
                       setDeleteConfirmation(false)
+                      setDeletePassword("")
                       return;
                     }
 
