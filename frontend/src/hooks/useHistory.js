@@ -1,51 +1,54 @@
+// hooks/useHistory.js
 import { useState, useCallback, useEffect } from "react";
 import useAuth from "./useAuth";
 
 // APIのベースURL（履歴関連）
 const API_URL = "https://loadlog.jp/api/history";
 
+/**
+ * useHistory カスタムフック
+ * ・日次履歴データの取得と管理
+ * ・合計データと週次グラフデータの取得
+ * ・利用可能な日付一覧の取得
+ */
 const useHistory = () => {
-  // 認証系処理のカスタムフック
   const { handleAuthError, authGet } = useAuth();
 
   // 日次履歴データ
   const [dailyHistory, setDailyHistory] = useState([]);
-
-  // 現在選択中の日付
+  // 選択中の日付
   const [selectedDate, setSelectedDate] = useState("");
-
-  // 履歴が存在する日付一覧
+  // 利用可能な日付一覧
   const [availableDates, setAvailableDates] = useState([]);
-
-  // カテゴリーごとの合計負荷
+  // 部位ごとの合計負荷
   const [categoryTotals, setCategoryTotals] = useState([]);
-
-  // 全体の合計負荷
+  // 全体合計負荷
   const [overallTotal, setOverallTotal] = useState(0);
-
-  // 週次データ（推移グラフなど用）
+  // 週次データ
   const [weeklyData, setWeeklyData] = useState([]);
-
-  // 現在選択中の集計項目（total_load など）
+  // 選択中の集計項目
   const [selectedCategory, setSelectedCategory] = useState("total_load");
-
-  // ユーザーへのメッセージ表示用
+  // 軸説明表示
+  const [showAxisHelp, setShowAxisHelp] = useState(false);
+  // 期間フィルター
+  const [periodFilter, setPeriodFilter] = useState("3months");
+  // メッセージ
   const [message, setMessage] = useState("");
 
-  /**
-   * データが存在する日付一覧を取得
-   */
+  // 日付一覧取得
   const fetchAvailableDates = useCallback(async () => {
-    const res = await authGet(`${API_URL}/dates`);
-    const dates = res.data.dates ?? [];
-    setAvailableDates(dates);
-    return dates;
-  }, [authGet]);
+    try {
+      const res = await authGet(`${API_URL}/dates`);
+      const dates = res.data.dates ?? [];
+      setAvailableDates(dates);
+      return dates;
+    } catch (err) {
+      handleAuthError(err, setMessage, "日付一覧の取得に失敗しました");
+      return [];
+    }
+  }, [authGet, handleAuthError]);
 
-  /**
-   * 指定した日付の日次履歴を取得
-   * @param date 対象日付
-   */
+  // 日次履歴取得
   const fetchDailyHistory = useCallback(
     async (date) => {
       try {
@@ -55,12 +58,10 @@ const useHistory = () => {
         handleAuthError(err, setMessage, "日次履歴の取得に失敗しました");
       }
     },
-    [authGet, handleAuthError, setMessage]
+    [authGet, handleAuthError]
   );
 
-  /**
-   * 合計データ（カテゴリーごとの合計 & 全体合計）を取得
-   */
+  // 合計データ取得
   const fetchTotals = useCallback(async () => {
     try {
       const res = await authGet(`${API_URL}/totals`);
@@ -69,11 +70,9 @@ const useHistory = () => {
     } catch (err) {
       handleAuthError(err, setMessage, "合計データの取得に失敗しました");
     }
-  }, [authGet, handleAuthError, setMessage]);
+  }, [authGet, handleAuthError]);
 
-  /**
-   * グラフ用データを取得
-   */
+  // 週次データ取得
   const fetchGraphData = useCallback(async () => {
     try {
       const res = await authGet(`${API_URL}/weekly`);
@@ -81,22 +80,13 @@ const useHistory = () => {
     } catch (err) {
       handleAuthError(err, setMessage, "グラフ用データの取得に失敗しました");
     }
-  }, [authGet, handleAuthError, setMessage]);
+  }, [authGet, handleAuthError]);
 
-  /**
-   * 初期データの一括取得処理
-   * ・合計データ
-   * ・週次データ
-   * ・日付一覧
-   * ・最新日付の履歴
-   */
+  // 初期データ取得
   const fetchInitialData = useCallback(async () => {
     try {
-      // 合計データ & 週次データは並列で取得
       await Promise.all([fetchTotals(), fetchGraphData()]);
-
       const dates = await fetchAvailableDates();
-
       if (dates.length > 0) {
         const firstDate = dates[0];
         setSelectedDate(firstDate);
@@ -105,24 +95,13 @@ const useHistory = () => {
     } catch (err) {
       handleAuthError(err, setMessage, "初期データの取得に失敗しました");
     }
-  }, [
-    fetchTotals,
-    fetchGraphData,
-    fetchAvailableDates,
-    fetchDailyHistory,
-    handleAuthError,
-    setMessage,
-  ]);
+  }, [fetchTotals, fetchGraphData, fetchAvailableDates, fetchDailyHistory, handleAuthError]);
 
-  /**
-   * 初期表示時のデータ取得
-   */
   useEffect(() => {
     fetchInitialData();
   }, [fetchInitialData]);
 
   return {
-    // ステート
     dailyHistory,
     selectedDate,
     availableDates,
@@ -130,14 +109,13 @@ const useHistory = () => {
     overallTotal,
     weeklyData,
     selectedCategory,
+    showAxisHelp,
+    periodFilter,
     message,
-
-    // ステートのSetter
     setSelectedDate,
     setSelectedCategory,
-    setMessage,
-
-    // 操作系関数
+    setShowAxisHelp,
+    setPeriodFilter,
     fetchDailyHistory,
   };
 };

@@ -17,9 +17,7 @@
   justify-content: space-between;
   align-items: center;
   width: 90%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 30px;
+  margin: 0 auto 30px;
   padding: 15px 30px;
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
@@ -40,9 +38,7 @@
   justify-content: space-between;
   width: 90%;
   gap: 30px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 30px;
+  margin: 0 auto 30px;
 }
 
 .leftColumn {
@@ -51,7 +47,8 @@
   backdrop-filter: blur(8px);
   border-radius: 10px;
   padding: 20px;
-  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2), 0 4px 15px rgba(0, 0, 0, 0.7);
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2),
+              0 4px 15px rgba(0, 0, 0, 0.7);
 }
 
 .historyHeader {
@@ -59,14 +56,11 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 20px;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  width: 100%;
+  padding: 20px 0;
   position: relative;
 }
 
 .historyTitle {
-  text-align: center;
   font-size: 22px;
   font-weight: 600;
   color: #c1a57b;
@@ -76,19 +70,19 @@
 }
 
 .dateSelect {
+  position: absolute;
+  right: 0;
   padding: 10px;
   font-size: 16px;
   border: none;
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.1);
-  color: white;
+  color: #fff;
   outline: none;
-  position: absolute;
-  right: 0;
 }
 
 .dateSelect option {
-  background-color: #333; 
+  background-color: #333;
   color: #fff;
 }
 
@@ -132,7 +126,8 @@
   backdrop-filter: blur(8px);
   border-radius: 10px;
   padding: 20px;
-  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2), 0 4px 15px rgba(0, 0, 0, 0.7);
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2),
+              0 4px 15px rgba(0, 0, 0, 0.7);
   text-align: center;
 }
 
@@ -191,7 +186,6 @@
   margin-bottom: 20px;
 }
 
-/* グラフコントロール部分 */
 .graphControls {
   display: flex;
   justify-content: center;
@@ -204,7 +198,6 @@
   font-size: 16px;
   font-weight: 600;
   color: #e0e0e0;
-  display: inline-block;
 }
 
 .graphSelect {
@@ -223,8 +216,8 @@
   background: rgba(255, 255, 255, 0.2);
 }
 
-.graphSelect option{
-  background-color: #333; 
+.graphSelect option {
+  background-color: #333;
   color: #fff;
 }
 
@@ -234,7 +227,6 @@
   color: #ffcc00;
 }
 
-/* X軸ヘルプボタンとポップアップ */
 .axisHelpContainer {
   position: absolute;
   bottom: 35px;
@@ -269,7 +261,6 @@
   position: absolute;
   bottom: 25px;
   right: -10px;
-  transform: none;
   width: 250px;
   background-color: rgba(30, 30, 30, 0.95);
   border: 1px solid #444;
@@ -279,7 +270,6 @@
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
   color: #e0e0e0;
   text-align: left;
-  margin-bottom: 0;
   font-size: 13px;
 }
 
@@ -293,7 +283,6 @@
   position: absolute;
   bottom: -8px;
   right: 8px;
-  margin-left: 0;
   border-width: 8px;
   border-style: solid;
   border-color: #444 transparent transparent transparent;
@@ -315,10 +304,25 @@
   background-color: rgba(255, 204, 0, 0.4);
 }
 
-/* グラフとヘルプボタンのコンテナ */
 .graphAndHelpContainer {
   position: relative;
   width: 100%;
   display: flex;
   justify-content: center;
+}
+
+/* Recharts Tooltip 用スタイル */
+.tooltip {
+  background-color: rgba(30, 30, 30, 0.9) !important;
+  border: 1px solid #444 !important;
+  border-radius: 5px !important;
+  color: #e0e0e0;
+}
+
+.tooltipLabel {
+  color: #ffcc00 !important;
+}
+
+.tooltipItem {
+  color: #e0e0e0 !important;
 }
