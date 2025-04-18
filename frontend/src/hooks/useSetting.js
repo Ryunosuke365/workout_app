@@ -60,6 +60,9 @@ const useSetting = () => {
         newPassword,
       });
       setMessage(res.data.message || "パスワードを更新しました");
+      setTimeout(() => {
+        setMessage("");
+      }, 3000);
       setCurrentPassword("");
       setNewPassword("");
       setShowPasswordForm(false);
