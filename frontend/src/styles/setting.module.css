@@ -1,83 +1,108 @@
-/* ───────── アカウント情報ボード ───────── */
-.accountBoard{
-  width:90%;
-  margin:0px auto;
-  display:grid;
-  grid-template-columns:repeat(3, minmax(200px, 1fr));
-  gap:20px;
+/* ───────────────────────────────
+ *  Setting Page – module‑scoped CSS
+ *  デスクトップ基準で書き、末尾 @media(max‑width:480px) でスマホ上書き
+ * ─────────────────────────────── */
+
+/* ========== ① アカウント情報ボード ========== */
+.accountBoard {
+  width: 90%;
+  margin: 0 auto 40px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(220px, 1fr));
+  gap: 20px;
 }
 
-/* ３カラム共通 */
-.column{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:14px;
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
   padding: 15px;
 }
 
-/* スライドボックス（パスワード変更・アカウント削除） */
-.slideBox{
-  margin-top:10px;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-  width:100%;
+/* 動的に高さが伸びるカラム（開閉） */
+.column--open {
+  background: rgba(255,255,255,0.05);
+  border-radius: 10px;
+}
+
+.slideBox {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
   padding: 15px;
   background-color: rgba(0,0,0,0.1);
-  border-radius: 5px;
+  border-radius: 6px;
 }
 
-/* ラベル行 */
-.infoLine{
-  display:flex;
-  align-items:center;
-  gap:8px;
+.infoLine {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
-.infoLabel{
-  width:100px;
-  font-weight:600;
+.infoLabel { width: 100px; font-weight: 600; }
+.warningText{ color:#ff6b6b; font-size:14px; text-align:center; font-weight:500; }
+
+/* ボタングループ（編集／削除など） */
+.buttonGroup { display: inline-flex; gap: 10px; }
+
+/* ========== ② 日付別履歴編集テーブル ========== */
+.historyBoard { width: 90%; margin: 0 auto 60px; }
+.historyHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 20px 0;
 }
+.dateSelect { max-width: 200px; }
 
-/* 警告テキスト */
-.warningText{
-  color:#ff6b6b;
-  font-size:14px;
-  text-align:center;
-  font-weight:500;
+.editingRow { background: rgba(255,255,255,0.05); }
+
+/* 種目名セル折り返し可 */
+.recordExerciseContainer { display:block;width:100%;white-space:normal;overflow:visible;text-overflow:clip; }
+
+/* ───────────────────────────────
+ *  グローバルユーティリティ上書き（ローカルクラスと連結して純粋回避）
+ * ─────────────────────────────── */
+.accountBoard :global(.btn) { padding: 6px 12px; font-size:.85rem; }
+.historyBoard :global(.table) { table-layout:auto; min-width:0; }
+.historyBoard :global(.table) th { white-space:nowrap; }
+
+/* ───────────────────────────────
+ *  モバイル上書き  ≤480px
+ * ─────────────────────────────── */
+@media (max-width:480px) {
+  /* ① アカ情報ボード：縦積み → 1 列 */
+  .accountBoard { grid-template-columns: 1fr; gap: 15px; }
+  .column { align-items: stretch; padding: 12px; }
+
+  /* スライドボックス余白縮小 */
+  .slideBox { padding: 12px; gap: 8px; }
+
+  /* ② 履歴ボード幅 100% & ヘッダー縦 */
+  .historyBoard { width: 100%; }
+  .historyHeader { flex-direction: column; gap: 10px; padding: 12px 0; }
+  .dateSelect { width: 100%; max-width: none; }
+
+  /* テーブルを横スクロールコンテナ化 */
+  .historyBoard :global(.table) {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+  }
+  .historyBoard :global(.table) th,
+  .historyBoard :global(.table) td {
+    padding: 6px 4px;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  /* 種目列だけ幅可変 */
+  .historyBoard :global(.table) th:nth-child(2),
+  .historyBoard :global(.table) td:nth-child(2) { min-width: 120px; white-space: normal; }
+
+  /* ボタングループ縦並び */
+  .buttonGroup { flex-direction: column; gap: 6px; }
 }
-
-/* ───────── 履歴編集ボード ───────── */
-.historyBoard{
-  width:90%;
-  margin:0px auto;
-}
-
-.historyBoard th {
-  white-space: nowrap;
-}
-
-/* ヘッダー */
-.historyHeader{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:20px;
-  padding:20px 0;
-}
-.dateSelect{max-width:200px;}
-
-/* 編集行 */
-.editingRow{
-  background:rgba(255,255,255,0.05);
-}
-
-/* ボタングループ */
-.buttonGroup{
-  display:inline-flex;
-  gap:10px;
-}
-
-/* 既存テーマに合わせた色は .btn--* で共通化済み */
-
-/* 追加でページ固有の細かな調整があればここに記述 */
