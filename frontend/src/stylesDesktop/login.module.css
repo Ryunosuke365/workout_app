@@ -57,11 +57,11 @@
  * ─────────────────────────────── */
  @media (max-width: 480px) {
   /* ----- 背景をモバイル版グラデーションに差し替え ----- */
-  body {
+  :global(body) {
     /* globals.css のダーク BG を一旦上書き */
     background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
   }
-
+  
   /* グラスカードをワイド一杯に & ふわっと影を強く */
   .card {
     width: 100%;
