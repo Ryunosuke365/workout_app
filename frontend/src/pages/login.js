@@ -1,17 +1,12 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import stylesDesktop from "@/stylesDesktop/login.module.css";
-import stylesMobile from "@/stylesMobile/login.module.css";
+import styles from "@/styles/login.module.css";
 import useAuth from "@/hooks/useAuth";
-import useDeviceDetect from "@/hooks/useDeviceDetect";
 
 const API_URL = "https://loadlog.jp/api/login";
 
 const Login = () => {
-   // デスクトップ／モバイルで CSS を切替
-   const { isMobile, styles } = useDeviceDetect(stylesDesktop, stylesMobile);
-
   const router = useRouter();
   
   const { setToken, authPost, handleAuthError } = useAuth();
