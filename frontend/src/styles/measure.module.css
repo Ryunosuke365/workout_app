@@ -6,145 +6,154 @@
 
 /* ========== 左カラム ========== */
 .left{
-  flex:6.0;
-  display:flex;
-  flex-direction:column;
-  gap:30px;
+  flex: 6;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
 
 /* 上段２枚（部位選択＋種目登録）横並び */
 .topRow{
-  display:grid;
-  grid-template-columns:2fr 8fr;   /* 左20% : 右80% */
-  gap:20px;
+  display: grid;
+  grid-template-columns: 2fr 8fr;   /* 左20% : 右80% */
+  gap: 20px;
 }
 
 /* 種目登録フォーム幅調整 */
-.topRow :global(.form-group){
-  width:auto;
-  max-width:1000px;
+.topRow :global(.form-group) {
+  width: auto;
+  max-width: 1000px;
 }
-.topRow :global(.form-group .form-control){
-  flex:1;
-  width:auto;
+.topRow :global(.form-group .form-control) {
+  flex: 1;
+  width: auto;
 }
 
 /* 重量・回数欄を適度に狭める */
 .inputMini{
-  width:80px;
-  max-width:100%;
-  padding:10px;
-  box-sizing:border-box;
+  width: 80px;
+  max-width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 /* 登録済みテーブル：種目名セル内で折返し可 */
 .exerciseNameContainer{
-  display:block;
-  width:100%;
-  white-space:normal;
-  overflow:visible;
-  text-overflow:clip;
+  display: block;
+  width: 100%;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
 }
 
 /* ========== 右カラム「今日の記録」 ========== */
 .right{
-  flex:4.0;
+  flex: 4;
 }
 .recordExerciseContainer{
-  display:block;
-  width:100%;
-  white-space:normal;
-  overflow:visible;
-  text-overflow:clip;
+  display: block;
+  width: 100%;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
 }
 .right th{
-  white-space:nowrap;
+  white-space: nowrap;
 }
 
 /* ───────────────────────────────
  *  スマホ上書き (≤480px)
  * ─────────────────────────────── */
-@media (max-width:480px){
+@media (max-width: 480px) {
 
   /* 左右カラムを縦積み（100% 幅） */
   .left,
-  .right{
-    flex:1 1 100%;
-    width:100%;
+  .right {
+    flex: 1 1 100%;
+    width: 100%;
   }
 
   /* 上段２枚を縦並びに変更 */
-  .topRow{
-    grid-template-columns:1fr;
-    gap:12px;
+  .topRow {
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
 
-  /* カード間隔を縮める */
+  /* カードパディング縮小 */
   .left :global(.card),
-  .right :global(.card){
-    padding:12px;
+  .right :global(.card) {
+    padding: 12px;
   }
 
   /* 入力欄・ボタンをタップしやすく */
-  .topRow :global(.form-group .form-control){
-    padding:8px;
-    font-size:.9rem;
+  .topRow :global(.form-group .form-control) {
+    padding: 8px;
+    font-size: .9rem;
   }
   .left :global(.btn),
-  .right :global(.btn){
-    padding:8px;
-    font-size:.85rem;
-    border-radius:8px;
+  .right :global(.btn) {
+    padding: 8px;
+    font-size: .85rem;
+    border-radius: 8px;
   }
 
-  /* テーブルをスマホサイズにフィット */
-  .left :global(.table),
-  .right :global(.table){
-    display:block;
-    width:100%;
-    min-width:600px;   /* 列が潰れない最小幅 */
-    table-layout:fixed;
-    font-size:12px;    /* 共通サイズ縮小 */
-  }
-  .left :global(.table th),
-  .right :global(.table th){
-    padding:6px 4px;
-    font-size:12px;
-  }
-  .left :global(.table td),
-  .right :global(.table td){
-    padding:6px 2px;
-    font-size:11px;
+  /* テーブル全体をコンテナ幅にフィット */
+  .left > :global(.card) :global(.table),
+  .right > :global(.card) :global(.table) {
+    width: 100%;
+    table-layout: auto;
+    min-width: 0;
+    overflow-wrap: break-word;
   }
 
-  /* 重量・回数入力をさらにミニマム */
-  .inputMini{
-    width:56px;
-    padding:6px;
-    font-size:.8rem;
+  /* セル折り返し＆サイズ調整 */
+  .left > :global(.card) :global(.table) th,
+  .left > :global(.card) :global(.table) td,
+  .right > :global(.card) :global(.table) th,
+  .right > :global(.card) :global(.table) td {
+    white-space: normal;
+    word-break: break-word;
+    padding: 6px 4px;
+    font-size: 11px;
   }
 
-  /* 種目名の横スクロールを有効化（長文対策） */
+  /* 重量・回数・操作列の幅指定 */
+  .left > :global(.card) :global(.table) th:nth-child(n+2),
+  .left > :global(.card) :global(.table) td:nth-child(n+2),
+  .right > :global(.card) :global(.table) th:nth-child(n+2),
+  .right > :global(.card) :global(.table) td:nth-child(n+2) {
+    width: 60px;
+    min-width: 60px;
+  }
+
+  /* ボタン・入力欄をさらに小さく */
+  .inputMini {
+    width: 56px;
+    padding: 6px;
+    font-size: .8rem;
+  }
+  .left > :global(.card) :global(.btn) {
+    min-width: 56px;
+    padding: 6px 0;
+    font-size: .75rem;
+  }
+
+  /* 種目名セルの横スクロール */
   .exerciseNameContainer,
-  .recordExerciseContainer{
-    max-width:100%;
-    overflow-x:auto;
-    white-space:nowrap;
+  .recordExerciseContainer {
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
   }
   .exerciseNameContainer::-webkit-scrollbar,
-  .recordExerciseContainer::-webkit-scrollbar{
-    height:2px;
-    width:0;
+  .recordExerciseContainer::-webkit-scrollbar {
+    height: 2px;
+    width: 0;
   }
 
-  /* 「今日の記録」カード余白調整 */
-  .right :global(.card){
-    margin-top:15px;
-  }
-
-  /* エラーメッセージを読みやすく */
-  .left :global(.alert){
-    margin:8px 0;
-    font-size:0.85rem;
+  /* エラーメッセージ調整 */
+  .left :global(.alert) {
+    margin: 8px 0;
+    font-size: 0.85rem;
   }
 }
