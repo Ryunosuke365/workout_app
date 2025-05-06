@@ -1,7 +1,7 @@
 /* ───────────────────────────────
  *  Login Page – module-scoped CSS
  *  デスクトップ基準で書き、
- *  末尾 @media (max-width:480px) でモバイル上書き
+ *  末尾の @media でモバイル上書き
  * ─────────────────────────────── */
 
 /* ---------- 共通（≒デスクトップ） ---------- */
@@ -16,7 +16,6 @@
   animation: fade-in 0.6s ease-out;
 }
 
-/* タイトル */
 .title {
   font-size: 2rem;
   font-weight: 600;
@@ -25,7 +24,6 @@
   text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
 }
 
-/* ガラスカード */
 .card {
   width: min(420px, 100%);
   display: flex;
@@ -37,25 +35,20 @@
   animation: slide-up 0.5s 0.15s ease-out both;
 }
 
-/* キーフレーム */
-@keyframes fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-@keyframes slide-up {
-  from { transform: translateY(20px); opacity: 0; }
-  to   { transform: translateY(0);   opacity: 1; }
-}
+/* アニメーション */
+@keyframes fade-in   { from {opacity:0} to {opacity:1} }
+@keyframes slide-up  { from {transform:translateY(20px);opacity:0}
+                       to   {transform:translateY(0);  opacity:1} }
 
 /* ---------- モバイル上書き ( ≤480px ) ---------- */
 @media (max-width: 480px) {
-  /* 1) このページだけ背景を変えたい場合 */
+  /* 背景をこのページだけグラデーションに */
   .container {
     background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
     width: 100%;
   }
 
-  /* 2) カードを全幅に & 影を強調 */
+  /* カードを全幅 + 影強化 */
   .card {
     width: 100%;
     padding: 1rem;
@@ -65,25 +58,27 @@
       0 0 0   1px rgba(255, 255, 255, 0.15);
   }
 
-  /* 3) タイトル文字サイズ */
+  /* タイトルサイズ調整 */
   .title { font-size: 1.25rem; margin-bottom: 0.25rem; }
 
-  /* 4) 共通フォーム部品をタップしやすく :global で指定 */
-  :global(.form-control) {
+  /* 共通フォーム部品をタップしやすく :global で指定
+     ───────────────────────────── */
+  .container :global(.form-control) {
     padding: 0.75rem;
     font-size: 1rem;
     border-radius: 10px;
   }
-  :global(.btn) {
+
+  .container :global(.btn) {
     padding: 0.9rem;
     font-size: 1rem;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(255, 126, 95, 0.35);
   }
-  :global(.btn--success) { width: 100%; }
 
-  /* 5) エラーメッセージを読みやすく */
-  :global(.alert) {
+  .container :global(.btn--success) { width: 100%; }
+
+  .container :global(.alert) {
     margin-top: 0.5rem;
     font-size: 0.85rem;
     padding: 0.6rem;
