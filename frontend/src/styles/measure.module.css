@@ -20,7 +20,10 @@
 }
 
 /* 種目登録フォーム幅調整 */
-.topRow :global(.form-group){width:auto;max-width:1000px;}
+.topRow :global(.form-group){
+  width:auto;
+  max-width:1000px;
+}
 .topRow :global(.form-group .form-control){
   flex:1;
   width:auto;
@@ -44,7 +47,9 @@
 }
 
 /* ========== 右カラム「今日の記録」 ========== */
-.right{flex:4.0;}
+.right{
+  flex:4.0;
+}
 .recordExerciseContainer{
   display:block;
   width:100%;
@@ -52,10 +57,12 @@
   overflow:visible;
   text-overflow:clip;
 }
-.right th{white-space:nowrap;}
+.right th{
+  white-space:nowrap;
+}
 
 /* ───────────────────────────────
- *  スマホ上書き  ≤480px
+ *  スマホ上書き (≤480px)
  * ─────────────────────────────── */
 @media (max-width:480px){
 
@@ -73,8 +80,10 @@
   }
 
   /* カード間隔を縮める */
-  .left .card,
-  .right.card{padding:12px;}
+  .left :global(.card),
+  .right :global(.card){
+    padding:12px;
+  }
 
   /* 入力欄・ボタンをタップしやすく */
   .topRow :global(.form-group .form-control){
@@ -91,7 +100,11 @@
   /* テーブルをスマホサイズにフィット */
   .left :global(.table),
   .right :global(.table){
-    font-size:12px;              /* th/td 共通サイズを縮小 */
+    display:block;
+    width:100%;
+    min-width:600px;   /* 列が潰れない最小幅 */
+    table-layout:fixed;
+    font-size:12px;    /* 共通サイズ縮小 */
   }
   .left :global(.table th),
   .right :global(.table th){
@@ -106,7 +119,7 @@
 
   /* 重量・回数入力をさらにミニマム */
   .inputMini{
-    width:64px;
+    width:56px;
     padding:6px;
     font-size:.8rem;
   }
@@ -125,7 +138,7 @@
   }
 
   /* 「今日の記録」カード余白調整 */
-  .right.card{
+  .right :global(.card){
     margin-top:15px;
   }
 
