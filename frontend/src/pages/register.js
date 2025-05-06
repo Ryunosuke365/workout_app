@@ -8,9 +8,10 @@ import useAuth from "@/hooks/useAuth";
 const API_URL = "https://loadlog.jp/api/register";
 
 const Register = () => {
-  const { handleAuthError, authPost } = useAuth();
-
+  // デバイス検出とスタイルの選択にカスタムフックを使用
   const { isMobile, styles } = useDeviceDetect(stylesDesktop, stylesMobile);
+
+  const { handleAuthError, authPost } = useAuth();
   const [formData, setFormData] = useState({
     user_id: "",
     password: "",
@@ -74,72 +75,93 @@ const Register = () => {
   };
 
   return (
-    <div className={styles.container}>
+    <main className={styles.container}>
       <h1 className={styles.title}>負荷量計算アプリ</h1>
-      <h2 className={styles.heading2}>新規登録</h2>
 
-      <form onSubmit={handleRegister} className={styles.form}>
-        <div className={styles.inputContainer}>
+      {/* ───────── 新規登録フォーム ───────── */}
+      <form onSubmit={handleRegister} className={`${styles.card} card`}>
+        <h2 className="section-header">新規登録</h2>
+
+        {/* ユーザーID */}
+        <div className={styles.inputWrap}>
           <input
+            className="form-control"
             type="text"
             name="user_id"
             placeholder="ユーザーID"
             value={formData.user_id}
             onChange={handleInputChange}
-            className={styles.input}
             required
           />
           <span
-            className={styles.questionMark}
-            onClick={() => toggleHelp("ユーザーIDは5文字以上の英数字のみで入力してください。")}
+            className={styles.qm}
+            onClick={() =>
+              toggleHelp("ユーザーIDは4〜16文字の英数字のみです。")
+            }
           >
             ?
           </span>
         </div>
 
-        <div className={styles.inputContainer}>
+        {/* パスワード */}
+        <div className={styles.inputWrap}>
           <input
+            className="form-control"
             type="password"
             name="password"
             placeholder="パスワード"
             value={formData.password}
             onChange={handleInputChange}
-            className={styles.input}
             required
           />
           <span
-            className={styles.questionMark}
-            onClick={() => toggleHelp("パスワードは8文字以上で、大文字・小文字・数字をそれぞれ1文字以上含めてください。")}
+            className={styles.qm}
+            onClick={() =>
+              toggleHelp(
+                "8〜32文字で、大文字・小文字・数字をそれぞれ1文字以上含めてください。"
+              )
+            }
           >
             ?
           </span>
         </div>
 
-        <div className={styles.inputContainer}>
+        {/* 確認用パスワード */}
+        <div className={styles.inputWrap}>
           <input
+            className="form-control"
             type="password"
             name="confirm_password"
             placeholder="パスワード（確認）"
             value={formData.confirm_password}
             onChange={handleInputChange}
-            className={styles.input}
             required
           />
         </div>
 
-        <button type="submit" className={styles.button} disabled={isLoading}>
-          {isLoading ? "登録中..." : "登録"}
+        <button
+          type="submit"
+          className="btn btn--primary"
+          disabled={isLoading}
+        >
+          {isLoading ? "登録中…" : "登録"}
         </button>
+
+        {message && (
+          <p className="alert alert--warn" onClick={() => setMessage("")}>
+            {message}
+          </p>
+        )}
       </form>
 
-      {message && <p className={styles.message}>{message}</p>}
-
-      <Link href="/login" legacyBehavior>
-        <a className={styles.linkButton}>ログインページへ</a>
+      {/* ───────── ログインページへのリンク ───────── */}
+      <Link href="/login" className="btn btn--success">
+        ログインページへ
       </Link>
-      
+
+      {/* ───────── ツールチップ ───────── */}
       {helpText && <div className={styles.tooltip}>{helpText}</div>}
-    </div>
+    </main>
   );
 };
 
