@@ -65,13 +65,6 @@
  *  スマホ上書き (≤480px)
  * ─────────────────────────────── */
 @media (max-width: 480px) {
-  /* コンテナ全体を縦積みに */
-  :global(.rowContainer) {
-    flex-direction: column;
-    width: 100%;
-    gap: 15px;
-  }
-
   /* 左右カラムを縦積み（100% 幅） */
   .left,
   .right {
