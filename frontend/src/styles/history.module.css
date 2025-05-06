@@ -33,10 +33,6 @@
 }
 
 /* ─── ③ 履歴テーブル：列幅 & 改行制御 ─── */
-:global(.table) {
-  table-layout: auto;     /* 固定レイアウト解除 */
-  min-width: 0;           /* 親幅フィット */
-}
 .recordExerciseContainer {
   display: block;
   width: 100%;
