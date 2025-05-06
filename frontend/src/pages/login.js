@@ -9,10 +9,12 @@ import useDeviceDetect from "@/hooks/useDeviceDetect";
 const API_URL = "https://loadlog.jp/api/login";
 
 const Login = () => {
+   // デスクトップ／モバイルで CSS を切替
+   const { isMobile, styles } = useDeviceDetect(stylesDesktop, stylesMobile);
+
   const router = useRouter();
-  const { setToken, authPost, handleAuthError } = useAuth();
   
-  const { isMobile, styles } = useDeviceDetect(stylesDesktop, stylesMobile);
+  const { setToken, authPost, handleAuthError } = useAuth();
   const [formData, setFormData] = useState({ user_id: "", password: "" });
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
