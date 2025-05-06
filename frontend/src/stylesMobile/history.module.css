@@ -1,0 +1,489 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
+  font-family: 'Poppins', sans-serif;
+  color: #e0e0e0;
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.headerContainer {
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto 15px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+  z-index: 1;
+}
+
+.headerTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: #f5f5f5;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+.columnsContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 15px;
+  margin: 0 auto 15px;
+}
+
+.leftColumn {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  border-radius: 10px;
+  padding: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+  margin: 0 auto;
+}
+
+.historyHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  padding: 8px 5px;
+  position: relative;
+  width: 100%;
+  gap: 10px;
+}
+
+.historyTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #c1a57b;
+  margin: 0;
+  text-align: center;
+  flex-grow: 1;
+  position: relative;
+  left: 25%;
+  transform: translateX(-50%);
+}
+
+.dateSelect {
+  width: 50%;
+  max-width: 150px;
+  padding: 6px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  outline: none;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.dateSelect option {
+  background-color: #333;
+  color: #fff;
+}
+
+.historyTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: rgba(40, 40, 40, 0.7);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 0 auto;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  table-layout: fixed;
+}
+
+.historyTable th {
+  background: rgba(60, 60, 60, 0.8);
+  font-size: 12px;
+  font-weight: 600;
+  color: #c1a57b;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 8px 2px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.historyTable td {
+  font-size: 11px;
+  color: #ffffff;
+  background: rgba(30, 30, 30, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  margin: 2px;
+  padding: 8px 2px;
+  text-align: center;
+  vertical-align: middle;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.historyTable th:first-child {
+  border-top-left-radius: 8px;
+}
+
+.historyTable th:last-child {
+  border-top-right-radius: 8px;
+}
+
+.historyTable tr:last-child td:first-child {
+  border-bottom-left-radius: 8px;
+}
+
+.historyTable tr:last-child td:last-child {
+  border-bottom-right-radius: 8px;
+}
+
+.historyTable th:nth-child(1), .historyTable td:nth-child(1) { 
+  width: 12%;
+  min-width: 48px;
+  font-size: 10px;
+  padding: 8px 1px;
+}
+.historyTable th:nth-child(2), .historyTable td:nth-child(2) { 
+  width: 52%;
+}
+.historyTable th:nth-child(3), .historyTable td:nth-child(3) { 
+  width: 12%;
+  min-width: 48px;
+  font-size: 10px;
+  padding: 8px 0px;
+  text-align: center;
+}
+.historyTable th:nth-child(4), .historyTable td:nth-child(4) { 
+  width: 12%;
+  min-width: 48px;
+  font-size: 10px;
+  padding: 8px 0px;
+  text-align: center;
+}
+.historyTable th:nth-child(5), .historyTable td:nth-child(5) { 
+  width: 12%;
+  min-width: 48px;
+  font-size: 10px;
+  padding: 8px 1px;
+  text-align: center;
+}
+
+.historyTable td:nth-child(2) {
+  padding: 0;
+  white-space: nowrap;
+  overflow: visible;
+  position: relative;
+}
+
+.recordExerciseContainer {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 8px 5px;
+  width: 100%;
+  box-sizing: border-box;
+  white-space: nowrap;
+  display: block;
+  text-align: left;
+  font-size: 11px;
+  min-width: 16em;
+}
+
+.recordExerciseContainer::-webkit-scrollbar {
+  height: 2px;
+  width: 0;
+}
+
+.recordExerciseContainer::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+}
+
+.recordExerciseContainer::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+}
+
+.noDataMessage {
+  text-align: center;
+  font-size: 14px;
+  color: #bbb;
+  margin-top: 12px;
+}
+
+.rightColumn {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  border-radius: 10px;
+  padding: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+  text-align: center;
+  margin: 0 auto;
+}
+
+.rightColumn h2 {
+  color: #c1a57b;
+  font-size: 16px;
+  margin-top: 0;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.summaryTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: rgba(40, 40, 40, 0.7);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 0 auto;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.summaryTable th,
+.summaryTable td {
+  padding: 8px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  vertical-align: middle;
+}
+
+.summaryTable th:first-child {
+  border-top-left-radius: 8px;
+}
+
+.summaryTable th:last-child {
+  border-top-right-radius: 8px;
+}
+
+.summaryTable tr:last-child td:first-child {
+  border-bottom-left-radius: 8px;
+}
+
+.summaryTable tr:last-child td:last-child {
+  border-bottom-right-radius: 8px;
+}
+
+.summaryTable th {
+  background: rgba(60, 60, 60, 0.8);
+  font-size: 13px;
+  font-weight: 600;
+  color: #c1a57b;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.summaryTable td {
+  font-size: 13px;
+  color: #ffffff;
+  background: rgba(30, 30, 30, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  margin: 2px;
+}
+
+.fixedTotalRow {
+  font-weight: 600;
+}
+
+.graphContainer {
+  width: 100%;
+  margin: 0 auto 20px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  padding: 12px 12px 20px 12px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+  text-align: center;
+  position: relative;
+}
+
+.graphContainer h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #c1a57b;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.graphControls {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+  width: 100%;
+}
+
+.graphSelectLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: #e0e0e0;
+  text-align: right;
+  flex-shrink: 0;
+  margin-right: 5px;
+}
+
+.graphSelect {
+  padding: 8px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  width: auto;
+  min-width: 100px;
+  outline: none;
+  transition: background 0.3s;
+}
+
+.graphSelect:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.graphSelect option {
+  background-color: #333;
+  color: #fff;
+}
+
+.graphCanvas {
+  width: 100%;
+  height: 500px;
+  margin-top: 15px;
+}
+
+.message {
+  font-size: 14px;
+  text-align: center;
+  margin: 10px 0;
+}
+
+.axisHelpContainer {
+  position: absolute;
+  bottom: 25px;
+  right: 10px;
+  z-index: 10;
+}
+
+.axisHelpButton {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: rgba(255, 204, 0, 0.2);
+  border: 1px solid #ffcc00;
+  color: #ffcc00;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  z-index: 10;
+}
+
+.axisHelpButton:hover {
+  background-color: rgba(255, 204, 0, 0.3);
+}
+
+.axisHelpPopup {
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  margin-bottom: 5px;
+  background: rgba(0, 0, 0, 0.85);
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+  width: 250px;
+  text-align: left;
+  font-size: 14px;
+  line-height: 1.5;
+  z-index: 100;
+}
+
+.axisHelpPopup p {
+  margin: 8px 0;
+  color: #e0e0e0;
+}
+
+.axisHelpPopup:after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  right: 10px;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid rgba(0, 0, 0, 0.85);
+}
+
+.closeButton {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: #aaa;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.closeButton:hover {
+  color: #fff;
+}
+
+.graphAndHelpContainer {
+  position: absolute;
+  bottom: 15px;
+  right: 10px;
+  width: auto;
+  display: flex;
+  justify-content: flex-end;
+  z-index: 5;
+}
+
+.tooltip {
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 4px;
+  padding: 8px;
+  font-size: 12px;
+}
+
+.tooltipLabel {
+  color: #ffcc00 !important;
+  font-weight: 600 !important;
+}
+
+.tooltipItem {
+  color: #fff !important;
+} 

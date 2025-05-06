@@ -1,0 +1,83 @@
+/* ───────── アカウント情報ボード ───────── */
+.accountBoard{
+  width:90%;
+  margin:0px auto;
+  display:grid;
+  grid-template-columns:repeat(3, minmax(200px, 1fr));
+  gap:20px;
+}
+
+/* ３カラム共通 */
+.column{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:14px;
+  padding: 15px;
+}
+
+/* スライドボックス（パスワード変更・アカウント削除） */
+.slideBox{
+  margin-top:10px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  width:100%;
+  padding: 15px;
+  background-color: rgba(0,0,0,0.1);
+  border-radius: 5px;
+}
+
+/* ラベル行 */
+.infoLine{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.infoLabel{
+  width:100px;
+  font-weight:600;
+}
+
+/* 警告テキスト */
+.warningText{
+  color:#ff6b6b;
+  font-size:14px;
+  text-align:center;
+  font-weight:500;
+}
+
+/* ───────── 履歴編集ボード ───────── */
+.historyBoard{
+  width:90%;
+  margin:0px auto;
+}
+
+.historyBoard th {
+  white-space: nowrap;
+}
+
+/* ヘッダー */
+.historyHeader{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+  padding:20px 0;
+}
+.dateSelect{max-width:200px;}
+
+/* 編集行 */
+.editingRow{
+  background:rgba(255,255,255,0.05);
+}
+
+/* ボタングループ */
+.buttonGroup{
+  display:inline-flex;
+  gap:10px;
+}
+
+/* 既存テーマに合わせた色は .btn--* で共通化済み */
+
+/* 追加でページ固有の細かな調整があればここに記述 */

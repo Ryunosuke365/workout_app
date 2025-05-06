@@ -1,0 +1,70 @@
+/* stylesDesktop/measure.module.css */
+
+/* ───────── 左カラム ───────── */
+.left {
+  flex: 6.0;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* ───────── 上段２枚横並び ───────── */
+.topRow {
+  display: grid;
+  grid-template-columns: 2fr 8fr; /* 左20%：右80% */
+  gap: 20px;
+  width: 100%;
+}
+
+/* ─── 登録フォーム幅調整 ─── */
+.topRow :global(.form-group) {
+  width: auto;      /* global の 100% を打ち消し */
+  max-width: 1000px; /* 最大幅1000pxに制限 */
+}
+.topRow :global(.form-group .form-control) {
+  flex: 1;          /* 入力欄は伸び縮み */
+  width: auto;
+}
+
+
+/* ───────── 入力幅調整：重量・回数欄を適度に狭める ───────── */
+/* .inputMini は weight/reps 入力に付与済み */
+.inputMini {
+  width: 80px;         /* 固定幅を設定 */
+  max-width: 100%;     /* セルをはみ出さない */
+  padding: 10px;       /* 既存の padding を維持 */
+  box-sizing: border-box;
+}
+
+
+/* ───────── 種目名全表示 ───────── */
+.exerciseNameContainer {
+  display: block;
+  width: 100%;
+  white-space: normal; /* 折り返し可 */
+  overflow: visible;
+  text-overflow: clip;
+}
+
+
+
+
+/* ───────── 右カラムコンテナ ───────── */
+.right {
+  flex: 4.0;                   /* 左カラムとの比率 */
+}
+
+
+/* ───────── 種目名セル省略表示 ───────── */
+.recordExerciseContainer {
+  display: block;
+  width: 100%;
+  white-space: normal; /* 折り返し可 */
+  overflow: visible;
+  text-overflow: clip;
+}
+
+/* 3) ヘッダー文字が縦に折り返されないように */
+.right th {
+  white-space: nowrap;
+}

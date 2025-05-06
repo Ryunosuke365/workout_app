@@ -1,0 +1,582 @@
+/* Google Fonts: Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+/* ページ全体のコンテナスタイル */
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
+  font-family: 'Poppins', sans-serif;
+  color: #e0e0e0;
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ヘッダー部分のスタイル */
+.headerContainer {
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto 15px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+  z-index: 1;
+}
+
+.headerTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: #f5f5f5;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+/* アカウント情報関連のスタイル */
+.accountContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: 0 auto 15px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+}
+
+.accountContainer h2 {
+  color: #c1a57b;
+  text-align: center;
+  font-size: 16px;
+  margin: 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 5px;
+}
+
+/* スペーサーの非表示設定 */
+.spacer {
+  display: none !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* アカウント情報のカラムレイアウト */
+.accountContainer .column {
+  width: 100%;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.accountContainer .column .infoLine:nth-of-type(1) {
+  width: 48%;
+  margin: 0;
+}
+
+.accountContainer .column .infoLine:nth-of-type(2) {
+  width: 48%;
+  margin: 0;
+}
+
+/* ボタン関連のスタイル */
+.buttonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 100%;
+}
+
+.buttonContainer button.actionButton {
+  width: 48%;
+  max-width: 48%;
+  min-width: 110px;
+}
+
+.actionButton {
+  width: 100%;
+  padding: 8px 5px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  text-align: center;
+  margin: 0;
+  min-width: 110px;
+}
+
+/* パスワード変更関連のスタイル */
+.ChangeButton {
+  margin: 5px auto 0;
+  padding: 6px 12px;
+  font-size: 13px;
+  border: none;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.15);
+  color: #e0e0e0;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  display: block;
+}
+
+.ChangeButton:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.passwordChangeBox {
+  width: 100%;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-sizing: border-box;
+  margin: 15px 0 0;
+}
+
+.column-password-open .passwordChangeBox,
+.column-delete-open .passwordChangeBox {
+  margin: 0;
+  height: 100%;
+}
+
+.passwordChangeBox input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  outline: none;
+  font-size: 14px;
+  margin-bottom: 8px;
+  box-sizing: border-box;
+}
+
+.passwordChangeBox button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #4caf50, #388e3c);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* 警告テキストのスタイル */
+.warningText {
+  color: #ff6b6b;
+  font-size: 13px;
+  margin-bottom: 10px;
+  text-align: center;
+  font-weight: 500;
+  background: rgba(255, 0, 0, 0.1);
+  padding: 8px;
+  border-radius: 6px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ログアウトボタン */
+.logoutButton {
+  background: rgba(0, 150, 136, 0.7);
+  color: #fff;
+}
+
+.logoutButton:hover {
+  background: rgba(0, 150, 136, 0.9);
+}
+
+/* アカウント削除ボタン */
+.dangerButton {
+  background: linear-gradient(135deg, #e53935, #c62828);
+  color: #fff;
+}
+
+.dangerButton:hover {
+  background: linear-gradient(135deg, #c62828, #b71c1c);
+}
+
+/* 履歴編集関連のスタイル */
+.historyEditContainer {
+  width: 100%;
+  margin: 0 auto 15px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  border-radius: 10px;
+  padding: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+}
+
+.historyHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding: 6px 0;
+}
+
+.historyTitle {
+  color: #c1a57b;
+  font-size: 15px;
+  margin: 0;
+}
+
+.dateSelect {
+  width: 50%;
+  max-width: 140px;
+  padding: 6px;
+  font-size: 13px;
+  border: none;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  outline: none;
+  margin: 0;
+}
+
+.dateSelect option {
+  background-color: #333;
+  color: #fff;
+}
+
+/* テーブル関連のスタイル */
+.historyTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: rgba(40, 40, 40, 0.7);
+  border-radius: 8px;
+  margin: 0 auto;
+  overflow-x: auto;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  table-layout: fixed;
+}
+
+.historyTable th,
+.historyTable td {
+  padding: 6px 4px;
+  text-align: center;
+  vertical-align: middle;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 11px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 履歴テーブルの列幅調整 - コンパクト化 */
+.historyTable th:nth-child(1), .historyTable td:nth-child(1) { width: 10%; min-width: 40px; font-size: 10px; } /* 部位 */
+.historyTable th:nth-child(2), .historyTable td:nth-child(2) { width: 52%; } /* 種目 - 16文字表示+スクロール */
+.historyTable th:nth-child(3), .historyTable td:nth-child(3) { width: 8%; min-width: 32px; font-size: 10px; } /* 重量 */
+.historyTable th:nth-child(4), .historyTable td:nth-child(4) { width: 8%; min-width: 32px; font-size: 10px; } /* 回数 */
+.historyTable th:nth-child(5), .historyTable td:nth-child(5) { width: 8%; min-width: 32px; font-size: 10px; } /* 負荷 */
+.historyTable th:nth-child(6), .historyTable td:nth-child(6) { width: 14%; min-width: 55px; } /* 操作 */
+
+/* 種目列のスタイル調整（横スクロール対応） */
+.historyTable td:nth-child(2) {
+  padding: 0;
+  height: auto;
+  white-space: nowrap;
+  overflow: visible;
+  position: relative;
+}
+
+/* 種目名スクロールコンテナ - 他ページと共通化 */
+.recordExerciseContainer {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 6px 5px;
+  width: 100%;
+  box-sizing: border-box;
+  white-space: nowrap;
+  display: block;
+  text-align: left;
+  font-size: 11px;
+  min-width: 16em; /* 全角16文字保証 */
+}
+
+/* スクロールバースタイル - 他ページと共通化 */
+.recordExerciseContainer::-webkit-scrollbar {
+  height: 2px;
+  width: 0;
+}
+.recordExerciseContainer::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+}
+.recordExerciseContainer::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+}
+
+/* テーブル角丸の設定 */
+.historyTable thead tr th:first-child {
+  border-top-left-radius: 8px;
+}
+
+.historyTable thead tr th:last-child {
+  border-top-right-radius: 8px;
+}
+
+.historyTable tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 8px;
+}
+
+.historyTable tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 8px;
+}
+
+.historyTable td {
+  color: #ffffff;
+  background: rgba(30, 30, 30, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  margin: 2px;
+  position: relative;
+}
+
+.historyTable td input {
+  margin: 0 auto;
+  display: block;
+}
+
+/* 入力フォーム関連のスタイル */
+.editInput {
+  width: 100%;
+  max-width: 45px;
+  padding: 4px;
+  border: none;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #e0e0e0;
+  text-align: center;
+  outline: none;
+  font-size: 11px;
+  box-sizing: border-box;
+}
+
+.buttonGroup {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  width: 100%;
+  max-width: 70px;
+  margin: 0 auto;
+  padding: 2px 0;
+}
+
+/* 各種ボタンのスタイル */
+.buttonModern {
+  padding: 4px 5px;
+  border: none;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  white-space: nowrap;
+  width: 100%;
+  min-height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.saveButton {
+  background: linear-gradient(135deg, #4caf50, #388e3c);
+  color: #fff;
+}
+
+.saveButton:hover {
+  background: linear-gradient(135deg, #388e3c, #2e7d32);
+}
+
+.cancelButton {
+  background: linear-gradient(135deg, #6c757d, #5a6268);
+  color: #fff;
+}
+
+.cancelButton:hover {
+  background: linear-gradient(135deg, #5a6268, #495057);
+}
+
+.editButton {
+  background: linear-gradient(135deg, #007bff, #0069d9);
+  color: #fff;
+}
+
+.editButton:hover {
+  background: linear-gradient(135deg, #0069d9, #0056b3);
+}
+
+.deleteButton {
+  background: linear-gradient(135deg, #e53935, #c62828);
+  color: #fff;
+}
+
+.deleteButton:hover {
+  background: linear-gradient(135deg, #c62828, #b71c1c);
+}
+
+/* メッセージ関連のスタイル */
+.noDataMessage {
+  text-align: center;
+  font-size: 14px;
+  color: #bbb;
+  margin-top: 12px;
+}
+
+.message {
+  color: red;
+  font-size: 14px;
+  text-align: center;
+  margin: 8px 0;
+  width: 100%;
+}
+
+/* ラベルと情報表示のスタイル */
+.infoLabel {
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #c1a57b;
+  font-size: 14px;
+  display: block;
+  text-align: center;
+}
+
+.infoLine {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 8px 0;
+}
+
+/* パスワード変更フォーム表示時のスタイル調整 */
+.column-password-open {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 15px !important;
+  align-items: stretch !important;
+}
+
+.column-password-open .buttonContainer {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  text-align: center !important;
+}
+
+.column-password-open .infoLine {
+  width: 48% !important;
+  margin: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+.column-password-open .passwordChangeBox {
+  width: 100%;
+  margin-top: 0;
+}
+
+.column-password-open .infoLabel {
+  text-align: center !important;
+  padding-left: 0 !important;
+  width: 100% !important;
+}
+
+.column-password-open .infoLine span:last-child {
+  text-align: center !important;
+  padding-left: 0 !important;
+  width: 100% !important;
+}
+
+/* アカウント削除フォーム表示時のスタイル調整 */
+.column-delete-open {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 15px !important;
+  align-items: stretch !important;
+}
+
+.column-delete-open .buttonContainer {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.column-delete-open .buttonContainer .actionButton {
+  width: 48% !important;
+  max-width: 48% !important;
+  min-width: 110px !important;
+  flex-grow: 0 !important;
+}
+
+.column-delete-open .passwordChangeBox {
+  width: 100%;
+  margin-top: 0;
+}
+
+.column-delete-open .buttonContainer .actionButton:first-child {
+  margin-bottom: 0;
+}
+
+.column-delete-open .warningText {
+  text-align: left;
+  padding: 10px;
+  line-height: 1.4;
+}
+
+/* 編集モード時のテーブルスタイル調整 */
+tr.editingRow td {
+  background: rgba(40, 40, 40, 0.8);
+  padding: 4px 2px;
+}
+
+tr.editingRow td:last-child {
+  padding: 2px 0;
+}
+
+.scrollContainer {
+  max-height: none;
+  overflow-y: visible;
+  padding: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.scrollContainer::-webkit-scrollbar {
+  display: none;
+} 

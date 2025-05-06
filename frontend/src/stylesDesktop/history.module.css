@@ -1,0 +1,129 @@
+/* ========== ① レイアウト幅調整 ========== */
+/* ▼ flex は 3 つの値（grow shrink basis）で書き直し */
+.left  { flex: 0 0 60%; }     /* 親幅の 60% を確保し伸び縮みしない */
+.right { flex: 0 0 37.8%;     /* 親幅の 37.8% を確保し伸び縮みしない */
+          display: flex;
+          flex-direction: column;
+          text-align: center; }
+
+/* ========== ② 日付ごとの履歴ヘッダー ========== */
+.historyHeader{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  padding: 20px 0;
+  position: relative;
+}
+.dateSelect{
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  max-width: 200px;
+}
+
+/* ========== ③ 履歴テーブル：列幅と改行制御 ========== */
+/* ▼ 3 行追加（table-layout / keep-all / min-width）*/
+
+
+/* ───────── 種目セル：折り返し可 ───────── */
+.recordExerciseContainer{
+  display: block;
+  width: 100%;
+  white-space: normal;         /* 種目名だけ折り返し許可 */
+  overflow: visible;
+  text-overflow: clip;
+}
+
+.left th {
+  white-space: nowrap;
+}
+
+/* ========== グラフ全体 ========== */
+.graph{
+  width: 90%;
+  margin: 0 auto 40px;
+  text-align: center;
+}
+
+/* グラフ操作 UI */
+.graphControls{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+.graphSelectLabel{
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.graphSelect{
+  margin-left: 10px;
+  min-width: 140px;
+}
+
+/* ヘルプポップアップ */
+.graphAndHelpContainer{
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+.axisHelpButton{
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(255,204,0,0.2);
+  border: 1px solid var(--clr-accent);
+  color: var(--clr-accent);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.axisHelpButton:hover{
+  background: rgba(255,204,0,0.3);
+}
+
+.axisHelpPopup{
+  position: absolute;
+  bottom: 30px;
+  right: 0;
+  background: rgba(0,0,0,0.85);
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(255,255,255,0.1);
+  width: 250px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--clr-text);
+}
+.axisHelpPopup:after{
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  right: 10px;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid rgba(0,0,0,0.85);
+}
+
+/* ========== Recharts ツールチップ ========== */
+.tooltip{
+  background: rgba(30,30,30,0.95) !important;
+  border: 1px solid rgba(255,255,255,0.2) !important;
+  border-radius: 8px !important;
+  padding: 10px !important;
+}
+.tooltipLabel{
+  color: var(--clr-accent) !important;
+  font-weight: 600 !important;
+}
+.tooltipItem{
+  color: #fff !important;
+}

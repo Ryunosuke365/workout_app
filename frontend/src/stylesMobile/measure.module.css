@@ -1,0 +1,662 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
+  font-family: 'Poppins', sans-serif;
+  color: #e0e0e0;
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.headerContainer {
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto 15px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+  z-index: 1;
+}
+
+.headerTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: #f5f5f5;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 15px;
+  margin: 0 auto;
+}
+
+.leftColumn {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.topRowContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+}
+
+.BoxContainer {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  border-radius: 10px;
+  padding: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+}
+
+.PartRegister {
+  width: 35%;
+  min-width: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.PartRegister h2 {
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: #c1a57b;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.PartDropdown {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  outline: none;
+}
+
+.PartDropdown:hover {
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.PartDropdown option {
+  background-color: #333; 
+  color: #fff;
+}
+
+.EventRegister {
+  width: 62%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.EventRegister h2 {
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: #c1a57b;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.EventForm {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 6px;
+  align-items: center;
+}
+
+.EventInput {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #e0e0e0;
+  font-size: 14px;
+  outline: none;
+  min-width: 0;
+}
+
+.EventButton {
+  padding: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #b08d57, #a0784a);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  white-space: nowrap;
+}
+
+.EventButton:hover {
+  background: linear-gradient(135deg, #a0784a, #8f6a3f);
+}
+
+.ExerciseContainer {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  border-radius: 10px;
+  padding: 12px 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+  overflow-x: hidden;
+}
+
+.ExerciseContainer h2 {
+  text-align: center;
+  color: #c1a57b;
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+.ExerciseTable {
+  width: 100%;
+  min-width: auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  overflow: hidden;
+  table-layout: fixed;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.ExerciseTable th,
+.ExerciseTable td {
+  padding: 8px 2px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  vertical-align: middle;
+}
+
+.ExerciseTable th:first-child {
+  width: 30%;
+  text-align: center;
+  padding-left: 0;
+  border-top-left-radius: 10px;
+}
+
+.ExerciseTable th:last-child {
+  border-top-right-radius: 10px;
+}
+
+.ExerciseTable tr:last-child td:first-child {
+  border-bottom-left-radius: 10px;
+}
+
+.ExerciseTable tr:last-child td:last-child {
+  border-bottom-right-radius: 10px;
+}
+
+.ExerciseTable th {
+  background: rgba(255, 255, 255, 0.1);
+  font-size: 12px;
+  font-weight: 600;
+  color: #c1a57b;
+  white-space: nowrap;
+}
+
+.ExerciseTable tr:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.ExerciseTable td {
+  font-size: 12px;
+  color: #ffffff;
+  background: rgba(30, 30, 30, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  margin: 2px;
+}
+
+.ExerciseInput {
+  width: 32px; /* 幅をさらに小さく */
+  padding: 5px 0px; /* パディングを最小化 */
+  border: none;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #e0e0e0;
+  text-align: center;
+  outline: none;
+  font-size: 10px; /* フォントサイズをさらに小さく */
+  margin: 0 auto;
+  display: block;
+}
+
+.recordButton,
+.deleteButton {
+  padding: 5px 0px; /* パディングを最小化 */
+  border: none;
+  border-radius: 6px;
+  font-size: 10px; /* フォントサイズをさらに小さく */
+  font-weight: 500; /* フォントの太さを少し細く */
+  cursor: pointer;
+  transition: background 0.3s ease;
+  width: 98%; /* 幅を最大化 */
+  white-space: nowrap;
+  margin: 0 auto;
+  display: block;
+}
+
+.recordButton {
+  background: linear-gradient(135deg, #4caf50, #388e3c);
+  color: #fff;
+}
+
+.recordButton:hover {
+  background: linear-gradient(135deg, #388e3c, #2e7d32);
+}
+
+.deleteButton {
+  background: linear-gradient(135deg, #e53935, #c62828);
+  color: #fff;
+}
+
+.deleteButton:hover {
+  background: linear-gradient(135deg, #c62828, #b71c1c);
+}
+
+.rightColumn {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 10px;
+  position: relative;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+  margin-bottom: 15px;
+}
+
+.rightColumn::before {
+  content: none;
+}
+
+.rightColumn::after {
+  content: none;
+}
+
+.TodayMuscleValue {
+  grid-column: 1;
+  grid-row: 1;
+  font-size: 16px;
+  font-weight: 600;
+  color: #c1a57b;
+  padding: 12px 0;
+  margin: 0;
+  text-align: center;
+  z-index: 1;
+}
+
+.totalMuscleValue {
+  grid-column: 2;
+  grid-row: 1;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  padding: 12px 0;
+  margin: 0;
+  text-align: center;
+  z-index: 1;
+}
+
+.totalMuscleValue span {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.MuscleTable {
+  grid-column: 1 / span 2;
+  grid-row: 2;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: rgba(40, 40, 40, 0.7);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 15px auto 0;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  z-index: 1;
+  table-layout: fixed; /* 固定レイアウト */
+}
+
+/* テーブルヘッダーのスタイル */
+.MuscleTable th {
+  background: rgba(60, 60, 60, 0.8);
+  font-size: 12px;
+  font-weight: 600;
+  color: #c1a57b;
+  padding: 8px 2px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 今日の記録テーブル */
+.MuscleTable th:nth-child(1), .MuscleTable td:nth-child(1) { width: 12%; min-width: 48px; } /* 部位 - 半角4文字 */
+.MuscleTable th:nth-child(2), .MuscleTable td:nth-child(2) { width: 52%; } /* 種目 - 登録済みテーブルに合わせる */
+.MuscleTable th:nth-child(3), .MuscleTable td:nth-child(3) { width: 12%; min-width: 48px; } /* 重量 - 半角4文字 */
+.MuscleTable th:nth-child(4), .MuscleTable td:nth-child(4) { width: 12%; min-width: 48px; } /* 回数 - 半角4文字 */
+.MuscleTable th:nth-child(5), .MuscleTable td:nth-child(5) { width: 12%; min-width: 48px; } /* 負荷 - 半角4文字 */
+
+/* 各セルのフォントとパディングを調整 */
+.MuscleTable td {
+  padding: 8px 2px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 11px;
+  color: #ffffff;
+  background: rgba(30, 30, 30, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  margin: 2px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* 部位セル - 半角4文字固定 */
+.MuscleTable td:first-child {
+  padding: 8px 1px;
+  font-size: 10px;
+}
+
+/* 重量セル - 半角3文字固定 */
+.MuscleTable td:nth-child(3) {
+  padding: 8px 0px;
+  font-size: 10px;
+  text-align: center;
+}
+
+/* 回数セル - 半角3文字固定 */
+.MuscleTable td:nth-child(4) {
+  padding: 8px 0px;
+  font-size: 10px;
+  text-align: center;
+}
+
+/* 負荷セル - 半角4文字固定 */
+.MuscleTable td:nth-child(5) {
+  padding: 8px 1px;
+  font-size: 10px;
+  text-align: center;
+}
+
+/* 種目セル - 16文字+スクロール対応 */
+.MuscleTable td:nth-child(2) {
+  padding: 0;
+  white-space: nowrap;
+  overflow: visible;
+  position: relative;
+}
+
+/* 種目名のスクロールコンテナ - 今日の記録テーブル用 */
+.recordExerciseContainer {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 8px 0; /* 左右のpaddingを削除 */
+  width: 100%;
+  box-sizing: border-box;
+  white-space: nowrap;
+  display: block;
+  text-align: left;
+  font-size: 11px;
+  min-width: 16em; /* 基本の16emに戻す */
+}
+
+/* スクロールバースタイル - 今日の記録テーブル用 */
+.recordExerciseContainer::-webkit-scrollbar {
+  height: 2px;
+  width: 0;
+}
+
+.recordExerciseContainer::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+}
+
+.recordExerciseContainer::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+}
+
+.message {
+  color: red;
+  font-size: 14px;
+  text-align: center;
+  margin: 10px 0;
+  grid-column: 1 / span 2;
+  grid-row: 3;
+}
+
+/* 種目セル（スクロール対応）の共通スタイル - ExerciseTableのみに限定 */
+.ExerciseTable td:first-child {
+  padding: 0;
+  text-align: center;
+  white-space: nowrap;
+  overflow: visible;
+  position: relative;
+}
+
+/* 種目名の横スクロールコンテナ共通スタイル */
+.exerciseNameContainer {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 8px 5px;
+  width: 100%;
+  box-sizing: border-box;
+  white-space: nowrap;
+  display: block;
+  text-align: left;
+  /* 全角16文字分の幅を保証 */
+  min-width: 16em;
+}
+
+/* スクロールバースタイル（横スクロール用） */
+.exerciseNameContainer::-webkit-scrollbar {
+  height: 3px;
+  width: 0;
+}
+
+.exerciseNameContainer::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+.exerciseNameContainer::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+/* テーブルの列幅を再調整（全角16文字表示対応） */
+/* 登録済みテーブル */
+.ExerciseTable th:nth-child(1), .ExerciseTable td:nth-child(1) { width: 52%; } /* 種目 - 16文字表示できる幅に設定 */
+.ExerciseTable th:nth-child(2), .ExerciseTable td:nth-child(2) { width: 12%; min-width: 48px; } /* 重量 - 半角4文字分 */
+.ExerciseTable th:nth-child(3), .ExerciseTable td:nth-child(3) { width: 12%; min-width: 48px; } /* 回数 - 半角4文字分 */
+.ExerciseTable th:nth-child(4), .ExerciseTable td:nth-child(4) { width: 12%; min-width: 48px; } /* 記録 - 半角4文字分 */
+.ExerciseTable th:nth-child(5), .ExerciseTable td:nth-child(5) { width: 12%; min-width: 48px; } /* 削除 - 半角4文字分 */
+
+/* 今日の記録テーブル */
+.MuscleTable th:nth-child(1), .MuscleTable td:nth-child(1) { width: 12%; min-width: 48px; } /* 部位 - 半角4文字 */
+.MuscleTable th:nth-child(2), .MuscleTable td:nth-child(2) { width: 52%; } /* 種目 - 登録済みテーブルに合わせる */
+.MuscleTable th:nth-child(3), .MuscleTable td:nth-child(3) { width: 12%; min-width: 48px; } /* 重量 - 半角4文字 */
+.MuscleTable th:nth-child(4), .MuscleTable td:nth-child(4) { width: 12%; min-width: 48px; } /* 回数 - 半角4文字 */
+.MuscleTable th:nth-child(5), .MuscleTable td:nth-child(5) { width: 12%; min-width: 48px; } /* 負荷 - 半角4文字 */
+
+/* ボタンのサイズ調整（小さくして収まるように） */
+.recordButton,
+.deleteButton {
+  padding: 5px 0px; /* パディングを最小化 */
+  font-size: 10px; /* フォントサイズをさらに小さく */
+  font-weight: 500; /* フォントの太さを少し細く */
+  width: 98%; /* 幅を最大化 */
+}
+
+/* 入力欄のサイズ調整 */
+.ExerciseInput {
+  width: 32px; /* 幅をさらに小さく */
+  padding: 5px 0px; /* パディングを最小化 */
+  font-size: 10px; /* フォントサイズをさらに小さく */
+}
+
+/* テーブルのフォントサイズも調整 */
+.ExerciseTable th,
+.MuscleTable th {
+  font-size: 12px; /* ヘッダーフォントを少し小さく */
+}
+
+/* 今日の記録テーブルの部位セルのスタイル調整 */
+.MuscleTable td:first-child {
+  padding: 8px 1px; /* パディングをさらに小さく */
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 10px; /* フォントサイズをさらに小さく */
+}
+
+/* 重量・回数・負荷のセルを最適化 */
+.MuscleTable td:nth-child(3),
+.MuscleTable td:nth-child(4),
+.MuscleTable td:nth-child(5) {
+  padding: 8px 1px;
+  font-size: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 今日の記録テーブルの種目セル - 16文字+スクロール対応 */
+.MuscleTable td:nth-child(2) {
+  padding: 0;
+  white-space: nowrap;
+  overflow: visible;
+  position: relative;
+}
+
+/* 種目名のスクロールコンテナ - 今日の記録テーブル用 */
+.recordExerciseContainer {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 8px 0; /* 左右のpaddingを削除 */
+  width: 100%;
+  box-sizing: border-box;
+  white-space: nowrap;
+  display: block;
+  text-align: left;
+  font-size: 11px;
+  min-width: 16em; /* 基本の16emに戻す */
+}
+
+/* スクロールバースタイル - 今日の記録テーブル用 */
+.recordExerciseContainer::-webkit-scrollbar {
+  height: 2px;
+  width: 0;
+}
+
+.recordExerciseContainer::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+}
+
+.recordExerciseContainer::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+}
+
+/* ExerciseTableの基本スタイル - 固定レイアウト */
+.ExerciseTable {
+  width: 100%;
+  min-width: auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  overflow: hidden;
+  table-layout: fixed; /* 固定レイアウト */
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* 登録済み種目テーブルの列幅を精密に調整 */
+.ExerciseTable th:nth-child(1), .ExerciseTable td:nth-child(1) { 
+  width: 52%; /* 種目 - 16文字表示 */
+}
+.ExerciseTable th:nth-child(2), .ExerciseTable td:nth-child(2) { 
+  width: 10%; /* 重量 - 半角4文字分 */
+  min-width: 40px; /* 最小幅を保証 */
+}
+.ExerciseTable th:nth-child(3), .ExerciseTable td:nth-child(3) { 
+  width: 10%; /* 回数 - 半角4文字分 */
+  min-width: 40px; /* 最小幅を保証 */
+}
+.ExerciseTable th:nth-child(4), .ExerciseTable td:nth-child(4) { 
+  width: 14%; /* 記録 - 半角4文字分 */
+  min-width: 50px; /* ボタンのため少し広め */
+}
+.ExerciseTable th:nth-child(5), .ExerciseTable td:nth-child(5) { 
+  width: 14%; /* 削除 - 半角4文字分 */
+  min-width: 50px; /* ボタンのため少し広め */
+}
+
+/* 登録済み種目の種目名スクロールコンテナ - 16文字固定 */
+.exerciseNameContainer {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 8px 5px;
+  width: 100%;
+  box-sizing: border-box;
+  white-space: nowrap;
+  display: block;
+  text-align: left;
+  font-size: 11px;
+  /* 全角16文字分の幅を保証 */
+  min-width: 16em;
+}
+
+/* 登録済み種目のスクロールバースタイル */
+.exerciseNameContainer::-webkit-scrollbar {
+  height: 2px; /* 小さいスクロールバー */
+  width: 0;
+}
+
+.exerciseNameContainer::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+}
+
+.exerciseNameContainer::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+} 
