@@ -1,8 +1,10 @@
 /* ───────────────────────────────
- *  Login Page – module-scoped 追加分
+ *  Login Page – module-scoped
+ *  デスクトップ基準で書き、
+ *  末尾の @media でモバイル上書き
  * ─────────────────────────────── */
 
-/* 画面センター配置 & 余白管理 */
+/* ---------- 共通（≒デスクトップ） ---------- */
 .container {
   display: flex;
   flex-direction: column;
@@ -14,7 +16,7 @@
   animation: fade-in 0.6s ease-out;
 }
 
-/* ページタイトル（ゴールド＋影） */
+/* タイトル */
 .title {
   font-size: 2rem;
   font-weight: 600;
@@ -23,7 +25,7 @@
   text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
 }
 
-/* ガラスカード：globals の .card を拡張 */
+/* ガラスカード */
 .card {
   width: min(420px, 100%);
   display: flex;
@@ -35,48 +37,37 @@
   animation: slide-up 0.5s 0.15s ease-out both;
 }
 
-/* ─────── アニメーション ─────── */
-@keyframes fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
+/* 入力・ボタンは globals の
+   .form-control / .btn をそのまま利用 */
 
-@keyframes slide-up {
-  from { transform: translateY(20px); opacity: 0; }
-  to   { transform: translateY(0);   opacity: 1; }
-}
+@keyframes fade-in { from {opacity:0} to {opacity:1} }
+@keyframes slide-up { from {transform:translateY(20px);opacity:0}
+                      to   {transform:translateY(0);  opacity:1} }
 
+/* ---------- モバイル上書き ( ≤480px ) ---------- */
+@media (max-width: 480px) {
 
-
-
-
-
-
-/* ───────────────────────────────
- *  Smartphone (≤480 px)
- * ─────────────────────────────── */
- @media (max-width: 480px) {
-  /* ----- 背景をモバイル版グラデーションに差し替え ----- */
-  :global(body) {
-    /* globals.css のダーク BG を一旦上書き */
-    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  /* 1) このページだけ背景を変えたいなら
+        .container を上書きする -------------- */
+  .container {
+    background: linear-gradient(135deg,#6a11cb 0%,#2575fc 100%);
+    width: 100%;
   }
-  
-  /* グラスカードをワイド一杯に & ふわっと影を強く */
+
+  /* 2) カードを全幅に & 影を強調 ----------- */
   .card {
     width: 100%;
     padding: 1rem;
     gap: .8rem;
     box-shadow:
-      0 10px 30px rgba(0, 0, 0, 0.25),
-      0 0 0   1px rgba(255, 255, 255, 0.15);
+      0 10px 30px rgba(0,0,0,.25),
+      0 0 0 1px rgba(255,255,255,.15);
   }
 
-  /* ページタイトル / サブタイトルをモバイルサイズに */
-  .title   { font-size: 1.25rem; margin-bottom: .25rem; }
-  .heading2{ font-size: 1.1rem;  margin: .25rem 0 .5rem; }
+  /* 3) タイトルの文字サイズ調整 ----------- */
+  .title   { font-size: 1.25rem; margin-bottom:.25rem; }
 
-  /* 入力フィールド & ボタンをタッチ感優先で少し大きめに */
+  /* 4) フォーム部品をタップしやすく ------- */
   .form-control {
     padding: .75rem;
     font-size: 1rem;
@@ -86,17 +77,17 @@
     padding: .9rem;
     font-size: 1rem;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(255, 126, 95, .35);   /* モバイルらしい浮き感 */
+    box-shadow: 0 4px 10px rgba(255,126,95,.35);
   }
 
-  /* 「新規登録」リンクボタンも全幅に */
+  /* 5) 成功ボタンを全幅に ----------------- */
   .btn--success { width: 100%; }
 
-  /* エラーメッセージは読みやすい余白 & 小さめフォント */
+  /* 6) エラーメッセージの読みやすさ -------- */
   .alert {
-    margin-top: .5rem;
-    font-size: .85rem;
-    padding: .6rem;
-    border-radius: 8px;
+    margin-top:.5rem;
+    font-size:.85rem;
+    padding:.6rem;
+    border-radius:8px;
   }
 }
