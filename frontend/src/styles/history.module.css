@@ -1,13 +1,22 @@
-/* ========== ① レイアウト幅調整 ========== */
-/* ▼ flex は 3 つの値（grow shrink basis）で書き直し */
-.left  { flex: 0 0 60%; }     /* 親幅の 60% を確保し伸び縮みしない */
-.right { flex: 0 0 37.8%;     /* 親幅の 37.8% を確保し伸び縮みしない */
-          display: flex;
-          flex-direction: column;
-          text-align: center; }
+/* ───────────────────────────────
+ *  History Page – module-scoped CSS
+ *  デスクトップ基準で書き、
+ *  末尾 @media(max-width:480px) でモバイル上書き
+ * ─────────────────────────────── */
 
-/* ========== ② 日付ごとの履歴ヘッダー ========== */
-.historyHeader{
+/* ─── ① レイアウト幅調整 ─── */
+.left  {
+  flex: 0 0 60%;           /* 親幅の60%固定 */
+}
+.right {
+  flex: 0 0 37.8%;         /* 親幅の37.8%固定 */
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+/* ─── ② 日付ごとの履歴ヘッダー ─── */
+.historyHeader {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,7 +24,7 @@
   padding: 20px 0;
   position: relative;
 }
-.dateSelect{
+.dateSelect {
   position: absolute;
   right: 0;
   top: 50%;
@@ -23,58 +32,53 @@
   max-width: 200px;
 }
 
-/* ========== ③ 履歴テーブル：列幅と改行制御 ========== */
-/* ▼ 3 行追加（table-layout / keep-all / min-width）*/
-
-
-/* ───────── 種目セル：折り返し可 ───────── */
-.recordExerciseContainer{
+/* ─── ③ 履歴テーブル：列幅 & 改行制御 ─── */
+:global(.table) {
+  table-layout: auto;     /* 固定レイアウト解除 */
+  min-width: 0;           /* 親幅フィット */
+}
+.recordExerciseContainer {
   display: block;
   width: 100%;
-  white-space: normal;         /* 種目名だけ折り返し許可 */
+  white-space: normal;    /* 種目名折り返し可 */
   overflow: visible;
   text-overflow: clip;
 }
-
 .left th {
   white-space: nowrap;
 }
 
-/* ========== グラフ全体 ========== */
-.graph{
+/* ─── グラフコンテナ & UI ─── */
+.graph {
   width: 90%;
   margin: 0 auto 40px;
   text-align: center;
 }
-
-/* グラフ操作 UI */
-.graphControls{
+.graphControls {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 20px;
   margin-bottom: 20px;
 }
-.graphSelectLabel{
+.graphSelectLabel {
   display: flex;
   align-items: center;
   font-size: 16px;
   font-weight: 600;
   white-space: nowrap;
 }
-.graphSelect{
+.graphSelect {
   margin-left: 10px;
   min-width: 140px;
 }
-
-/* ヘルプポップアップ */
-.graphAndHelpContainer{
+.graphAndHelpContainer {
   position: relative;
   display: flex;
   justify-content: flex-end;
   margin-top: 10px;
 }
-.axisHelpButton{
+.axisHelpButton {
   width: 24px;
   height: 24px;
   border-radius: 50%;
@@ -86,11 +90,10 @@
   align-items: center;
   justify-content: center;
 }
-.axisHelpButton:hover{
+.axisHelpButton:hover {
   background: rgba(255,204,0,0.3);
 }
-
-.axisHelpPopup{
+.axisHelpPopup {
   position: absolute;
   bottom: 30px;
   right: 0;
@@ -103,7 +106,7 @@
   line-height: 1.5;
   color: var(--clr-text);
 }
-.axisHelpPopup:after{
+.axisHelpPopup:after {
   content: "";
   position: absolute;
   bottom: -8px;
@@ -113,17 +116,71 @@
   border-top: 8px solid rgba(0,0,0,0.85);
 }
 
-/* ========== Recharts ツールチップ ========== */
-.tooltip{
+/* ─── Recharts Tooltip ─── */
+.tooltip {
   background: rgba(30,30,30,0.95) !important;
   border: 1px solid rgba(255,255,255,0.2) !important;
   border-radius: 8px !important;
   padding: 10px !important;
 }
-.tooltipLabel{
+.tooltipLabel {
   color: var(--clr-accent) !important;
   font-weight: 600 !important;
 }
-.tooltipItem{
+.tooltipItem {
   color: #fff !important;
+}
+
+/* ───────────────────────────────
+ *  モバイル上書き (≤480px)
+ * ─────────────────────────────── */
+@media (max-width: 480px) {
+  .left,
+  .right {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+  /* ヘッダー縦並び */
+  .historyHeader {
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px 0;
+  }
+  .dateSelect {
+    position: static;
+    transform: none;
+    width: 100%;
+    max-width: none;
+  }
+  /* テーブルフィット */
+  .left :global(.table),
+  .right :global(.table) {
+    display: block;
+    width: 100%;
+    table-layout: auto;
+    min-width: 0;
+    overflow-wrap: break-word;
+  }
+  .left :global(.table) th,
+  .left :global(.table) td,
+  .right :global(.table) th,
+  .right :global(.table) td {
+    white-space: normal;
+    word-break: break-word;
+    padding: 6px 4px;
+    font-size: 11px;
+  }
+  /* 種目名セル横スクロール */
+  .recordExerciseContainer {
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  /* グラフ幅調整 */
+  .graph {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .graphControls {
+    gap: 12px;
+  }
 }
