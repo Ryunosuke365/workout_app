@@ -10,11 +10,9 @@ import {
   Legend,
 } from "recharts";
 
-import stylesDesktop  from "@/stylesDesktop/history.module.css";
-import stylesMobile   from "@/stylesMobile/history.module.css";
+import styles  from "@/styles/history.module.css";
 import HamburgerMenu  from "@/components/HamburgerMenu";
 import useHistory     from "@/hooks/useHistory";
-import useDeviceDetect from "@/hooks/useDeviceDetect";
 
 // Define all categories
 const ALL_CATEGORIES = [
@@ -26,9 +24,6 @@ const ALL_CATEGORIES = [
 ];
 
 export default function HistoryPage() {
-  // デスクトップ／モバイルで CSS を切替
-  const { isMobile, styles } = useDeviceDetect(stylesDesktop, stylesMobile);
-
   const {
     dailyHistory,
     selectedDate,

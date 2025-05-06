@@ -1,8 +1,6 @@
-import stylesDesktop from "@/stylesDesktop/measure.module.css";
-import stylesMobile  from "@/stylesMobile/measure.module.css";
+import styles from "@/styles/measure.module.css";
 import HamburgerMenu from "@/components/HamburgerMenu";
 import useMeasure     from "@/hooks/useMeasure";
-import useDeviceDetect from "@/hooks/useDeviceDetect";
 
 /**
  * 負荷量計測画面
@@ -11,9 +9,6 @@ import useDeviceDetect from "@/hooks/useDeviceDetect";
  * ・1日の合計負荷量の確認
  */
 const MeasurePage = () => {
-  // デバイス検出とスタイルの選択にカスタムフックを使用
-  const { isMobile, styles } = useDeviceDetect(stylesDesktop, stylesMobile);
-
   const {
     category,
     exerciseName,

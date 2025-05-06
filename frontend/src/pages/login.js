@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import stylesDesktop from "@/stylesDesktop/login.module.css";
+import styles from "@/styles/login.module.css";
 import useAuth from "@/hooks/useAuth";
 
 const API_URL = "https://loadlog.jp/api/login";

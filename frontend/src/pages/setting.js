@@ -1,9 +1,7 @@
 import { useRouter } from "next/router";
-import stylesDesktop  from "@/stylesDesktop/setting.module.css";
-import stylesMobile   from "@/stylesMobile/setting.module.css";
+import styles  from "@/styles/setting.module.css";
 import HamburgerMenu  from "@/components/HamburgerMenu";
 import useSetting     from "@/hooks/useSetting";
-import useDeviceDetect from "@/hooks/useDeviceDetect";
 
 /**
  * 設定画面
@@ -14,9 +12,6 @@ import useDeviceDetect from "@/hooks/useDeviceDetect";
  */
 export default function SettingPage() {
   const router = useRouter();
-
-  // デスクトップ／モバイルで CSS を切替
-  const { isMobile, styles } = useDeviceDetect(stylesDesktop, stylesMobile);
 
   const {
     userId,

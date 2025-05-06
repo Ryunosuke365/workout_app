@@ -1,16 +1,11 @@
 import { useState } from "react";
 import Link from "next/link";
-import stylesDesktop from "@/stylesDesktop/register.module.css";
-import stylesMobile from "@/stylesMobile/register.module.css";
-import useDeviceDetect from "@/hooks/useDeviceDetect";
+import styles from "@/styles/register.module.css";
 import useAuth from "@/hooks/useAuth";
 
 const API_URL = "https://loadlog.jp/api/register";
 
 const Register = () => {
-  // デバイス検出とスタイルの選択にカスタムフックを使用
-  const { isMobile, styles } = useDeviceDetect(stylesDesktop, stylesMobile);
-
   const { handleAuthError, authPost } = useAuth();
   const [formData, setFormData] = useState({
     user_id: "",
