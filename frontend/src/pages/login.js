@@ -50,42 +50,53 @@ const Login = () => {
   };
 
   return (
-    <div className={styles.container}>
+    <main className={styles.container}>
       <h1 className={styles.title}>負荷量計算アプリ</h1>
-      <h2 className={styles.heading2}>ログイン</h2>
 
-      <form onSubmit={handleLogin} className={styles.form}>
+      {/* ───────── ログインフォーム ───────── */}
+      <form onSubmit={handleLogin} className={`${styles.card} card`}>
+        <h2 className="section-header">ログイン</h2>
+
         <input
+          className="form-control"
           type="text"
           name="user_id"
           placeholder="ユーザーID"
           value={formData.user_id}
           onChange={handleInputChange}
-          className={styles.input}
           required
         />
 
         <input
+          className="form-control"
           type="password"
           name="password"
           placeholder="パスワード"
           value={formData.password}
           onChange={handleInputChange}
-          className={styles.input}
           required
         />
 
-        <button type="submit" className={styles.button} disabled={isLoading}>
-          {isLoading ? "ログイン中..." : "ログイン"}
+        <button
+          type="submit"
+          className="btn btn--primary"
+          disabled={isLoading}
+        >
+          {isLoading ? "ログイン中…" : "ログイン"}
         </button>
+
+        {message && (
+          <p className="alert alert--warn" onClick={() => setMessage("")}>
+            {message}
+          </p>
+        )}
       </form>
 
-      {message && <p className={styles.message}>{message}</p>}
-
-      <Link href="/register" legacyBehavior>
-        <a className={styles.linkButton}>新規登録ページへ</a>
+      {/* ───────── 新規登録リンク ───────── */}
+      <Link href="/register" className="btn btn--success">
+        新規登録ページへ
       </Link>
-    </div>
+    </main>
   );
 };
 

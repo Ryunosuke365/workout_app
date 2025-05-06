@@ -1,74 +1,47 @@
+/* ───────────────────────────────
+ *  Login Page – module-scoped 追加分
+ * ─────────────────────────────── */
+
+/* 画面センター配置 & 余白管理 */
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 1.75rem;
   min-height: 100vh;
-  background-color: #e3f2fd;
+  padding: 0 1rem;
+  animation: fade-in 0.6s ease-out;
 }
 
+/* ページタイトル（ゴールド＋影） */
 .title {
-  font-size: 28px;
-  font-weight: bold;
-  margin-bottom: 20px;
-  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--clr-primary);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
 }
 
-.form {
+/* ガラスカード：globals の .card を拡張 */
+.card {
+  width: min(420px, 100%);
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  background: white;
-  padding: 25px;
-  border-radius: 8px;
-  width: 350px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  gap: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px) saturate(120%);
+  box-shadow: var(--shadow-card);
+  animation: slide-up 0.5s 0.15s ease-out both;
 }
 
-.input {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+/* ─────── アニメーション ─────── */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
-.button {
-  width: 100%;
-  padding: 12px;
-  background-color: #007bff;
-  color: white;
-  font-size: 16px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.button:hover {
-  background-color: #0056b3;
-}
-
-.linkButton {
-  display: block;
-  width: 15%;
-  padding: 12px;
-  background-color: #007bff;
-  color: white;
-  font-size: 16px;
-  border-radius: 5px;
-  text-align: center;
-  margin-top: 10px;
-  text-decoration: none;
-  transition: background-color 0.3s;
-}
-
-.linkButton:hover {
-  background-color: #0056b3;
-}
-
-.message {
-  color: red;
-  margin-top: 10px;
-  font-weight: bold;
-  cursor: pointer;
+@keyframes slide-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);   opacity: 1; }
 }
