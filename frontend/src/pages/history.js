@@ -212,72 +212,39 @@ export default function HistoryPage() {
         </div>
 
         {/* ---- グラフ描画 ---- */}
-        {isMobile ? (
-          <div style={{ overflowX: "auto", width: "100%" }}>
-            <div style={{ width: 800, minWidth: "100%" }}>
-              <ResponsiveContainer width="100%" height={280}>
-                <LineChart
-                  data={filteredWeekly}
-                  margin={{ top: 5, right: 15, bottom: 25 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis
-                    dataKey="week"
-                    tickFormatter={(w) => `W${w % 100}`}
-                    interval="preserveStartEnd"
-                  />
-                  <YAxis domain={[0, yMax]} />
-                  <Tooltip
-                    contentClassName={styles.tooltip}
-                    labelClassName={styles.tooltipLabel}
-                    itemClassName={styles.tooltipItem}
-                    labelFormatter={(v) => `${Math.floor(v / 100)}-W${v % 100}`}
-                  />
-                  <Legend />
-                  <Line
-                    type="monotone"
-                    dataKey={selectedCategory}
-                    name={
-                      selectedCategory === "total_load"
-                        ? "総合負荷"
-                        : selectedCategory
-                    }
-                    stroke="#ffcc00"
-                    strokeWidth={2}
-                    activeDot={{ r: 6 }}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-        ) : (
-          <ResponsiveContainer width="95%" height={500}>
-            <LineChart
-              data={filteredWeekly}
-              margin={{ top: 5, right: 20, bottom: 30 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis
-                dataKey="week"
-                tickFormatter={(w) => `W${w % 100}`}
-                interval="preserveStartEnd"
-              />
-              <YAxis domain={[0, yMax]} />
-              <Tooltip
-                contentClassName={styles.tooltip}
-                labelClassName={styles.tooltipLabel}
-                itemClassName={styles.tooltipItem}
-                labelFormatter={(v) => `${Math.floor(v / 100)}-W${v % 100}`}
-              />
-              <Line
-                type="monotone"
-                dataKey={selectedCategory}
-                stroke="#ffcc00"
-                strokeWidth={2}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        )}
+        <ResponsiveContainer width="95%" height={500}>
+          <LineChart
+            data={filteredWeekly}
+            margin={{ top: 5, right: 20, bottom: 30 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis
+              dataKey="week"
+              tickFormatter={(w) => `W${w % 100}`}
+              interval="preserveStartEnd"
+            />
+            <YAxis domain={[0, yMax]} />
+            <Tooltip
+              contentClassName={styles.tooltip}
+              labelClassName={styles.tooltipLabel}
+              itemClassName={styles.tooltipItem}
+              labelFormatter={(v) => `${Math.floor(v / 100)}-W${v % 100}`}
+            />
+            <Legend />
+            <Line
+              type="monotone"
+              dataKey={selectedCategory}
+              name={
+                selectedCategory === "total_load"
+                  ? "総合負荷"
+                  : selectedCategory
+              }
+              stroke="#ffcc00"
+              strokeWidth={2}
+              activeDot={{ r: 6 }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
 
         {/* ---- ヘルプポップアップ ---- */}
         <div className={styles.graphAndHelpContainer}>

@@ -63,12 +63,8 @@ export default function SettingPage() {
 
         <h2 style={{marginBottom:10,fontSize:20,color:"var(--clr-primary)"}}>アカウント情報</h2>
 
-        {!isMobile && (
-          <>
-            <div className={styles.spacer}></div>
-            <div className={styles.spacer}></div>
-          </>
-        )}
+        <div className={styles.spacer}></div>
+        <div className={styles.spacer}></div>
 
         {/* ===== 左カラム：ID・パスワード ===== */}
         <div
