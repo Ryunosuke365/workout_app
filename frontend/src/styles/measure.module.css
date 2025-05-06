@@ -1,70 +1,137 @@
-/* stylesDesktop/measure.module.css */
+/* ───────────────────────────────
+ *  Measure Page – module-scoped CSS
+ *  デスクトップ基準で書き、
+ *  末尾 @media(max-width:480px) でスマホ上書き
+ * ─────────────────────────────── */
 
-/* ───────── 左カラム ───────── */
-.left {
-  flex: 6.0;
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
+/* ========== 左カラム ========== */
+.left{
+  flex:6.0;
+  display:flex;
+  flex-direction:column;
+  gap:30px;
 }
 
-/* ───────── 上段２枚横並び ───────── */
-.topRow {
-  display: grid;
-  grid-template-columns: 2fr 8fr; /* 左20%：右80% */
-  gap: 20px;
-  width: 100%;
+/* 上段２枚（部位選択＋種目登録）横並び */
+.topRow{
+  display:grid;
+  grid-template-columns:2fr 8fr;   /* 左20% : 右80% */
+  gap:20px;
 }
 
-/* ─── 登録フォーム幅調整 ─── */
-.topRow :global(.form-group) {
-  width: auto;      /* global の 100% を打ち消し */
-  max-width: 1000px; /* 最大幅1000pxに制限 */
-}
-.topRow :global(.form-group .form-control) {
-  flex: 1;          /* 入力欄は伸び縮み */
-  width: auto;
+/* 種目登録フォーム幅調整 */
+.topRow :global(.form-group){width:auto;max-width:1000px;}
+.topRow :global(.form-group .form-control){
+  flex:1;
+  width:auto;
 }
 
-
-/* ───────── 入力幅調整：重量・回数欄を適度に狭める ───────── */
-/* .inputMini は weight/reps 入力に付与済み */
-.inputMini {
-  width: 80px;         /* 固定幅を設定 */
-  max-width: 100%;     /* セルをはみ出さない */
-  padding: 10px;       /* 既存の padding を維持 */
-  box-sizing: border-box;
+/* 重量・回数欄を適度に狭める */
+.inputMini{
+  width:80px;
+  max-width:100%;
+  padding:10px;
+  box-sizing:border-box;
 }
 
-
-/* ───────── 種目名全表示 ───────── */
-.exerciseNameContainer {
-  display: block;
-  width: 100%;
-  white-space: normal; /* 折り返し可 */
-  overflow: visible;
-  text-overflow: clip;
+/* 登録済みテーブル：種目名セル内で折返し可 */
+.exerciseNameContainer{
+  display:block;
+  width:100%;
+  white-space:normal;
+  overflow:visible;
+  text-overflow:clip;
 }
 
-
-
-
-/* ───────── 右カラムコンテナ ───────── */
-.right {
-  flex: 4.0;                   /* 左カラムとの比率 */
+/* ========== 右カラム「今日の記録」 ========== */
+.right{flex:4.0;}
+.recordExerciseContainer{
+  display:block;
+  width:100%;
+  white-space:normal;
+  overflow:visible;
+  text-overflow:clip;
 }
+.right th{white-space:nowrap;}
 
+/* ───────────────────────────────
+ *  スマホ上書き  ≤480px
+ * ─────────────────────────────── */
+@media (max-width:480px){
 
-/* ───────── 種目名セル省略表示 ───────── */
-.recordExerciseContainer {
-  display: block;
-  width: 100%;
-  white-space: normal; /* 折り返し可 */
-  overflow: visible;
-  text-overflow: clip;
-}
+  /* 左右カラムを縦積み（100% 幅） */
+  .left,
+  .right{
+    flex:1 1 100%;
+    width:100%;
+  }
 
-/* 3) ヘッダー文字が縦に折り返されないように */
-.right th {
-  white-space: nowrap;
+  /* 上段２枚を縦並びに変更 */
+  .topRow{
+    grid-template-columns:1fr;
+    gap:12px;
+  }
+
+  /* カード間隔を縮める */
+  .left .card,
+  .right.card{padding:12px;}
+
+  /* 入力欄・ボタンをタップしやすく */
+  .topRow :global(.form-group .form-control){
+    padding:8px;
+    font-size:.9rem;
+  }
+  .left :global(.btn),
+  .right :global(.btn){
+    padding:8px;
+    font-size:.85rem;
+    border-radius:8px;
+  }
+
+  /* テーブルをスマホサイズにフィット */
+  .left :global(.table),
+  .right :global(.table){
+    font-size:12px;              /* th/td 共通サイズを縮小 */
+  }
+  .left :global(.table th),
+  .right :global(.table th){
+    padding:6px 4px;
+    font-size:12px;
+  }
+  .left :global(.table td),
+  .right :global(.table td){
+    padding:6px 2px;
+    font-size:11px;
+  }
+
+  /* 重量・回数入力をさらにミニマム */
+  .inputMini{
+    width:64px;
+    padding:6px;
+    font-size:.8rem;
+  }
+
+  /* 種目名の横スクロールを有効化（長文対策） */
+  .exerciseNameContainer,
+  .recordExerciseContainer{
+    max-width:100%;
+    overflow-x:auto;
+    white-space:nowrap;
+  }
+  .exerciseNameContainer::-webkit-scrollbar,
+  .recordExerciseContainer::-webkit-scrollbar{
+    height:2px;
+    width:0;
+  }
+
+  /* 「今日の記録」カード余白調整 */
+  .right.card{
+    margin-top:15px;
+  }
+
+  /* エラーメッセージを読みやすく */
+  .left :global(.alert){
+    margin:8px 0;
+    font-size:0.85rem;
+  }
 }
