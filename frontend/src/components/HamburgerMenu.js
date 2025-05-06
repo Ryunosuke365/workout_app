@@ -1,8 +1,6 @@
 import { useState } from "react";
 import Link from "next/link";
-import stylesDesktop from "@/stylesDesktop/HamburgerMenu.module.css";
-import stylesMobile from "@/stylesMobile/HamburgerMenu.module.css";
-import useDeviceDetect from "@/hooks/useDeviceDetect";
+import styles from "@/styles/HamburgerMenu.module.css";
 
 /**
  * ハンバーガーメニュー用コンポーネント
@@ -12,9 +10,6 @@ import useDeviceDetect from "@/hooks/useDeviceDetect";
 export default function HamburgerMenu() {
   // メニュー開閉状態
   const [isOpen, setIsOpen] = useState(false);
-  
-  // デバイス検出とスタイルの選択にカスタムフックを使用
-  const { isMobile, styles } = useDeviceDetect(stylesDesktop, stylesMobile);
 
   /**
    * メニューの開閉を切り替える
