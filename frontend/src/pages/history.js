@@ -14,7 +14,7 @@ import styles  from "@/styles/history.module.css";
 import HamburgerMenu  from "@/components/HamburgerMenu";
 import useHistory     from "@/hooks/useHistory";
 
-// Define all categories
+// トレーニングカテゴリの定義 (グラフや表で使用)
 const ALL_CATEGORIES = [
   { key: 'chest', name: 'chest' },
   { key: 'back', name: 'back' },
@@ -23,83 +23,92 @@ const ALL_CATEGORIES = [
   { key: 'arms', name: 'arms' },
 ];
 
+// 計測履歴ページのコンポーネント
 export default function HistoryPage() {
+  // useHistoryフックから状態と関数を取得
   const {
-    dailyHistory,
-    selectedDate,
-    availableDates,
-    categoryTotals,
-    overallTotal,
-    weeklyData,
-    selectedCategory,
-    periodFilter,
-    showAxisHelp,
-    message,
+    dailyHistory,      // 選択された日付の履歴
+    selectedDate,      // 選択中の日付
+    availableDates,    // 履歴が存在する日付のリスト
+    categoryTotals,    // カテゴリ別の総負荷量
+    overallTotal,      // 全体の総負荷量
+    weeklyData,        // 週ごとの負荷データ (グラフ用)
+    selectedCategory,  // グラフで選択中のカテゴリ
+    periodFilter,      // グラフの表示期間フィルター
+    showAxisHelp,      // グラフの軸ヘルプ表示状態
+    message,           // ユーザーへのメッセージ
 
-    setSelectedDate,
-    setSelectedCategory,
-    setPeriodFilter,
-    setShowAxisHelp,
-    fetchDailyHistory,
+    setSelectedDate,     // 選択日付を更新する関数
+    setSelectedCategory, // グラフの表示カテゴリを更新する関数
+    setPeriodFilter,     // グラフの表示期間を更新する関数
+    setShowAxisHelp,     // 軸ヘルプの表示/非表示を切り替える関数
+    fetchDailyHistory,   // 特定の日付の履歴を取得する関数
   } = useHistory();
 
-  /* ───────── 週次グラフのデータ整形 ───────── */
+  // 週次グラフ用のデータを整形・フィルタリング (useMemoで計算結果をメモ化)
   const filteredWeekly = useMemo(() => {
-    if (!weeklyData.length) return [];
+    if (!weeklyData.length) return []; // 元データがなければ空配列
+    // 表示期間に応じてスライスする数を決定
     const limit =
       periodFilter === "3months"
-        ? 13
+        ? 13 // 3ヶ月は約13週
         : periodFilter === "1year"
-        ? 52
-        : weeklyData.length;
+        ? 52 // 1年は52週
+        : weeklyData.length; // それ以外は全期間
+    // 最新の週から指定期間分を取得し、古い順にソート
     return [...weeklyData]
-      .sort((a, b) => b.week - a.week)
-      .slice(0, limit)
-      .sort((a, b) => a.week - b.week);
+      .sort((a, b) => b.week - a.week) // 新しい週が先頭に来るようにソート
+      .slice(0, limit) // 期間でフィルタリング
+      .sort((a, b) => a.week - b.week); // 古い週が先頭に来るように再ソート (グラフ表示用)
   }, [weeklyData, periodFilter]);
 
+  // グラフのY軸の最大値を計算 (useMemoで計算結果をメモ化)
   const yMax = useMemo(() => {
-    if (!filteredWeekly.length) return 100;
+    if (!filteredWeekly.length) return 100; // データがなければデフォルト値100
+    // フィルタリングされたデータの中から選択カテゴリの最大値を取得、最低でも100を確保
     return Math.max(
       100,
-      ...filteredWeekly.map((d) => +d[selectedCategory] || 0)
+      ...filteredWeekly.map((d) => +d[selectedCategory] || 0) // 文字列を数値に変換、存在しない場合は0
     );
   }, [filteredWeekly, selectedCategory]);
 
-  // Map categoryTotals for quick lookup
+  // カテゴリ別総負荷量をMap形式に変換 (useMemoで計算結果をメモ化、ルックアップの高速化)
   const categoryTotalsMap = useMemo(() => {
     const map = new Map();
     categoryTotals.forEach(c => map.set(c.category, c.total_load));
     return map;
   }, [categoryTotals]);
 
-  /* ───────── JSX ───────── */
+  // JSXレンダリング
   return (
     <div className="pageContainer">
-      {/* ───────── ヘッダー ───────── */}
+      {/* ヘッダーセクション */}
       <header className="headerContainer">
         <h1 className="headerTitle">計測履歴</h1>
         <HamburgerMenu />
       </header>
 
+      {/* メッセージ表示エリア */}
       {message && <p className="alert alert--warn">{message}</p>}
 
-      {/* ───────── ２カラム ───────── */}
+      {/* メインコンテンツエリア (2カラムレイアウト) */}
       <div className="rowContainer">
-        {/* ===== 左カラム：日付ごとの履歴 ===== */}
+        {/* 左カラム: 日付ごとの履歴 */}
         <section className={`card ${styles.left}`}>
           <div className={styles.historyHeader}>
             <h2 className="section-header">日付ごとの履歴</h2>
+            {/* 日付選択ドロップダウン */}
             <select
               className={`form-control ${styles.dateSelect}`}
-              value={selectedDate}
+              value={selectedDate} // 現在選択中の日付
               onChange={(e) => {
-                setSelectedDate(e.target.value);
-                fetchDailyHistory(e.target.value);
+                setSelectedDate(e.target.value); // 選択された日付を更新
+                fetchDailyHistory(e.target.value); // 選択された日付の履歴を再取得
               }}
             >
               {availableDates.map((d) => (
                 <option key={d} value={d}>
+                  {/* 日付を日本語形式で表示 */}
                   {new Date(d).toLocaleDateString("ja-JP", {
                     year: "numeric",
                     month: "long",
@@ -110,6 +119,7 @@ export default function HistoryPage() {
             </select>
           </div>
 
+          {/* 日付ごとの履歴テーブル */}
           {dailyHistory.length ? (
             <table className="table">
               <thead>
@@ -138,15 +148,17 @@ export default function HistoryPage() {
               </tbody>
             </table>
           ) : (
+            // 履歴がない場合の表示
             <p className="alert alert--info">この日には記録がありません。</p>
           )}
         </section>
 
-        {/* ===== 右カラム：部位別・総合負荷 ===== */}
+        {/* 右カラム: 部位別・総合負荷 */}
         <section className={`card ${styles.right}`}>
           <h2 className="section-header">部位と総合の総負荷量</h2>
 
-          {dailyHistory.length ? (
+          {/* 部位別・総合負荷テーブル */}
+          {dailyHistory.length ? ( // dailyHistoryではなく、categoryTotalsやoverallTotalの有無で判定する方が適切かもしれない
             <table className="table">
               <thead>
                 <tr>
@@ -155,14 +167,15 @@ export default function HistoryPage() {
                 </tr>
               </thead>
               <tbody>
-                {/* Map over predefined categories */}
+                {/* 定義済みのカテゴリ順に表示 */}
                 {ALL_CATEGORIES.map((cat) => (
                   <tr key={cat.key}>
                     <td>{cat.name}</td>
-                    {/* Get load from map or default to 0 */}
+                    {/* categoryTotalsMapから対応する負荷量を取得、なければ0 */}
                     <td>{categoryTotalsMap.get(cat.key) || 0}</td>
                   </tr>
                 ))}
+                {/* 全体の合計負荷 */}
                 <tr>
                   <td>ALL</td>
                   <td>{overallTotal}</td>
@@ -170,23 +183,24 @@ export default function HistoryPage() {
               </tbody>
             </table>
           ) : (
+            // データがない場合の表示
             <p className="alert alert--info">データがありません。</p>
           )}
         </section>
       </div>
 
-      {/* ───────── 週次グラフ ───────── */}
+      {/* 週次グラフセクション */}
       <section className={`card ${styles.graph}`}>
         <h2 className="section-header">週ごとの負荷推移</h2>
 
-        {/* ---- グラフ操作 UI ---- */}
+        {/* グラフ操作UI (表示データ選択、期間選択) */}
         <div className={styles.graphControls}>
           <label className={styles.graphSelectLabel}>
             表示データ：
             <select
               className={`form-control ${styles.graphSelect}`}
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
+              value={selectedCategory} // 現在選択中のカテゴリ
+              onChange={(e) => setSelectedCategory(e.target.value)} // 選択変更でカテゴリ更新
             >
               <option value="total_load">総合負荷</option>
               <option value="chest">胸</option>
@@ -201,8 +215,8 @@ export default function HistoryPage() {
             期間：
             <select
               className={`form-control ${styles.graphSelect}`}
-              value={periodFilter}
-              onChange={(e) => setPeriodFilter(e.target.value)}
+              value={periodFilter} // 現在選択中の期間
+              onChange={(e) => setPeriodFilter(e.target.value)} // 選択変更で期間更新
             >
               <option value="3months">直近3ヶ月</option>
               <option value="1year">直近1年</option>
@@ -211,46 +225,46 @@ export default function HistoryPage() {
           </label>
         </div>
 
-        {/* ---- グラフ描画 ---- */}
+        {/* グラフ描画エリア (Rechartsを使用) */}
         <ResponsiveContainer width="95%" height={500}>
           <LineChart
-            data={filteredWeekly}
+            data={filteredWeekly} // 整形済みの週次データ
             margin={{ top: 5, right: 20, bottom: 30 }}
           >
-            <CartesianGrid strokeDasharray="3 3" />
+            <CartesianGrid strokeDasharray="3 3" /> {/* グリッド線 */}
             <XAxis
-              dataKey="week"
-              tickFormatter={(w) => `W${w % 100}`}
-              interval="preserveStartEnd"
+              dataKey="week" // X軸のデータキー (週番号)
+              tickFormatter={(w) => `W${w % 100}`} // X軸の目盛り表示形式 (例: W01)
+              interval="preserveStartEnd" // X軸の目盛りの間隔調整
             />
-            <YAxis domain={[0, yMax]} />
+            <YAxis domain={[0, yMax]} /> {/* Y軸のドメイン (0から計算された最大値まで) */}
             <Tooltip
-              contentClassName={styles.tooltip}
+              contentClassName={styles.tooltip} // ツールチップのスタイル
               labelClassName={styles.tooltipLabel}
               itemClassName={styles.tooltipItem}
-              labelFormatter={(v) => `${Math.floor(v / 100)}-W${v % 100}`}
+              labelFormatter={(v) => `${Math.floor(v / 100)}-W${v % 100}`} // ツールチップのラベル表示形式
             />
-            <Legend />
+            <Legend /> {/* 凡例 */}
             <Line
-              type="monotone"
-              dataKey={selectedCategory}
-              name={
+              type="monotone" // 線の種類
+              dataKey={selectedCategory} // Y軸のデータキー (選択されたカテゴリ)
+              name={ // 凡例に表示する名前
                 selectedCategory === "total_load"
                   ? "総合負荷"
                   : selectedCategory
               }
-              stroke="#ffcc00"
-              strokeWidth={2}
-              activeDot={{ r: 6 }}
+              stroke="#ffcc00" // 線の色
+              strokeWidth={2} // 線の太さ
+              activeDot={{ r: 6 }} // アクティブな点のスタイル
             />
           </LineChart>
         </ResponsiveContainer>
 
-        {/* ---- ヘルプポップアップ ---- */}
+        {/* グラフの軸ヘルプ表示 */}
         <div className={styles.graphAndHelpContainer}>
           <button
             className={styles.axisHelpButton}
-            onClick={() => setShowAxisHelp(!showAxisHelp)}
+            onClick={() => setShowAxisHelp(!showAxisHelp)} // クリックでヘルプ表示/非表示切り替え
           >
             ?
           </button>

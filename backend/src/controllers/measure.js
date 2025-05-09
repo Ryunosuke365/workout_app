@@ -5,9 +5,7 @@ const query = (sql, params) => db.execute(sql, params);
 // リクエストからユーザーIDを抽出するヘルパー関数
 const extractUserId = (req) => req.user.user_id;
 
-/**
- * カテゴリに基づいて運動種目を取得します。
- */
+// カテゴリに基づいて運動種目を取得します。
 exports.getExercisesByCategory = async (req, res) => {
   try {
     const user_id = extractUserId(req);
@@ -24,9 +22,7 @@ exports.getExercisesByCategory = async (req, res) => {
   }
 };
 
-/**
- * 当日の総負荷量サマリーを取得します。
- */
+// 当日の総負荷量サマリーを取得します。
 exports.getDailyLoadSummary = async (req, res) => {
   try {
     const user_id = extractUserId(req);
@@ -54,9 +50,7 @@ exports.getDailyLoadSummary = async (req, res) => {
   }
 };
 
-/**
- * 新しい運動種目を追加します。
- */
+// 新しい運動種目を追加します。
 exports.addExercise = async (req, res) => {
   try {
     const user_id = extractUserId(req);
@@ -78,9 +72,7 @@ exports.addExercise = async (req, res) => {
   }
 };
 
-/**
- * 既存の運動種目を削除します。
- */
+// 既存の運動種目を削除します。
 exports.deleteExercise = async (req, res) => {
   try {
     const user_id = extractUserId(req);
@@ -103,9 +95,7 @@ exports.deleteExercise = async (req, res) => {
   }
 };
 
-/**
- * 運動データを記録します。
- */
+// 運動データを記録します。
 exports.recordExerciseData = async (req, res) => {
   try {
     const user_id = extractUserId(req);

@@ -5,9 +5,7 @@ const query = (sql, params) => db.execute(sql, params);
 // リクエストからユーザーIDを抽出するヘルパー関数
 const extractUserId = (req) => req.user.user_id;
 
-/**
- * 利用可能な日付（運動記録が存在する日付）のリストを取得します。
- */
+// 利用可能な日付（運動記録が存在する日付）のリストを取得します。
 exports.getAvailableDates = async (req, res) => {
   try {
     const user_id = extractUserId(req);
@@ -28,9 +26,7 @@ exports.getAvailableDates = async (req, res) => {
   }
 };
 
-/**
- * 指定された日付の運動履歴を取得します。
- */
+// 指定された日付の運動履歴を取得します。
 exports.getDailyHistory = async (req, res) => {
   try {
     const user_id = extractUserId(req);
@@ -58,9 +54,7 @@ exports.getDailyHistory = async (req, res) => {
   }
 };
 
-/**
- * カテゴリ別の総負荷量と全体の総負荷量を取得します。
- */
+// カテゴリ別の総負荷量と全体の総負荷量を取得します。
 exports.getTotalLoad = async (req, res) => {
   try {
     const user_id = extractUserId(req);
@@ -93,9 +87,7 @@ exports.getTotalLoad = async (req, res) => {
   }
 };
 
-/**
- * 週ごとの運動データを取得します。
- */
+// 週ごとの運動データを取得します。
 exports.getWeeklyData = async (req, res) => {
   try {
     const user_id = extractUserId(req);

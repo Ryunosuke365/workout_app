@@ -2,43 +2,42 @@ import { useState } from "react";
 import Link from "next/link";
 import styles from "@/styles/HamburgerMenu.module.css";
 
-/**
- * ハンバーガーメニュー用コンポーネント
- * ・画面右上のメニュー表示/非表示を制御
- * ・オーバーレイクリックで閉じる
- */
+// ハンバーガーメニューのコンポーネントです。
+// 画面右上に配置され、クリックすることでメニューの表示/非表示を切り替えます。
+// メニュー表示時にはオーバーレイが表示され、オーバーレイをクリックすることでもメニューを閉じることができます。
 export default function HamburgerMenu() {
-  // メニュー開閉状態
+  // メニューの開閉状態を管理するstate (true: 開いている, false: 閉じている)
   const [isOpen, setIsOpen] = useState(false);
 
-  /**
-   * メニューの開閉を切り替える
-   * @param e クリックイベント
-   */
+  // メニューの開閉状態をトグルします。
+  // ボタンクリック時に呼び出され、親要素へのイベント伝播を防ぎます。
   const toggleMenu = (e) => {
-    e.stopPropagation();  // 親要素へのイベント伝播を防止
-    setIsOpen((prev) => !prev);
+    e.stopPropagation(); // 親要素へのイベント伝播を防止
+    setIsOpen((prev) => !prev); // isOpenの値を反転させる
   };
 
-  //メニューを閉じる
+  // メニューを閉じる関数です。
+  // オーバーレイクリック時やメニュー項目選択時に呼び出されます。
   const closeMenu = () => {
-    setIsOpen(false);
+    setIsOpen(false); // メニューを閉じる
   };
 
   return (
     <div className={styles.menuContainer}>
-      {/* メニューボタン */}
+      {/* ハンバーガーメニューのアイコンボタン */}
       <button className={styles.menuButton} onClick={toggleMenu}>
-        ☰
+        ☰ {/* ハンバーガーアイコン */}
       </button>
 
-      {/* メニュー表示時のみ描画 */}
+      {/* isOpenがtrueの場合のみメニュー関連要素を描画 */}
       {isOpen && (
         <>
-          {/* オーバーレイ：クリックでメニューを閉じる */}
+          {/* メニュー表示時に画面全体を覆うオーバーレイ */}
+          {/* クリックするとメニューが閉じる */}
           <div className={styles.overlay} onClick={closeMenu} />
 
-          {/* メニューリスト */}
+          {/* メニュー項目のリスト */}
+          {/* リスト自体がクリックされてもメニューが閉じないようにイベント伝播を停止 */}
           <ul className={styles.menuList} onClick={(e) => e.stopPropagation()}>
             <li>
               <Link href="/measure" onClick={closeMenu}>

@@ -3,73 +3,70 @@ import styles  from "@/styles/setting.module.css";
 import HamburgerMenu  from "@/components/HamburgerMenu";
 import useSetting     from "@/hooks/useSetting";
 
-/**
- * 設定画面
- * ・アカウント情報の確認・編集
- * ・パスワード変更
- * ・ログアウト・アカウント削除
- * ・過去の履歴の編集・削除
- */
+// 設定ページのコンポーネント
+// アカウント情報確認、パスワード変更、ログアウト、アカウント削除、過去履歴の編集・削除機能を提供
 export default function SettingPage() {
-  const router = useRouter();
+  const router = useRouter(); // useRouterフックでrouterオブジェクトを取得 (ページ遷移に使用)
 
+  // useSettingフックから状態と関数を取得
   const {
-    userId,
-    registrationDate,
-    workoutDays,
-    currentPassword,
-    newPassword,
-    showPasswordForm,
-    deleteConfirmation,
-    deletePassword,
-    selectedDate,
-    availableDates,
-    dailyHistory,
-    editingIndex,
-    editingRecord,
-    message,
+    userId,             // ユーザーID
+    registrationDate,   // 登録日
+    workoutDays,        // トレーニング実施日数
+    currentPassword,    // 現在のパスワード入力値
+    newPassword,        // 新しいパスワード入力値
+    showPasswordForm,   // パスワード変更フォームの表示状態
+    deleteConfirmation, // アカウント削除確認フォームの表示状態
+    deletePassword,     // アカウント削除時のパスワード入力値
+    selectedDate,       // 履歴編集で選択中の日付
+    availableDates,     // 履歴が存在する日付のリスト
+    dailyHistory,       // 選択日の履歴データ
+    editingIndex,       // 編集中の履歴アイテムのインデックス
+    editingRecord,      // 編集中の履歴アイテムのデータ
+    message,            // ユーザーへのメッセージ
 
-    setMessage,
-    setCurrentPassword,
-    setNewPassword,
-    setShowPasswordForm,
-    setDeleteConfirmation,
-    setDeletePassword,
-    setSelectedDate,
-    setEditingIndex,
-    setEditingRecord,
+    setMessage,            // メッセージを更新する関数
+    setCurrentPassword,    // 現在のパスワード入力値を更新する関数
+    setNewPassword,        // 新しいパスワード入力値を更新する関数
+    setShowPasswordForm,   // パスワード変更フォームの表示/非表示を切り替える関数
+    setDeleteConfirmation, // アカウント削除確認フォームの表示/非表示を切り替える関数
+    setDeletePassword,     // アカウント削除時のパスワード入力値を更新する関数
+    setSelectedDate,       // 履歴編集の選択日付を更新する関数
+    setEditingIndex,       // 編集中のインデックスを更新する関数
+    setEditingRecord,      // 編集中のレコードデータを更新する関数
 
-    removeToken,
-    handlePasswordChange,
-    handleAccountDelete,
-    fetchDailyHistory,
-    handleSaveEdit,
-    handleDeleteRecord,
+    removeToken,           // ローカルトークンを削除する関数 (ログアウト処理)
+    handlePasswordChange,  // パスワード変更処理を実行する関数
+    handleAccountDelete,   // アカウント削除処理を実行する関数
+    fetchDailyHistory,     // 特定の日付の履歴を取得する関数
+    handleSaveEdit,        // 編集内容を保存する関数
+    handleDeleteRecord,    // 特定の履歴レコードを削除する関数
   } = useSetting();
 
   return (
     <div className="pageContainer">
-      {/* ───────── ヘッダー ───────── */}
+      {/* ヘッダーセクション */}
       <header className="headerContainer">
         <h1 className="headerTitle">設定</h1>
         <HamburgerMenu />
       </header>
 
-      {/* ───────── メッセージ ───────── */}
+      {/* メッセージ表示エリア */}
       {message && <p className="alert alert--warn">{message}</p>}
 
-      {/* ───────── ① アカウント情報ボード ───────── */}
+      {/* アカウント情報ボードセクション */}
       <section className={`card ${styles.accountBoard}`}>
 
         <h2 style={{marginBottom:10,fontSize:20,color:"var(--clr-primary)"}}>アカウント情報</h2>
 
+        {/* スペーサー (デザイン用) */}
         <div className={styles.spacer}></div>
         <div className={styles.spacer}></div>
 
-        {/* ===== 左カラム：ID・パスワード ===== */}
+        {/* 左カラム: ユーザーIDとパスワード変更 */}
         <div
           className={`${styles.column} ${
-            showPasswordForm ? styles["column--open"] : ""
+            showPasswordForm ? styles["column--open"] : "" // パスワードフォーム表示時にスタイルを適用
           }`}
         >
           <p className={styles.infoLine}>
@@ -82,13 +79,13 @@ export default function SettingPage() {
             <button
               className="btn btn--primary"
               style={{padding: "6px 12px"}}
-              onClick={() => setShowPasswordForm((prev) => !prev)}
+              onClick={() => setShowPasswordForm((prev) => !prev)} // クリックでパスワードフォームの表示/非表示をトグル
             >
               {showPasswordForm ? "閉じる" : "変更"}
             </button>
           </p>
 
-          {/* --- パスワード変更フォーム --- */}
+          {/* パスワード変更フォーム (showPasswordFormがtrueの場合に表示) */}
           {showPasswordForm && (
             <div className={styles.slideBox}>
               <p className={styles.warningText}>
@@ -110,7 +107,7 @@ export default function SettingPage() {
               />
               <button
                 className="btn btn--primary"
-                onClick={handlePasswordChange}
+                onClick={handlePasswordChange} // クリックでパスワード変更処理を実行
               >
                 変更する
               </button>
@@ -118,7 +115,7 @@ export default function SettingPage() {
           )}
         </div>
 
-        {/* ===== 中央カラム：登録日・筋トレ日数 ===== */}
+        {/* 中央カラム: 登録日と筋トレ日数 */}
         <div className={styles.column}>
           <p className={styles.infoLine}>
             <span className={styles.infoLabel}>登録日 :</span>
@@ -128,25 +125,26 @@ export default function SettingPage() {
           <p className={styles.infoLine}>
             <span className={styles.infoLabel}>筋トレ日数 :</span>
             <span>
-              {workoutDays != null ? `${workoutDays} 日` : "取得中..."}
+              {workoutDays != null ? `${workoutDays} 日` : "取得中..."} // workoutDaysがnullでない場合のみ表示
             </span>
           </p>
         </div>
 
-        {/* ===== 右カラム：ログアウト・アカウント削除 ===== */}
+        {/* 右カラム: ログアウトとアカウント削除 */}
         <div
           className={`${styles.column} ${
-            deleteConfirmation ? styles["column--open"] : ""
+            deleteConfirmation ? styles["column--open"] : "" // アカウント削除フォーム表示時にスタイルを適用
           }`}
         >
           <button
             className="btn btn--success"
             style={{padding: "6px 27px"}}
             onClick={() => {
+              // ログアウト確認
               const ok = window.confirm("本当にログアウトしますか？");
               if (ok) {
-                removeToken();
-                router.push("/login");
+                removeToken(); // トークンを削除
+                router.push("/login"); // ログインページへ遷移
               }
             }}
           >
@@ -156,14 +154,15 @@ export default function SettingPage() {
           <button
             className="btn btn--danger"
             onClick={() => {
-              if (deleteConfirmation) setDeletePassword("");
+              // アカウント削除フォームの表示/非表示トグル
+              if (deleteConfirmation) setDeletePassword(""); // フォームを閉じる場合はパスワード入力値をクリア
               setDeleteConfirmation((prev) => !prev);
             }}
           >
             {deleteConfirmation ? "閉じる" : "アカウント削除"}
           </button>
 
-          {/* --- アカウント削除フォーム --- */}
+          {/* アカウント削除フォーム (deleteConfirmationがtrueの場合に表示) */}
           {deleteConfirmation && (
             <div className={styles.slideBox}>
               <p className={styles.warningText}>
@@ -179,25 +178,27 @@ export default function SettingPage() {
               <button
                 className="btn btn--danger"
                 onClick={() => {
+                  // パスワード未入力チェック
                   if (!deletePassword) {
                     setMessage("パスワードを入力してください");
                     return;
                   }
+                  // アカウント削除確認 (2段階)
                   const c1 = window.confirm("本当にアカウントを削除しますか？");
                   if (!c1) {
-                    setDeleteConfirmation(false);
-                    setDeletePassword("");
+                    setDeleteConfirmation(false); // フォームを閉じる
+                    setDeletePassword(""); // パスワード入力値をクリア
                     return;
                   }
                   const c2 = window.confirm(
                     "この操作は取り消せません。全データが削除されます。実行しますか？"
                   );
                   if (!c2) {
-                    setDeleteConfirmation(false);
-                    setDeletePassword("");
+                    setDeleteConfirmation(false); // フォームを閉じる
+                    setDeletePassword(""); // パスワード入力値をクリア
                     return;
                   }
-                  handleAccountDelete(router);
+                  handleAccountDelete(router); // アカウント削除処理を実行
                 }}
               >
                 削除を実行する
@@ -207,20 +208,22 @@ export default function SettingPage() {
         </div>
       </section>
 
-      {/* ───────── ② 日付別履歴編集テーブル ───────── */}
+      {/* 日付別履歴編集テーブルセクション */}
       <section className={`card ${styles.historyBoard}`}>
         <div className={styles.historyHeader}>
           <h2 className="section-header">日付ごとの履歴</h2>
+          {/* 日付選択ドロップダウン */}
           <select
             className={`form-control ${styles.dateSelect}`}
-            value={selectedDate}
+            value={selectedDate} // 現在選択中の日付
             onChange={(e) => {
-              setSelectedDate(e.target.value);
-              fetchDailyHistory(e.target.value);
+              setSelectedDate(e.target.value); // 選択日付を更新
+              fetchDailyHistory(e.target.value); // 選択された日付の履歴を再取得
             }}
           >
             {availableDates.map((date) => (
               <option key={date} value={date}>
+                {/* 日付を日本語形式で表示 */}
                 {new Date(date).toLocaleDateString("ja-JP", {
                   year: "numeric",
                   month: "long",
@@ -231,7 +234,7 @@ export default function SettingPage() {
           </select>
         </div>
 
-        {/* ===== テーブル ===== */}
+        {/* 履歴編集テーブル */}
         {dailyHistory.length > 0 ? (
           <table className="table">
             <thead>
@@ -246,8 +249,8 @@ export default function SettingPage() {
             </thead>
             <tbody>
               {dailyHistory.map((item, index) =>
-                editingIndex === index ? (
-                  /* --- 編集モード --- */
+                editingIndex === index ? ( // 現在のアイテムが編集中か判定
+                  // 編集モードの行
                   <tr key={item.id} className={styles.editingRow}>
                     <td>{item.category}</td>
                     <td>{item.exercise}</td>
@@ -255,11 +258,11 @@ export default function SettingPage() {
                       <input
                         type="number"
                         className="form-control"
-                        value={editingRecord.weight}
+                        value={editingRecord.weight} // 編集中の重量
                         onChange={(e) =>
                           setEditingRecord((prev) => ({
                             ...prev,
-                            weight:
+                            weight: // 空文字許容、数値に変換
                               e.target.value === ""
                                 ? ""
                                 : Number(e.target.value),
@@ -271,11 +274,11 @@ export default function SettingPage() {
                       <input
                         type="number"
                         className="form-control"
-                        value={editingRecord.reps}
+                        value={editingRecord.reps} // 編集中の回数
                         onChange={(e) =>
                           setEditingRecord((prev) => ({
                             ...prev,
-                            reps:
+                            reps: // 空文字許容、数値に変換
                               e.target.value === ""
                                 ? ""
                                 : Number(e.target.value),
@@ -283,18 +286,19 @@ export default function SettingPage() {
                         }
                       />
                     </td>
+                    {/* 編集中も負荷量をリアルタイム計算して表示 */}
                     <td>{editingRecord.weight * editingRecord.reps}</td>
                     <td>
                       <div className={styles.buttonGroup}>
                         <button
                           className="btn btn--success"
-                          onClick={handleSaveEdit}
+                          onClick={handleSaveEdit} // クリックで保存処理を実行
                         >
                           保存
                         </button>
                         <button
                           className="btn btn--primary"
-                          onClick={() => setEditingIndex(-1)}
+                          onClick={() => setEditingIndex(-1)} // クリックで編集キャンセル (editingIndexを無効な値に)
                         >
                           キャンセル
                         </button>
@@ -302,7 +306,7 @@ export default function SettingPage() {
                     </td>
                   </tr>
                 ) : (
-                  /* --- 表示モード --- */
+                  // 表示モードの行
                   <tr key={item.id}>
                     <td>{item.category}</td>
                     <td>{item.exercise}</td>
@@ -314,6 +318,7 @@ export default function SettingPage() {
                         <button
                           className="btn btn--primary"
                           onClick={() => {
+                            // 編集モードに移行
                             setEditingIndex(index);
                             setEditingRecord({
                               id: item.id,
@@ -327,10 +332,11 @@ export default function SettingPage() {
                         <button
                           className="btn btn--danger"
                           onClick={() => {
+                            // 削除確認
                             const ok = window.confirm(
                               "本当にこの記録を削除しますか？"
                             );
-                            if (ok) handleDeleteRecord(index);
+                            if (ok) handleDeleteRecord(index); // OKなら削除処理を実行
                           }}
                         >
                           削除
@@ -343,6 +349,7 @@ export default function SettingPage() {
             </tbody>
           </table>
         ) : (
+          // 履歴がない場合の表示
           <p className="alert alert--info">この日には記録がありません</p>
         )}
       </section>
