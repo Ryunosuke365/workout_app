@@ -1,0 +1,172 @@
+/* ──────────────────────────────────────────────
+ *  setting.module.css  ― 設定ページのスタイル
+ *  （デスクトップ基準、モバイル対応）
+ * ───────────────────────────────────────────── */
+
+/* ========== ① アカウント情報ボード - ユーザー情報表示エリア ========== */
+.accountBoard {
+  width: 90%;
+  margin: 0 auto 40px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(220px, 1fr));  /* 3カラムグリッド */
+  gap: 20px;
+}
+
+/* 各カラムの基本スタイル */
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 15px;
+}
+
+/* 開閉可能なカラムのスタイル */
+.column--open {
+  background: rgba(255,255,255,0.05);
+  border-radius: 10px;
+}
+
+/* スライドダウンボックス */
+.slideBox {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  padding: 15px;
+  background-color: rgba(0,0,0,0.1);
+  border-radius: 6px;
+}
+
+/* 情報行のレイアウト */
+.infoLine {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.infoLabel { 
+  width: 100px; 
+  font-weight: 600; 
+}
+.warningText { 
+  color: #ff6b6b; 
+  font-size: 14px; 
+  text-align: center; 
+  font-weight: 500; 
+}
+
+/* ボタングループ（編集・削除など）のレイアウト */
+.buttonGroup { 
+  display: inline-flex; 
+  gap: 10px; 
+}
+
+/* ========== ② 日付別履歴編集テーブル - トレーニング履歴編集エリア ========== */
+.historyBoard { 
+  width: 90%; 
+  margin: 0 auto 60px; 
+}
+
+/* 履歴ヘッダー（日付選択など） */
+.historyHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 20px 0;
+}
+.dateSelect { 
+  max-width: 200px; 
+}
+
+/* 編集中の行のハイライト */
+.editingRow { 
+  background: rgba(255,255,255,0.05); 
+}
+
+/* 種目名セルの折り返し設定 */
+.recordExerciseContainer { 
+  display: block;
+  width: 100%;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip; 
+}
+
+/* ───────────────────────────────────
+ *  グローバルユーティリティの上書き
+ *  （ローカルクラスと連結して純粋回避）
+ * ─────────────────────────────────── */
+.accountBoard :global(.btn) { 
+  padding: 6px 12px; 
+  font-size: .85rem; 
+}
+.historyBoard :global(.table) { 
+  table-layout: auto; 
+  min-width: 0; 
+}
+.historyBoard :global(.table) th { 
+  white-space: nowrap; 
+}
+
+/* ───────────────────────────────────
+ *  モバイル対応（480px以下）
+ * ─────────────────────────────────── */
+@media (max-width: 480px) {
+  /* ① アカウント情報ボードのモバイル調整 */
+  .accountBoard { 
+    grid-template-columns: 1fr;  /* 1カラムに変更 */
+    gap: 15px; 
+  }
+  .column { 
+    align-items: stretch; 
+    padding: 12px; 
+  }
+
+  /* スライドボックスの余白調整 */
+  .slideBox { 
+    padding: 12px; 
+    gap: 8px; 
+  }
+
+  /* ② 履歴ボードのモバイル調整 */
+  .historyBoard { 
+    width: 100%; 
+  }
+  .historyHeader { 
+    flex-direction: column; 
+    gap: 10px; 
+    padding: 12px 0; 
+  }
+  .dateSelect { 
+    width: 100%; 
+    max-width: none; 
+  }
+
+  /* テーブルの横スクロール対応 */
+  .historyBoard :global(.table) {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+  }
+  .historyBoard :global(.table) th,
+  .historyBoard :global(.table) td {
+    padding: 6px 4px;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+
+  /* 種目名列の特別処理 */
+  .historyBoard :global(.table) th:nth-child(2),
+  .historyBoard :global(.table) td:nth-child(2) { 
+    min-width: 120px; 
+    white-space: normal; 
+  }
+
+  /* ボタングループを縦並びに変更 */
+  .buttonGroup { 
+    flex-direction: column; 
+    gap: 6px; 
+  }
+}

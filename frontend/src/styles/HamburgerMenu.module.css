@@ -1,0 +1,80 @@
+/* ──────────────────────────────────────────────
+ *  HamburgerMenu.module.css  ― ハンバーガーメニューのスタイル
+ *  （モバイルナビゲーション用のドロップダウンメニュー）
+ * ───────────────────────────────────────────── */
+
+/* メニュー全体のコンテナ */
+.menuContainer {
+  position: relative;
+  z-index: 10;
+}
+
+/* ハンバーガーメニューボタン */
+.menuButton {
+  background: linear-gradient(135deg, #222, #444);
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: white;
+  padding: 12px 15px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(255, 255, 255, 0.2);
+  position: relative;
+  z-index: 1;
+}
+
+/* メニューオープン時の背景オーバーレイ */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+  z-index: 2;
+}
+
+/* ドロップダウンメニューリスト */
+.menuList {
+  display: block;
+  position: absolute;
+  top: 100px;
+  right: 0;
+  background: linear-gradient(135deg, #222, #555);
+  color: white;
+  list-style: none;
+  padding: 15px 20px;
+  border-radius: 10px;
+  box-shadow: 0px 6px 12px rgba(255, 255, 255, 0.1);
+  width: 200px;
+  z-index: 20;
+}
+
+/* メニューが開いている状態 */
+.menuList.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* メニュー項目のスタイル */
+.menuList li {
+  padding: 12px 0;
+  text-align: left;
+}
+
+/* メニューリンクのスタイル */
+.menuList li a {
+  text-decoration: none;
+  color: white;
+  font-size: 18px;
+  display: block;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+/* メニューリンクのホバー効果 */
+.menuList li a:hover {
+  background: rgba(255, 165, 0, 0.5);
+  color: #fff;
+}

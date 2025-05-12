@@ -1,0 +1,198 @@
+/* ──────────────────────────────────────────────
+ *  history.module.css  ― トレーニング履歴ページのスタイル
+ *  （デスクトップ基準、モバイル対応）
+ * ───────────────────────────────────────────── */
+
+/* ─── ① レイアウト幅調整 - 左右カラムの比率設定 ─── */
+.left {
+  flex: 0 0 60%;           /* 親幅の60%固定 - 履歴テーブル用 */
+}
+.right {
+  flex: 0 0 37.8%;         /* 親幅の37.8%固定 - グラフ表示用 */
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+/* ─── ② 日付ごとの履歴ヘッダー - 日付選択UI ─── */
+.historyHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  padding: 20px 0;
+  position: relative;
+}
+.dateSelect {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  max-width: 200px;
+}
+
+/* ─── ③ 履歴テーブル - 列幅と改行の制御 ─── */
+.recordExerciseContainer {
+  display: block;
+  width: 100%;
+  white-space: normal;    /* 種目名の折り返しを許可 */
+  overflow: visible;
+  text-overflow: clip;
+}
+.left th {
+  white-space: nowrap;    /* ヘッダーは折り返し禁止 */
+}
+
+/* ─── グラフコンテナ & UI - グラフ表示と操作要素 ─── */
+.graph {
+  width: 90%;
+  margin: 0 auto 40px;
+  text-align: center;
+}
+
+/* グラフ操作コントロール */
+.graphControls {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+/* グラフ選択ラベル */
+.graphSelectLabel {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.graphSelect {
+  margin-left: 10px;
+  min-width: 140px;
+}
+
+/* グラフとヘルプボタンのコンテナ */
+.graphAndHelpContainer {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+/* 軸ヘルプボタン */
+.axisHelpButton {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(255,204,0,0.2);
+  border: 1px solid var(--clr-accent);
+  color: var(--clr-accent);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.axisHelpButton:hover {
+  background: rgba(255,204,0,0.3);
+}
+
+/* 軸ヘルプポップアップ */
+.axisHelpPopup {
+  position: absolute;
+  bottom: 30px;
+  right: 0;
+  background: rgba(0,0,0,0.85);
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(255,255,255,0.1);
+  width: 250px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--clr-text);
+}
+
+/* ポップアップの矢印 */
+.axisHelpPopup:after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  right: 10px;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid rgba(0,0,0,0.85);
+}
+
+/* ─── Recharts Tooltip - グラフのツールチップスタイル ─── */
+.tooltip {
+  background: rgba(30,30,30,0.95) !important;
+  border: 1px solid rgba(255,255,255,0.2) !important;
+  border-radius: 8px !important;
+  padding: 10px !important;
+}
+.tooltipLabel {
+  color: var(--clr-accent) !important;
+  font-weight: 600 !important;
+}
+.tooltipItem {
+  color: #fff !important;
+}
+
+/* ───────────────────────────────────
+ *  モバイル対応（480px以下）
+ * ─────────────────────────────────── */
+@media (max-width: 480px) {
+  /* 左右カラムを縦積みに変更 */
+  .left,
+  .right {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+
+  /* ヘッダーを縦並びに変更 */
+  .historyHeader {
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px 0;
+  }
+  .dateSelect {
+    position: static;
+    transform: none;
+    width: 100%;
+    max-width: none;
+  }
+
+  /* テーブルのレスポンシブ対応 */
+  .left :global(.table),
+  .right :global(.table) {
+    display: block;
+    width: 100%;
+    table-layout: auto;
+    min-width: 0;
+    overflow-wrap: break-word;
+  }
+  .left :global(.table) th,
+  .left :global(.table) td,
+  .right :global(.table) th,
+  .right :global(.table) td {
+    white-space: normal;
+    word-break: break-word;
+    padding: 6px 4px;
+    font-size: 11px;
+  }
+
+  /* 種目名セルの横スクロール対応 */
+  .recordExerciseContainer {
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  /* グラフのモバイル調整 */
+  .graph {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .graphControls {
+    gap: 12px;
+  }
+}

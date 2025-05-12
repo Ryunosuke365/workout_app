@@ -1,0 +1,161 @@
+/* ──────────────────────────────────────────────
+ *  measure.module.css  ― トレーニング記録ページのスタイル
+ *  （デスクトップ基準、モバイル対応）
+ * ───────────────────────────────────────────── */
+
+/* ========== 左カラム - トレーニング記録入力エリア ========== */
+.left {
+  flex: 6;  /* 画面の60%を占める */
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* 上段2枚のレイアウト（部位選択＋種目登録） */
+.topRow {
+  display: grid;
+  grid-template-columns: 2fr 8fr;  /* 左20% : 右80%の比率 */
+  gap: 20px;
+}
+
+/* 種目登録フォームの幅調整 */
+.topRow :global(.form-group) {
+  width: auto;
+  max-width: 1000px;
+}
+.topRow :global(.form-group .form-control) {
+  flex: 1;
+  width: auto;
+}
+
+/* 重量・回数入力欄のスタイル */
+.inputMini {
+  width: 80px;
+  max-width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* 種目名セルの折り返し設定 */
+.exerciseNameContainer {
+  display: block;
+  width: 100%;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}
+
+/* ========== 右カラム - 今日の記録表示エリア ========== */
+.right {
+  flex: 4;  /* 画面の40%を占める */
+}
+
+/* 記録の種目名コンテナ */
+.recordExerciseContainer {
+  display: block;
+  width: 100%;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}
+
+/* テーブルヘッダーの折り返し防止 */
+.right th {
+  white-space: nowrap;
+}
+
+/* ───────────────────────────────────
+ *  モバイル対応（480px以下）
+ * ─────────────────────────────────── */
+@media (max-width: 480px) {
+  /* 左右カラムを縦積みに変更 */
+  .left,
+  .right {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+
+  /* 上段2枚を縦並びに変更 */
+  .topRow {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  /* カードのパディングを縮小 */
+  .left :global(.card),
+  .right :global(.card) {
+    padding: 12px;
+  }
+
+  /* 入力欄とボタンのタップ領域を最適化 */
+  .topRow :global(.form-group .form-control) {
+    padding: 8px;
+    font-size: .9rem;
+  }
+  .left :global(.btn),
+  .right :global(.btn) {
+    padding: 8px;
+    font-size: .85rem;
+    border-radius: 8px;
+  }
+
+  /* テーブルのレスポンシブ対応 */
+  .left > :global(.card) :global(.table),
+  .right > :global(.card) :global(.table) {
+    width: 100%;
+    table-layout: auto;
+    min-width: 0;
+    overflow-wrap: break-word;
+  }
+
+  /* テーブルセルのスタイル調整 */
+  .left > :global(.card) :global(.table) th,
+  .left > :global(.card) :global(.table) td,
+  .right > :global(.card) :global(.table) th,
+  .right > :global(.card) :global(.table) td {
+    white-space: normal;
+    word-break: break-word;
+    padding: 6px 4px;
+    font-size: 11px;
+  }
+
+  /* 数値入力列の幅を固定 */
+  .left > :global(.card) :global(.table) th:nth-child(n+2),
+  .left > :global(.card) :global(.table) td:nth-child(n+2),
+  .right > :global(.card) :global(.table) th:nth-child(n+2),
+  .right > :global(.card) :global(.table) td:nth-child(n+2) {
+    width: 60px;
+    min-width: 60px;
+  }
+
+  /* モバイル用の入力欄とボタンサイズ */
+  .inputMini {
+    width: 56px;
+    padding: 6px;
+    font-size: .8rem;
+  }
+  .left > :global(.card) :global(.btn) {
+    min-width: 56px;
+    padding: 6px 0;
+    font-size: .75rem;
+  }
+
+  /* 種目名の横スクロール対応 */
+  .exerciseNameContainer,
+  .recordExerciseContainer {
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .exerciseNameContainer::-webkit-scrollbar,
+  .recordExerciseContainer::-webkit-scrollbar {
+    height: 2px;
+    width: 0;
+  }
+
+  /* エラーメッセージのスタイル調整 */
+  .left :global(.alert) {
+    margin: 8px 0;
+    font-size: 0.85rem;
+  }
+}
