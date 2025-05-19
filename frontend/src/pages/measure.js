@@ -14,7 +14,6 @@ const MeasurePage = () => {
     dailyRecords,
     totalLoad,
     message,
-    isLoading, // isLoadingも追加 (ボタンのdisabled等で利用想定)
 
     setCategory,
     setExerciseName,
@@ -140,7 +139,6 @@ const MeasurePage = () => {
                       <td>
                         <button
                           className="btn btn--success"
-                          disabled={isLoading} // ローディング中は無効化
                           onClick={() => {
                             // 重量または回数が未入力の場合は警告メッセージを表示
                             if (!weight || !reps) {

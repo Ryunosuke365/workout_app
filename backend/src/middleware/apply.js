@@ -10,12 +10,7 @@ const applyMiddlewares = (app) => {
   app.use(express.json());
 
   // CORS設定：指定オリジンからのリクエストのみ許可
-  app.use(
-    cors({
-      origin: allowedOrigin,
-      credentials: true, // クッキーなどの認証情報も許可
-    })
-  );
+  app.use(cors({ origin: allowedOrigin }));
 };
 
 module.exports = { applyMiddlewares };

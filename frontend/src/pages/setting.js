@@ -24,6 +24,7 @@ export default function SettingPage() {
     editingIndex,       // 編集中の履歴アイテムのインデックス
     editingRecord,      // 編集中の履歴アイテムのデータ
     message,            // ユーザーへのメッセージ
+    isLoading,          // 汎用のisLoadingを受け取る
 
     setMessage,            // メッセージを更新する関数
     setCurrentPassword,    // 現在のパスワード入力値を更新する関数
@@ -108,8 +109,9 @@ export default function SettingPage() {
               <button
                 className="btn btn--primary"
                 onClick={handlePasswordChange} // クリックでパスワード変更処理を実行
+                disabled={isLoading} // 汎用isLoadingで無効化
               >
-                変更する
+                {isLoading ? "処理中..." : "変更する"}
               </button>
             </div>
           )}
@@ -201,8 +203,9 @@ export default function SettingPage() {
                   }
                   handleAccountDelete(); // アカウント削除処理を実行
                 }}
+                disabled={isLoading} // 汎用isLoadingで無効化
               >
-                削除を実行する
+                {isLoading ? "処理中..." : "削除を実行する"}
               </button>
             </div>
           )}

@@ -5,6 +5,8 @@ const query = (sql, params) => db.execute(sql, params);
 // リクエストからユーザーIDを抽出するヘルパー関数
 const extractUserId = (req) => req.user.user_id;
 
+
+
 // カテゴリに基づいて運動種目を取得します。
 exports.getExercisesByCategory = async (req, res) => {
   try {
@@ -21,6 +23,8 @@ exports.getExercisesByCategory = async (req, res) => {
     res.status(500).json({ error: "種目の取得に失敗しました。" });
   }
 };
+
+
 
 // 当日の総負荷量サマリーを取得します。
 exports.getDailyLoadSummary = async (req, res) => {
@@ -50,6 +54,8 @@ exports.getDailyLoadSummary = async (req, res) => {
   }
 };
 
+
+
 // 新しい運動種目を追加します。
 exports.addExercise = async (req, res) => {
   try {
@@ -72,6 +78,8 @@ exports.addExercise = async (req, res) => {
   }
 };
 
+
+
 // 既存の運動種目を削除します。
 exports.deleteExercise = async (req, res) => {
   try {
@@ -84,16 +92,17 @@ exports.deleteExercise = async (req, res) => {
       [user_id, exercise_id]
     );
     // 運動種目自体を削除
-    await query("DELETE FROM exercises WHERE user_id = ? AND id = ?", [
-      user_id,
-      exercise_id,
-    ]);
+    await query("DELETE FROM exercises WHERE user_id = ? AND id = ?",
+      [user_id, exercise_id]
+    );
 
     res.json({ message: "種目を削除しました" }); // 成功メッセージを返す
   } catch (error) {
     res.status(500).json({ error: "種目の削除に失敗しました。" });
   }
 };
+
+
 
 // 運動データを記録します。
 exports.recordExerciseData = async (req, res) => {
@@ -117,8 +126,7 @@ exports.recordExerciseData = async (req, res) => {
     );
 
     res.status(201).json({
-      message: "トレーニングデータを保存しました",
-      total_load, // 保存された総負荷量もレスポンスに含める
+      message: "トレーニングデータを保存しました"
     });
   } catch (error) {
     res.status(500).json({ error: "データ保存に失敗しました。" });

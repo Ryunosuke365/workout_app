@@ -6,6 +6,8 @@ const query = (sql, params) => db.execute(sql, params);
 // リクエストからユーザーIDを抽出するヘルパー関数
 const extractUserId = (req) => req.user.user_id;
 
+
+
 // ユーザーのパスワードを変更します。
 exports.changePassword = async (req, res) => {
   try {
@@ -48,6 +50,8 @@ exports.changePassword = async (req, res) => {
   }
 };
 
+
+
 // ユーザーの統計情報（登録日とトレーニング日数）を取得します。
 exports.getUserStats = async (req, res) => {
   try {
@@ -77,6 +81,8 @@ exports.getUserStats = async (req, res) => {
     res.status(500).json({ error: "登録日とトレーニング日数の取得に失敗しました。" });
   }
 };
+
+
 
 // ユーザーアカウントを削除します。
 exports.deleteAccount = async (req, res) => {
@@ -111,6 +117,8 @@ exports.deleteAccount = async (req, res) => {
   }
 };
 
+
+
 // 指定された日付の運動履歴を取得します。
 exports.getDailyHistory = async (req, res) => {
   try {
@@ -138,6 +146,8 @@ exports.getDailyHistory = async (req, res) => {
   }
 };
 
+
+
 // 利用可能な日付（運動記録が存在する日付）のリストを取得します。
 exports.getAvailableDates = async (req, res) => {
   try {
@@ -157,6 +167,8 @@ exports.getAvailableDates = async (req, res) => {
     res.status(500).json({ error: "利用可能な日付の取得に失敗しました。" });
   }
 };
+
+
 
 // 既存の運動記録を更新します。
 exports.updateExerciseRecord = async (req, res) => {
@@ -185,6 +197,8 @@ exports.updateExerciseRecord = async (req, res) => {
     res.status(500).json({ error: "記録の更新に失敗しました。" });
   }
 };
+
+
 
 // 既存の運動記録を削除します。
 exports.deleteExerciseRecord = async (req, res) => {

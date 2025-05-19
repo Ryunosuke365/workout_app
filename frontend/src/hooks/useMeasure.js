@@ -18,6 +18,8 @@ const useMeasure = () => {
   const [totalLoad, setTotalLoad] = useState(0); // 当日の合計負荷
   const [message, setMessage] = useState(""); // ユーザーへのメッセージ
 
+
+
   // 指定されたカテゴリの種目リストを取得する関数
   const fetchExercises = useCallback(async (selectedCategory) => {
     try {
@@ -27,6 +29,8 @@ const useMeasure = () => {
       handleAuthError(err, setMessage); // エラー処理
     }
   }, [authGet, handleAuthError, setMessage]); // setMessageも依存配列に追加 (エラー表示で利用するため)
+
+
 
   // 当日の記録サマリーと合計負荷を取得する関数
   const fetchDailySummary = useCallback(async () => {
@@ -38,6 +42,8 @@ const useMeasure = () => {
       handleAuthError(err, setMessage); // エラー処理
     }
   }, [authGet, handleAuthError, setMessage]); // setMessageも依存配列に追加
+
+
 
   // 新しい種目を追加する関数
   const handleAddExercise = useCallback(async () => {
@@ -60,6 +66,8 @@ const useMeasure = () => {
     }
   }, [authPost, handleAuthError, exerciseName, category, fetchExercises, setMessage]); // setMessageも依存配列に追加
 
+
+
   // 種目を削除する関数
   const handleDeleteExercise = useCallback(async (exercise_id) => {
     try {
@@ -71,6 +79,8 @@ const useMeasure = () => {
       handleAuthError(err, setMessage); // エラー処理
     }
   }, [authDelete, handleAuthError, category, fetchExercises, fetchDailySummary, setMessage]); // setMessageも依存配列に追加
+
+
 
   // トレーニング記録を登録する関数
   const handleSubmitRecord = useCallback(async (exercise_id, weight, reps) => {
@@ -104,6 +114,8 @@ const useMeasure = () => {
     }
   }, [authPost, handleAuthError, fetchDailySummary, setMessage]); // setMessageも依存配列に追加
 
+
+  
   // コンポーネントのマウント時、またはカテゴリ変更時に種目リストと当日のサマリーを取得
   useEffect(() => {
     fetchExercises(category);
@@ -111,7 +123,6 @@ const useMeasure = () => {
     // category, fetchExercises, fetchDailySummary が変更された時に再実行
   }, [category, fetchExercises, fetchDailySummary]);
 
-  // フックが提供する値と関数
   return {
     category,
     exerciseName,
@@ -121,13 +132,11 @@ const useMeasure = () => {
     totalLoad,
     message,
 
-    // state更新関数
     setCategory,
     setExerciseName,
     setExerciseData,
     setMessage,
 
-    // イベントハンドラ関数
     handleAddExercise,
     handleSubmitRecord,
     handleDeleteExercise,

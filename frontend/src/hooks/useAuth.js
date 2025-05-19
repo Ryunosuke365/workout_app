@@ -12,6 +12,21 @@ const useAuth = () => {
     return localStorage.getItem("token");
   }, []);
 
+  // トークンをデコードしてペイロードを取得する関数
+  // Bearerプレフィックスが付いている場合は除去する
+  const decodeToken = useCallback((token) => {
+    try {
+      if (token && token.startsWith("Bearer ")) {
+        token = token.split(" ")[1]; // "Bearer "部分を除去
+      }
+      return jwtDecode(token); // トークンをデコード
+    } catch {
+      return null; // デコード失敗時はnullを返す
+    }
+  }, []);
+
+
+  
   // ローカルストレージにトークンとユーザーIDを保存する関数
   const setToken = useCallback((token, userId) => {
     localStorage.setItem("token", token);
@@ -26,28 +41,7 @@ const useAuth = () => {
     localStorage.removeItem("user_id");
   }, []);
 
-  // トークンをデコードしてペイロードを取得する関数
-  // Bearerプレフィックスが付いている場合は除去する
-  const decodeToken = useCallback((token) => {
-    try {
-      if (token && token.startsWith("Bearer ")) {
-        token = token.split(" ")[1]; // "Bearer "部分を除去
-      }
-      return jwtDecode(token); // トークンをデコード
-    } catch {
-      return null; // デコード失敗時はnullを返す
-    }
-  }, []);
 
-  // APIリクエスト用の認証ヘッダーを取得する関数
-  const getAuthHeaders = useCallback(() => {
-    const token = getToken();
-    return {
-      headers: {
-        Authorization: `Bearer ${token}`, // Bearerトークンを付与
-      },
-    };
-  }, [getToken]);
 
   // 認証付きGETリクエストを送信する関数
   const authGet = useCallback(
@@ -84,15 +78,17 @@ const useAuth = () => {
 
   // 認証付きDELETEリクエストを送信する関数
   const authDelete = useCallback(
-    async (url, options = {}) => {
+    async (url, option = {}) => {
       const token = getToken();
       return axios.delete(url, {
         headers: { Authorization: `Bearer ${token}` },
-        ...options, // その他のオプションを展開
+        ...option, // アカウント削除時のオプション
       });
     },
     [getToken]
   );
+
+
 
   // 認証エラーを処理する関数
   // エラーの種類に応じてメッセージ表示やログインページへのリダイレクトを行う
@@ -113,6 +109,8 @@ const useAuth = () => {
     },
     [router, removeToken]
   );
+
+
 
   // 副作用フック: 認証状態をチェックし、必要に応じてリダイレクトやトークン更新処理を行う
   useEffect(() => {
@@ -168,15 +166,10 @@ const useAuth = () => {
   }, [router, getToken, removeToken, decodeToken]);
 
   return {
-    // 認証関連ユーティリティ関数
     handleAuthError,
-    getToken,
     setToken,
     removeToken,
-    decodeToken,
-    getAuthHeaders,
 
-    // 認証付きAPI通信関数
     authGet,
     authPost,
     authPut,

@@ -1,5 +1,4 @@
 // ハンバーガーメニューコンポーネント
-// モバイル向けのナビゲーションメニューを提供する
 import { useState } from "react";
 import Link from "next/link";
 import styles from "@/styles/HamburgerMenu.module.css";
@@ -24,19 +23,16 @@ export default function HamburgerMenu() {
       {/* メニューが開いている場合のみ表示 */}
       {isOpen && (
         <ul className={styles.menuList}>
-          {/* 計測ページへのリンク */}
           <li>
             <Link href="/measure">
               計測
             </Link>
           </li>
-          {/* 履歴ページへのリンク */}
           <li>
             <Link href="/history">
               履歴
             </Link>
           </li>
-          {/* 設定ページへのリンク */}
           <li>
             <Link href="/setting">
               設定

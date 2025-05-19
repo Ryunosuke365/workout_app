@@ -5,6 +5,8 @@ const query = (sql, params) => db.execute(sql, params);
 // リクエストからユーザーIDを抽出するヘルパー関数
 const extractUserId = (req) => req.user.user_id;
 
+
+
 // 利用可能な日付（運動記録が存在する日付）のリストを取得します。
 exports.getAvailableDates = async (req, res) => {
   try {
@@ -26,16 +28,13 @@ exports.getAvailableDates = async (req, res) => {
   }
 };
 
+
+
 // 指定された日付の運動履歴を取得します。
 exports.getDailyHistory = async (req, res) => {
   try {
     const user_id = extractUserId(req);
     const { date } = req.query; // クエリパラメータから日付を取得
-
-    // 日付が指定されていない場合はエラーを返す
-    if (!date) {
-      return res.status(400).json({ error: "日付が指定されていません。" });
-    }
 
     // 指定されたユーザーIDと日付に一致する運動記録と関連する運動種目情報を取得
     const [rows] = await query(
@@ -53,6 +52,8 @@ exports.getDailyHistory = async (req, res) => {
     res.status(500).json({ error: "データの取得に失敗しました。" });
   }
 };
+
+
 
 // カテゴリ別の総負荷量と全体の総負荷量を取得します。
 exports.getTotalLoad = async (req, res) => {
@@ -87,6 +88,8 @@ exports.getTotalLoad = async (req, res) => {
   }
 };
 
+
+
 // 週ごとの運動データを取得します。
 exports.getWeeklyData = async (req, res) => {
   try {
@@ -120,7 +123,7 @@ exports.getWeeklyData = async (req, res) => {
         categories.forEach(c => combined[week][c] = 0);
       }
       combined[week][category] = total_load;
-      combined[week].total_load += +total_load; // 文字列の可能性があるため数値に変換して加算
+      combined[week].total_load += total_load;
     });
 
     // 整形された週ごとのデータをJSON形式で返す

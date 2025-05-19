@@ -26,11 +26,13 @@ const useSetting = () => {
   const [workoutDays, setWorkoutDays] = useState(0); // トレーニング実施日数
   const [userId, setUserId] = useState(""); // ユーザーID
   const [message, setMessage] = useState(""); // ユーザーへのメッセージ
-  const [isLoading, setIsLoading] = useState(false); // ローディング状態
+  const [isLoading, setIsLoading] = useState(false); // 汎用ローディング状態
 
+
+  
   // パスワード変更処理
   const handlePasswordChange = useCallback(async () => {
-    if (isLoading) return; // ローディング中は処理中断
+    if (isLoading) return; // 汎用isLoadingでチェック
 
     // 入力チェック
     if (!currentPassword || !newPassword) {
@@ -45,7 +47,7 @@ const useSetting = () => {
       return;
     }
 
-    setIsLoading(true); // ローディング開始
+    setIsLoading(true); // 汎用isLoadingをtrueに
     setMessage(""); // メッセージをクリア
 
     try {
@@ -64,9 +66,11 @@ const useSetting = () => {
     } catch (err) {
       handleAuthError(err, setMessage); // エラー処理
     } finally {
-      setIsLoading(false); // ローディング終了
+      setIsLoading(false); // 汎用isLoadingをfalseに
     }
   }, [currentPassword, newPassword, authPut, handleAuthError, isLoading]);
+
+
 
   // ユーザー統計情報 (登録日、ワークアウト日数) を取得
   const fetchUserStats = useCallback(async () => {
@@ -79,9 +83,11 @@ const useSetting = () => {
     }
   }, [authGet, handleAuthError]);
 
+
+
   // アカウント削除処理
   const handleAccountDelete = useCallback(async () => {
-    if (isLoading) return; // ローディング中は処理中断
+    if (isLoading) return; // 汎用isLoadingでチェック
 
     // パスワード入力チェック
     if (!deletePassword) {
@@ -89,7 +95,7 @@ const useSetting = () => {
       return;
     }
 
-    setIsLoading(true); // ローディング開始
+    setIsLoading(true); // 汎用isLoadingをtrueに
 
     try {
       await authDelete(`${API_URL}/account`, { data: { password: deletePassword } });
@@ -101,9 +107,11 @@ const useSetting = () => {
       setDeletePassword(""); // パスワード入力欄クリア
       return false; // 削除失敗
     } finally {
-      setIsLoading(false); // ローディング終了
+      setIsLoading(false); // 汎用isLoadingをfalseに
     }
   }, [deletePassword, authDelete, removeToken, handleAuthError, isLoading, router]);
+
+
 
   // 特定の日付のトレーニング履歴を取得 (履歴編集用)
   const fetchDailyHistory = useCallback(async (date) => {
@@ -114,6 +122,8 @@ const useSetting = () => {
       handleAuthError(err, setMessage); // エラー処理
     }
   }, [authGet, handleAuthError]);
+
+
 
   // 履歴が存在する日付のリストを取得 (履歴編集用)
   const fetchAvailableDates = useCallback(async () => {
@@ -132,6 +142,8 @@ const useSetting = () => {
       handleAuthError(err, setMessage); // エラー処理
     }
   }, [authGet, fetchDailyHistory, handleAuthError]); // fetchDailyHistoryも依存配列に追加
+
+
 
   // 編集したトレーニング記録を保存
   const handleSaveEdit = useCallback(async () => {
@@ -165,6 +177,8 @@ const useSetting = () => {
     }
   }, [editingRecord, selectedDate, authPut, fetchDailyHistory, handleAuthError]);
 
+
+
   // トレーニング記録を削除
   const handleDeleteRecord = useCallback(async (index) => {
     try {
@@ -180,6 +194,8 @@ const useSetting = () => {
     }
   }, [dailyHistory, authDelete, fetchUserStats, handleAuthError]);
 
+
+
   // 副作用フック: 初期データの取得
   useEffect(() => {
     // ユーザー統計情報と利用可能な日付リストを並行して取得
@@ -188,10 +204,8 @@ const useSetting = () => {
     if (typeof window !== "undefined") {
       setUserId(localStorage.getItem("user_id") || "");
     }
-    // fetchUserStats, fetchAvailableDates は useCallback でメモ化されているため、通常は初回のみ実行
   }, [fetchUserStats, fetchAvailableDates]);
 
-  // フックが提供する値と関数
   return {
     userId,
     currentPassword,
@@ -207,8 +221,8 @@ const useSetting = () => {
     registrationDate,
     workoutDays,
     message,
+    isLoading,
 
-    // state更新関数
     setCurrentPassword,
     setNewPassword,
     setShowPasswordForm,
@@ -219,13 +233,12 @@ const useSetting = () => {
     setEditingRecord,
     setMessage,
 
-    // イベントハンドラやAPI呼び出し関数
     handlePasswordChange,
     handleAccountDelete,
     handleSaveEdit,
     handleDeleteRecord,
     fetchDailyHistory,
-    removeToken, // ログアウト等で外部から直接呼び出す可能性を考慮
+    removeToken,
   };
 };
 

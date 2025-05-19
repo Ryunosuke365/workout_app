@@ -6,13 +6,12 @@ const {
   DB_USER,
   DB_PASSWORD,
   DB_NAME,
-  DB_PORT = 3306, // ポートが指定されていない場合はデフォルト3306を使用
+  DB_PORT,
 } = process.env;
 
 // 必須の環境変数が設定されているかチェック
-[DB_HOST, DB_USER, DB_PASSWORD, DB_NAME].forEach((v, i) => {
+[DB_HOST, DB_USER, DB_PASSWORD, DB_NAME].forEach(v => {
   if (!v) {
-    const varName = ["DB_HOST", "DB_USER", "DB_PASSWORD", "DB_NAME"][i];
     process.exit(1); // 設定漏れがあれば即終了
   }
 });
