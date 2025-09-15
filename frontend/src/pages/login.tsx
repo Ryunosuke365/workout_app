@@ -4,7 +4,7 @@ import Link from "next/link";
 import styles from "@/styles/login.module.css";
 import useAuth from "@/hooks/useAuth";
 
-const API_URL = "http://57.180.242.217/api/login";
+const API_URL = "http://54.150.204.177/api/login";
 
 const Login = () => {
   const router = useRouter();

@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect, useMemo } from "react";
 import useAuth from "./useAuth";
 
-const API_URL = "http://57.180.242.217/api/history";
+const API_URL = "http://54.150.204.177/api/history";
 
 const useHistory = () => {
   const { handleAuthError, authGet } = useAuth();

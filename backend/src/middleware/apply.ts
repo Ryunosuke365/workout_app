@@ -1,7 +1,7 @@
 import express, { Application } from "express";
 import cors, { CorsOptions } from "cors";
 
-const allowedOrigin: string = "http://57.180.242.217";
+const allowedOrigin: string = "http://54.150.204.177";
 
 export const applyMiddlewares = (app: Application): void => {
   app.use(express.json());
