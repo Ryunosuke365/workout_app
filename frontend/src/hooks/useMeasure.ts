@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
 import useAuth from "./useAuth";
 
-const API_URL = "http://3.112.2.147/api/measure";
+const API_URL = "http://57.180.242.217/api/measure";
 
 const useMeasure = () => {
   const { handleAuthError, authGet, authPost, authDelete } = useAuth();
