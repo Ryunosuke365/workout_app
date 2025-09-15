@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/router";
 import useAuth from "./useAuth";
 
-const API_URL = "http://54.238.189.10/api/setting";
+const API_URL = "http://3.112.2.147/api/setting";
 
 const useSetting = () => {
   const router = useRouter();

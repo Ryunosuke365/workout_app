@@ -3,7 +3,7 @@ import Link from "next/link";
 import styles from "@/styles/register.module.css";
 import useAuth from "@/hooks/useAuth";
 
-const API_URL = "http://54.238.189.10/api/register";
+const API_URL = "http://3.112.2.147/api/register";
 
 const Register = () => {
   const { handleAuthError, authPost } = useAuth();
