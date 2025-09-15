@@ -2,56 +2,58 @@
 
 このリポジトリは、フロントエンド（Next.js）とバックエンド（Express）で構成されたワークアウト管理アプリです。
 
-## ディレクトリ構成
+## ディレクトリ構成（TypeScript化後）
 
 ```
 /
 ├── frontend/
+│   ├── tsconfig.json
 │   └── src/
-│       ├── pages/                  # 画面ごとのReactページコンポーネント
-│       │   ├── _app.js             # Next.js全体のカスタムAppコンポーネント
-│       │   ├── _document.js        # Next.js全体のカスタムDocument
-│       │   ├── history.js          # 記録履歴ページ
-│       │   ├── login.js            # ログインページ
-│       │   ├── measure.js          # 計測ページ
-│       │   ├── register.js         # 新規登録ページ
-│       │   └── setting.js          # 設定ページ
-│       ├── components/             # 再利用可能なUIコンポーネント
-│       │   └── HamburgerMenu.js    # ハンバーガーメニューのUIコンポーネント
-│       ├── hooks/                  # カスタムReactフック
-│       │   ├── useAuth.js          # 認証関連のロジック
-│       │   ├── useHistory.js       # 記録履歴取得・管理ロジック
-│       │   ├── useMeasure.js       # 計測データ取得・管理ロジック
-│       │   └── useSetting.js       # 設定データ取得・管理ロジック
-│       └── styles/                 # CSSファイル群
-│           ├── globals.css                 # 全体スタイル
-│           ├── HamburgerMenu.module.css    # ハンバーガーメニュー用スタイル
-│           ├── history.module.css          # 記録履歴ページ用スタイル
-│           ├── login.module.css            # ログインページ用スタイル
-│           ├── measure.module.css          # 計測ページ用スタイル
-│           ├── register.module.css         # 新規登録ページ用スタイル
-│           └── setting.module.css          # 設定ページ用スタイル
+│       ├── pages/                  # 画面ごとのReactページコンポーネント（TSX）
+│       │   ├── _app.tsx            # Next.js カスタムApp
+│       │   ├── _document.tsx       # Next.js カスタムDocument
+│       │   ├── history.tsx         # 記録履歴ページ
+│       │   ├── login.tsx           # ログインページ
+│       │   ├── measure.tsx         # 計測ページ
+│       │   ├── register.tsx        # 新規登録ページ
+│       │   └── setting.tsx         # 設定ページ
+│       ├── components/
+│       │   └── HamburgerMenu.tsx   # ハンバーガーメニュー
+│       ├── hooks/                  # カスタムフック（TS）
+│       │   ├── useAuth.ts
+│       │   ├── useHistory.ts
+│       │   ├── useMeasure.ts
+│       │   └── useSetting.ts
+│       └── styles/                 # CSSファイル群（変更なし）
+│           ├── globals.css
+│           ├── HamburgerMenu.module.css
+│           ├── history.module.css
+│           ├── login.module.css
+│           ├── measure.module.css
+│           ├── register.module.css
+│           └── setting.module.css
 ├── backend/
+│   ├── tsconfig.json
 │   └── src/
-│       ├── app.js                  # Expressアプリのエントリーポイント
-│       ├── db.js                   # MySQLデータベース接続設定
-│       ├── server.js               # サーバー起動スクリプト
-│       ├── controllers/            # 各種ビジネスロジック
-│       │   ├── history.js          # 記録履歴関連の処理
-│       │   ├── login.js            # ログイン処理
-│       │   ├── measure.js          # 計測データ処理
-│       │   ├── register.js         # 新規登録処理
-│       │   └── setting.js          # 設定関連の処理
-│       ├── routes/                 # APIルーティング
-│       │   ├── history.js          # 記録履歴APIルート
-│       │   ├── login.js            # ログインAPIルート
-│       │   ├── measure.js          # 計測APIルート
-│       │   ├── register.js         # 新規登録APIルート
-│       │   └── setting.js          # 設定APIルート
-│       └── middleware/             # ミドルウェア
-│           ├── apply.js            # リクエスト前処理用ミドルウェア
-│           └── auth.js             # 認証用ミドルウェア
-└── README.md                       # プロジェクト全体の説明
+│       ├── app.ts                  # Expressアプリ本体
+│       ├── db.ts                   # MySQL接続
+│       ├── server.ts               # サーバー起動
+│       ├── controllers/
+│       │   ├── history.ts
+│       │   ├── login.ts
+│       │   ├── measure.ts
+│       │   ├── register.ts
+│       │   └── setting.ts
+│       ├── routes/
+│       │   ├── history.ts
+│       │   ├── login.ts
+│       │   ├── measure.ts
+│       │   ├── register.ts
+│       │   └── setting.ts
+│       └── middleware/
+│           ├── apply.ts
+│           └── auth.ts
+└── README.md
 ```
 
 ## 依存技術
@@ -65,9 +67,9 @@
 - recharts: ^2.15.1
 
 #### 開発用依存
-- @eslint/eslintrc: ^3
-- eslint: ^9
-- eslint-config-next: 15.2.0
+- typescript
+- @types/react, @types/react-dom, @types/node, @types/jwt-decode
+- @eslint/eslintrc: ^3 / eslint: ^9 / eslint-config-next: 15.2.0
 
 ### バックエンド（backend）
 - bcrypt: ^5.1.1
@@ -78,4 +80,6 @@
 - mysql2: ^3.12.0
 
 #### 開発用依存
-- nodemon: ^3.1.9
+- typescript, ts-node
+- @types/node, @types/express, @types/jsonwebtoken, @types/cors, @types/bcrypt
+- nodemon: ^3.1.x
